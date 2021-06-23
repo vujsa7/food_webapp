@@ -18,7 +18,7 @@ public class Main {
 	private static ProductService productService = new ProductService();
 	
 	public static void main(String[] args) throws Exception {
-		port(8081);
+		port(8080);
 
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 		
