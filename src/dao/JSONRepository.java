@@ -13,7 +13,9 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-public class JSONRepository<T, ID> implements IDao<T, ID> {
+import beans.IIdentifiable;
+
+public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, ID> {
 	private String path;
 	private Type classType;
 	private Gson gs;

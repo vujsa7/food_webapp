@@ -3,9 +3,7 @@ package beans;
 
 import java.util.*;
 
-public abstract class User implements java.io.Serializable{
-	
-	private static final long serialVersionUID = -1253318315265275554L;
+public abstract class User implements IIdentifiable<String>{
 	
 	private String username;
    	private String password;
@@ -14,6 +12,7 @@ public abstract class User implements java.io.Serializable{
    	private Gender gender;
    	private Date dateOfBirth;
    	private AccountType accountType;
+   	private boolean isDeleted;
    
 	public String getUsername() {
 		return username;
@@ -70,6 +69,12 @@ public abstract class User implements java.io.Serializable{
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
-
-   
+	
+	public boolean isDeleted() {
+		return this.isDeleted;
+	}
+	
+	public void setDeleted(boolean deleted) {
+		this.isDeleted = deleted;
+	}
 }

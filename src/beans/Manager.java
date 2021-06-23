@@ -3,8 +3,6 @@ package beans;
 
 public class Manager extends User{
 	
-	private static final long serialVersionUID = 7816566331219962676L;
-	
 	private Restaurant restaurant;
 
 	public Restaurant getRestaurant() {
@@ -13,6 +11,28 @@ public class Manager extends User{
 	
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
+	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return this.getUsername();
+	}
+
+	@Override
+	public void setID(String id) {
+		// TODO Auto-generated method stub
+		this.setUsername(id);
+	}
+
+	@Override
+	public boolean compareTo(String id) {
+		// TODO Auto-generated method stub
+		boolean isEqual = true;
+		if(!this.getUsername().equals(id)) {
+			isEqual =  false;
+		}
+		return isEqual;
 	}
 
 }
