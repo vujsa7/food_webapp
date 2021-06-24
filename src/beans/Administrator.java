@@ -6,6 +6,10 @@ public class Administrator extends User{
 
 	private static final long serialVersionUID = -8978614926861612134L;
 	
+	public Administrator() {
+		super();
+	}
+	
 	public Administrator(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
 			AccountType accountType, boolean isDeleted, boolean isBlocked) {
 		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);

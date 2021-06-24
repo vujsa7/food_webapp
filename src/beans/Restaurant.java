@@ -16,6 +16,10 @@ public class Restaurant implements IIdentifiable<Integer>{
    	private ArrayList<Article> article;
    	private boolean isDeleted;
    	
+   	public Restaurant() {
+   		
+   	}
+   	
    	public Restaurant(int id, int name, int restaurantType, Boolean isOperating, byte[] logo, Location location,
 			ArrayList<Article> article, boolean isDeleted) {
 		super();

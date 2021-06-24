@@ -16,6 +16,10 @@ public abstract class User implements IIdentifiable<String>{
    	private boolean isBlocked;
    	private String jwtToken;
    
+   	public User() {
+   		
+   	}
+   	
 	public User(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
 			AccountType accountType, boolean isDeleted, boolean isBlocked) {
 		super();

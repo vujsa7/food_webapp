@@ -1,9 +1,6 @@
 package beans;
 
-public class Article implements java.io.Serializable {
-   
-	
-	private static final long serialVersionUID = -7222989073006145160L;
+public class Article{
 	
 	private String name;
 	private double price;
@@ -11,7 +8,11 @@ public class Article implements java.io.Serializable {
 	private int quantity;
 	private String description;
 	private byte[] image;
-
+	
+	public Article() {
+		
+	}
+	
    	public String getName() {
 		return name;
 	}

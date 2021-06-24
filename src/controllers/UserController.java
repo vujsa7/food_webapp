@@ -48,12 +48,43 @@ public class UserController {
 		});
 		
 		post("/user/registerBuyer", (req, res) -> {
-			res.type("application/json");
-			
+			res.type("application/json");			
 			try {
-			//User newBuyer = userService.registerNewUser(new RegisterNewUserDTO("kure","malo","pera","peric",Gender.male, new Date(),AccountType.buyer));
-			User newBuyer = userService.registerNewUser(gson.fromJson(req.body(), RegisterNewUserDTO.class));
-			return gson.toJson(newBuyer);
+				//User newBuyer = userService.registerNewUser(new RegisterNewUserDTO("kure","malo","pera","peric",Gender.male, new Date(),AccountType.buyer));
+				User newBuyer = userService.registerNewBuyer(gson.fromJson(req.body(), RegisterNewUserDTO.class));
+				return gson.toJson(newBuyer);
+			}catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		post("/user/registerManager", (req, res) -> {
+			res.type("application/json");			
+			try {
+				User newManager = userService.registerNewManager(gson.fromJson(req.body(), RegisterNewUserDTO.class));
+				return gson.toJson(newManager);
+			}catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		post("/user/registerDeliveryWorker", (req, res) -> {
+			res.type("application/json");
+			try {
+				User newDeliveryWorker = userService.registerNewDeliveryWorker(gson.fromJson(req.body(), RegisterNewUserDTO.class));
+				return gson.toJson(newDeliveryWorker);
+			}catch (Exception e) {
+				e.printStackTrace();
+				return "";
+			}
+		});
+		
+		get("/user/getAll", (req,res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(userService.getAll());
 			}catch (Exception e) {
 				e.printStackTrace();
 				return "";

@@ -1,16 +1,19 @@
 package beans;
 
 
-public class Comment implements java.io.Serializable{
+public class Comment implements IIdentifiable<Integer>{
 	
-	private static final long serialVersionUID = -1289544689378656493L;
-	
+	private int id;
 	private String details;
-   	private int review;
-   
-   	private Restaurant restaurant;
-	private Buyer buyer;
-   
+   	private int review;   
+   	private int restaurant;
+	private String buyer;
+	private boolean isDeleted;
+	
+	public Comment() {
+		
+	}
+	
 	public String getDetails() {
 		return details;
 	}
@@ -23,18 +26,50 @@ public class Comment implements java.io.Serializable{
 	public void setReview(int review) {
 		this.review = review;
 	}
-	public Restaurant getRestaurant() {
+	public int getRestaurant() {
 		return restaurant;
 	}
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(int restaurant) {
 		this.restaurant = restaurant;
 	}
-	public Buyer getBuyer() {
+	public String getBuyer() {
 		return buyer;
 	}
-	public void setBuyer(Buyer buyer) {
+	public void setBuyer(String buyer) {
 		this.buyer = buyer;
 	}
 
-   
+	@Override
+	public Integer getID() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}
+
+	@Override
+	public void setID(Integer id) {
+		// TODO Auto-generated method stub
+		this.id = id;
+	}
+
+	@Override
+	public boolean compareTo(Integer id) {
+		// TODO Auto-generated method stub
+		boolean isEqual = true;
+		if(!(this.id == id)) {
+			isEqual = false;
+		}
+		return isEqual;
+	}
+
+	@Override
+	public void setDeleted(boolean value) {
+		// TODO Auto-generated method stub
+		this.isDeleted = value;
+	}
+
+	@Override
+	public boolean isDeleted() {
+		// TODO Auto-generated method stub
+		return this.isDeleted;
+	}
 }

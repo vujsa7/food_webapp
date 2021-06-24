@@ -1,6 +1,7 @@
 package services;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -20,7 +21,7 @@ public class UserService {
 		this.userDao = userDao;
 	}
 	
-	public User registerNewUser(RegisterNewUserDTO newUser) throws JsonSyntaxException, IOException {
+	public User registerNewBuyer(RegisterNewUserDTO newUser) throws JsonSyntaxException, IOException {
 		User checkUser = userDao.getById(newUser.getUsername());
 		if(checkUser != null) {
 			return null;
@@ -31,16 +32,36 @@ public class UserService {
 					newUser.getGender(), newUser.getDateOfBirth(), newUser.getAccountType(),false,false);
 			userDao.create(newBuyer);
 			return newBuyer;
-		}else if(newUser.getAccountType().equals(AccountType.deliveryWorker)) {
-			DeliveryWorker newDeliveryWorker = new DeliveryWorker(newUser.getUsername(), newUser.getPassword(), newUser.getName(), newUser.getSurname(),
-					newUser.getGender(), newUser.getDateOfBirth(), newUser.getAccountType(),false,false);
-			userDao.create(newDeliveryWorker);
-			return newDeliveryWorker;
-		}else if(newUser.getAccountType().equals(AccountType.manager)) {
+		}
+		return null;
+	}
+	
+	public User registerNewManager(RegisterNewUserDTO newUser) throws JsonSyntaxException, IOException {
+		User checkUser = userDao.getById(newUser.getUsername());
+		if(checkUser != null) {
+			return null;
+		}
+		
+		if(newUser.getAccountType().equals(AccountType.manager)) {
 			Manager manager = new Manager(newUser.getUsername(), newUser.getPassword(), newUser.getName(), newUser.getSurname(),
 					newUser.getGender(), newUser.getDateOfBirth(), newUser.getAccountType(),false,false);
 			userDao.create(manager);
 			return manager;
+		}
+		return null;
+	}
+	
+	public User registerNewDeliveryWorker(RegisterNewUserDTO newUser) throws JsonSyntaxException, IOException {
+		User checkUser = userDao.getById(newUser.getUsername());
+		if(checkUser != null) {
+			return null;
+		}
+		
+		if(newUser.getAccountType().equals(AccountType.deliveryWorker)) {
+			DeliveryWorker newDeliveryWorker = new DeliveryWorker(newUser.getUsername(), newUser.getPassword(), newUser.getName(), newUser.getSurname(),
+					newUser.getGender(), newUser.getDateOfBirth(), newUser.getAccountType(),false,false);
+			userDao.create(newDeliveryWorker);
+			return newDeliveryWorker;
 		}
 		return null;
 	}
@@ -57,5 +78,9 @@ public class UserService {
 			}
 		}
 		return null;
+	}
+	
+	public List<User> getAll() throws JsonSyntaxException, IOException{
+		return userDao.getAll();
 	}
 }
