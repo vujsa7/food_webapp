@@ -14,8 +14,8 @@ public class OrderDAO extends JSONRepository<Order, String>{
 		super(path, new TypeToken<List<Order>>(){}.getType(), new Gson());
 		// TODO Auto-generated constructor stub
 	}
-	/*
-	public int generateId() throws JsonSyntaxException, IOException {
-		return getAll().size() + 1;
-	}*/
+	
+	public String generateId() throws JsonSyntaxException, IOException {
+		return "";
+	}
 }

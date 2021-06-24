@@ -7,6 +7,10 @@ public class DeliveryWorker extends User {
 
 	private ArrayList<Order> orders = new ArrayList<Order>();
 	
+	public DeliveryWorker() {
+		super();
+	}
+	
 	public DeliveryWorker(String username, String password, String name, String surname, Gender gender,
 			Date dateOfBirth, AccountType accountType, boolean isDeleted, boolean isBlocked) {
 		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);

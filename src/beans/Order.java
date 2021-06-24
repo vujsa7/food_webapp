@@ -16,6 +16,10 @@ public class Order implements IIdentifiable<String> {
 	private String buyer;
 	private boolean isDeleted;
 	
+	public Order() {
+		
+	}
+	
 	public Date getDateOfOrder() {
 		return dateOfOrder;
 	}

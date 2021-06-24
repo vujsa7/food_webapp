@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 public class Cart implements java.io.Serializable{
 
-	private static final long serialVersionUID = 8552954323788623082L;
-
-	private double price;
-   
+	private double price;  
    	private ArrayList<Article> articles;
 	private Buyer buyer;
    	
+	public Cart() {
+		
+	}
+	
 	public double getPrice() {
 		return price;
 	}

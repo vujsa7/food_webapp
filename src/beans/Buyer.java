@@ -8,11 +8,14 @@ public class Buyer extends User {
 	private static final long serialVersionUID = -333553693946346746L;
 	private int points;
 	private BuyerType buyerType;
-	private int discount;
-   
+	private int discount; 
 	private ArrayList<Order> orders;
    	private Cart cart;
-   
+   	
+   	public Buyer() {
+   		super();
+   	}
+   	
    	public Buyer(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
 			AccountType accountType, boolean isDeleted, boolean isBlocked) {
 		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);

@@ -30,6 +30,10 @@ public class Main {
 		OrderService orderService = new OrderService(orderDao);
 		OrderController orderController = new OrderController(orderService);
 		
+		CommentDAO commentDao = new CommentDAO("./files/comments.json");
+		CommentService commentService = new CommentService(commentDao);
+		CommentController commentController = new CommentController(commentService);
+		
 		post("rest/test", (req, res) -> {
 			return "SUCCESS";
 		});
