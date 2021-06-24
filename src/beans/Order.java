@@ -3,7 +3,7 @@ package beans;
 import java.util.*;
 
 
-public class Order implements java.io.Serializable {
+public class Order implements IIdentifiable<String> {
 	private static final long serialVersionUID = -2670688711225035928L;
 	
 	private String id;
@@ -12,16 +12,9 @@ public class Order implements java.io.Serializable {
 	private OrderStatus orderStatus;
    
 	private ArrayList<Article> articles;
-	private Restaurant restaurant;
-	private Buyer buyer;
-   
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
+	private int restaurant;
+	private String buyer;
+	private boolean isDeleted;
 	
 	public Date getDateOfOrder() {
 		return dateOfOrder;
@@ -55,20 +48,54 @@ public class Order implements java.io.Serializable {
 		this.articles = articles;
 	}
 	
-	public Restaurant getRestaurant() {
+	public int getRestaurant() {
 		return restaurant;
 	}
 	
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(int restaurant) {
 		this.restaurant = restaurant;
 	}
 	
-	public Buyer getBuyer() {
+	public String getBuyer() {
 		return buyer;
 	}
 	
-	public void setBuyer(Buyer buyer) {
+	public void setBuyer(String buyer) {
 		this.buyer = buyer;
+	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}
+
+	@Override
+	public void setID(String id) {
+		// TODO Auto-generated method stub
+		this.id = id;
+	}
+
+	@Override
+	public boolean compareTo(String id) {
+		// TODO Auto-generated method stub
+		boolean isEqual = true;
+		if(!this.getID().equals(id)) {
+			isEqual = false;
+		}
+		return isEqual;
+	}
+
+	@Override
+	public void setDeleted(boolean value) {
+		// TODO Auto-generated method stub
+		this.isDeleted = value;
+	}
+
+	@Override
+	public boolean isDeleted() {
+		// TODO Auto-generated method stub
+		return this.isDeleted;
 	}
    
    

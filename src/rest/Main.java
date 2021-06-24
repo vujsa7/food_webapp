@@ -7,30 +7,30 @@ import static spark.Spark.staticFiles;
 
 import java.io.File;
 
-import com.google.gson.Gson;
-
-import beans.Product;
-import services.ProductService;
+import controllers.*;
+import dao.*;
+import services.*;
 
 public class Main {
 
-	private static Gson g = new Gson();
-	private static ProductService productService = new ProductService();
-	
 	public static void main(String[] args) throws Exception {
-		port(8081);
+		port(8080);
 
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 		
-		get("rest/products/", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(productService.getProducts());
-		});
+		UserDAO userDao = new UserDAO("./files/users.json");
+		UserService userService = new UserService(userDao);
+		UserController userController = new UserController(userService);
 		
-		post("rest/products/add", (req, res) -> {
-			res.type("application/json");
-			Product pd = g.fromJson(req.body(), Product.class);
-			productService.addProduct(pd);
+		RestaurantDAO restaurantDao = new RestaurantDAO("./files/restaurants.json");
+		RestaurantService restaurantService = new RestaurantService(restaurantDao);
+		RestaurantController restaurantController = new RestaurantController(restaurantService);
+		
+		OrderDAO orderDao = new OrderDAO("./files/orders.json");
+		OrderService orderService = new OrderService(orderDao);
+		OrderController orderController = new OrderController(orderService);
+		
+		post("rest/test", (req, res) -> {
 			return "SUCCESS";
 		});
 	}

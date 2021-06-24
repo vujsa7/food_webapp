@@ -3,9 +3,7 @@ package beans;
 
 import java.util.*;
 
-public abstract class User implements java.io.Serializable{
-	
-	private static final long serialVersionUID = -1253318315265275554L;
+public abstract class User implements IIdentifiable<String>{
 	
 	private String username;
    	private String password;
@@ -14,7 +12,24 @@ public abstract class User implements java.io.Serializable{
    	private Gender gender;
    	private Date dateOfBirth;
    	private AccountType accountType;
+   	private boolean isDeleted;
+   	private boolean isBlocked;
+   	private String jwtToken;
    
+	public User(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
+			AccountType accountType, boolean isDeleted, boolean isBlocked) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
+		this.accountType = accountType;
+		this.isDeleted = isDeleted;
+		this.isBlocked = isBlocked;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -70,6 +85,30 @@ public abstract class User implements java.io.Serializable{
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
-
-   
+	
+	public boolean isBlocked() {
+		return this.isBlocked;
+	}
+	
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
+	
+	public String getJWTToken() {
+		return this.jwtToken;
+	}
+	
+	public void setJWTToken(String jwt) {
+		this.jwtToken = jwt;
+	}
+	
+	@Override
+	public boolean isDeleted() {
+		return this.isDeleted;
+	}
+	
+	@Override
+	public void setDeleted(boolean deleted) {
+		this.isDeleted = deleted;
+	}
 }
