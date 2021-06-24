@@ -1,15 +1,22 @@
 package beans;
 
+import java.util.Date;
 
 public class Manager extends User{
-	
-	private Restaurant restaurant;
 
-	public Restaurant getRestaurant() {
+	private int restaurant;
+	
+	public Manager(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
+			AccountType accountType, boolean isDeleted, boolean isBlocked) {
+		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);
+		this.restaurant = 0;
+	}
+	
+	public int getRestaurant() {
 		return restaurant;
 	}
 	
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(int restaurant) {
 		this.restaurant = restaurant;
 	}
 

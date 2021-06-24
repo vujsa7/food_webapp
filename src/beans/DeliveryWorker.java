@@ -1,10 +1,17 @@
 package beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DeliveryWorker extends User {
+
+	private ArrayList<Order> orders = new ArrayList<Order>();
 	
-	private ArrayList<Order> orders;
+	public DeliveryWorker(String username, String password, String name, String surname, Gender gender,
+			Date dateOfBirth, AccountType accountType, boolean isDeleted, boolean isBlocked) {
+		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);
+		// TODO Auto-generated constructor stub
+	}
 
 	public ArrayList<Order> getOrders() {
 		return orders;

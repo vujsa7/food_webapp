@@ -93,7 +93,6 @@ public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, 
 	public List<T> getAllNotDeleted() throws JsonSyntaxException, IOException {
 		ArrayList<T> entities = (ArrayList<T>) getAll();
 		ArrayList<T> nonDeleted = new ArrayList<T>();
-		
 		for (T entity : entities) {
 			if (!entity.isDeleted()) {
 				nonDeleted.add(entity);
@@ -102,5 +101,19 @@ public class JSONRepository<T extends IIdentifiable<ID>, ID> implements IDao<T, 
 		return nonDeleted;
 	}
 
-
+	@Override
+	public T getById(ID id) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		T searchedEntity = null;
+		ArrayList<T> entities = (ArrayList<T>) getAllNotDeleted();
+		if(entities.size() != 0) {
+			for(T entity : entities) {
+				if(entity.compareTo(id)) {
+					searchedEntity = entity;
+					break;
+				}
+			}
+		}
+		return searchedEntity;
+	}
 }

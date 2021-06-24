@@ -13,4 +13,5 @@ public interface IDao<T, ID> {
 	boolean delete(T entity) throws JsonSyntaxException, IOException;
 	void save(T entity) throws JsonSyntaxException, IOException;
 	void saveAll(List<T> entities) throws JsonSyntaxException, IOException;
+	T getById(ID id) throws JsonSyntaxException, IOException;
 } 

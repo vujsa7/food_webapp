@@ -4,7 +4,7 @@ package beans;
 import java.util.*;
 
 public class Buyer extends User {
-	
+
 	private static final long serialVersionUID = -333553693946346746L;
 	private int points;
 	private BuyerType buyerType;
@@ -13,6 +13,12 @@ public class Buyer extends User {
 	private ArrayList<Order> orders;
    	private Cart cart;
    
+   	public Buyer(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
+			AccountType accountType, boolean isDeleted, boolean isBlocked) {
+		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);
+		// TODO Auto-generated constructor stub
+	}
+   	
 	public int getPoints() {
 		return points;
 	}
