@@ -7,6 +7,11 @@ public class City implements java.io.Serializable{
 	private String name;
    	private String postalCode;
    
+   	public City(String name, String postalCode) {
+   		this.name = name;
+   		this.postalCode = postalCode;
+   	}
+   	
 	public String getName() {
 		return name;
 	}

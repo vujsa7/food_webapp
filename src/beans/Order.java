@@ -4,7 +4,6 @@ import java.util.*;
 
 
 public class Order implements IIdentifiable<String> {
-	private static final long serialVersionUID = -2670688711225035928L;
 	
 	private String id;
 	private Date dateOfOrder;

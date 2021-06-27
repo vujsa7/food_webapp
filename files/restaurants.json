@@ -1,0 +1,42 @@
+[
+  {
+    "id": 0,
+    "name": "Grill 5",
+    "restaurantType": "barbecue",
+    "isOperating": true,
+    "location": {
+      "longitude": "414114",
+      "latitude": "444324",
+      "address": {
+        "street": "Maksima Gorkog",
+        "number": "55",
+        "city": {
+          "name": "Novi Sad",
+          "postalCode": "21000"
+        }
+      }
+    },
+    "article": [],
+    "isDeleted": false
+  },
+  {
+    "id": 1,
+    "name": "Los Pollos Hermanos",
+    "restaurantType": "barbecue",
+    "isOperating": true,
+    "location": {
+      "longitude": "111333",
+      "latitude": "412111",
+      "address": {
+        "street": "Niksicka",
+        "number": "46A",
+        "city": {
+          "name": "Belgrade",
+          "postalCode": "181000"
+        }
+      }
+    },
+    "article": [],
+    "isDeleted": false
+  }
+]

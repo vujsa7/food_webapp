@@ -6,7 +6,7 @@
     padding: 0;
 }
 
-.top-navigation{
+.navigation-container{
     position: absolute;
     top:0;
 }
@@ -107,7 +107,7 @@
     box-shadow: 0px 3px 50px #FE0435;
 }
 
-.landing-content-container{
+.hero-container{
     font-family: 'Poppins', sans-serif;
     position: absolute;
     top: 18%;
@@ -221,7 +221,7 @@
     box-shadow: 0px 0px 10px #00BC8B;
 }
 
-.filter-and-sort-containers{
+.search-result-body{
     padding-left: 7.3%;
     padding-right: 7.3%;
 }

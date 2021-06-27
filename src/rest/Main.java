@@ -1,20 +1,22 @@
 package rest;
 
-import static spark.Spark.get;
 import static spark.Spark.port;
-import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
 
-import controllers.*;
+import controllers.CommentController;
+import controllers.OrderController;
+import controllers.RestaurantController;
+import controllers.UserController;
 import dao.*;
 import services.*;
 
 public class Main {
-
+	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception {
-		port(8080);
+		port(8081);
 
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 		
@@ -34,8 +36,11 @@ public class Main {
 		CommentService commentService = new CommentService(commentDao);
 		CommentController commentController = new CommentController(commentService);
 		
-		post("rest/test", (req, res) -> {
-			return "SUCCESS";
-		});
+//		Restaurant r1 = new Restaurant("Los Pollos Hermanos", RestaurantType.barbecue, true,
+//				new Location("111333", "412111", new Address("Niksicka", "46A", new City("Belgrade", "181000"))),
+//				new ArrayList<Article>(), false);
+
+		
+		
 	}
 }

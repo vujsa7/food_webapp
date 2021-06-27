@@ -20,13 +20,12 @@ import java.util.Date;
 import services.UserService;
 
 public class UserController {
-	private UserService userService;
+
 	private static Gson gson = new Gson();
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	
 	public UserController(UserService userService) {
-		this.userService = userService;
-		
+	
 		post("/user/login", (req,res) -> {
 			res.type("application/json");
 			try {

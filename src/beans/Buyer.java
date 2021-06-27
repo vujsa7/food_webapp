@@ -5,7 +5,6 @@ import java.util.*;
 
 public class Buyer extends User {
 
-	private static final long serialVersionUID = -333553693946346746L;
 	private int points;
 	private BuyerType buyerType;
 	private int discount; 

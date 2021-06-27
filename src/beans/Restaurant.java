@@ -4,48 +4,41 @@ import java.util.ArrayList;
 
 public class Restaurant implements IIdentifiable<Integer>{
 	
-	private static final long serialVersionUID = 774900445589884317L;
-	
 	private int id;
-	private int name;
-   	private int restaurantType;
+	private String name;
+   	private RestaurantType restaurantType;
    	private Boolean isOperating;
    	private byte[] logo;
-   
    	private Location location;
    	private ArrayList<Article> article;
    	private boolean isDeleted;
    	
-   	public Restaurant() {
-   		
-   	}
-   	
-   	public Restaurant(int id, int name, int restaurantType, Boolean isOperating, byte[] logo, Location location,
+   	public Restaurant(String name, RestaurantType restaurantType, Boolean isOperating, Location location,
 			ArrayList<Article> article, boolean isDeleted) {
-		super();
-		this.id = id;
+   		super();
+   		this.id = 0;
 		this.name = name;
 		this.restaurantType = restaurantType;
 		this.isOperating = isOperating;
-		this.logo = logo;
+		this.logo = null;
 		this.location = location;
 		this.article = article;
 		this.isDeleted = isDeleted;
 	}
-   	
-	public int getName() {
+
+	public String getName() {
 		return name;
 	}
 	
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	
-	public int getRestaurantType() {
+	public RestaurantType getRestaurantType() {
 		return restaurantType;
 	}
 	
-	public void setRestaurantType(int restaurantType) {
+	public void setRestaurantType(RestaurantType restaurantType) {
 		this.restaurantType = restaurantType;
 	}
 	

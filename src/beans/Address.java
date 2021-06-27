@@ -9,6 +9,12 @@ public class Address implements java.io.Serializable{
 	private String street;
 	private String number;
 	private City city;
+	
+	public Address(String street, String number, City city) {
+		this.street = street;
+		this.number = number;
+		this.city = city;
+	}
 
 	public String getStreet() {
 		return street;

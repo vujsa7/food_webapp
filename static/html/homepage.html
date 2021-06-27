@@ -4,129 +4,133 @@
     <meta charset="ISO-8859-1">
     <title>Foodly</title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
-    <link rel="stylesheet" href="../scripts/bootstrap-5.0.1-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../js/bootstrap-5.0.1-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../css/homepage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="../scripts/bootstrap-5.0.1-dist/js/bootstrap.min.js"></script>
-    
-    
+    <script type="text/javascript" src="../js/bootstrap-5.0.1-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.js"></script>
   </head>
+
   <body>
-
-    <img class="img-fluid px-0 d-xxl-none d-none d-lg-block" src="../assets/components/landing-image-background-xl.png">
-    <img class="img-fluid px-0 d-lg-none d-none d-md-block" src="../assets/components/landing-image-background-lg.png">
-    <div class="d-md-none" style="height: 750px; width:100%; clear:both;"></div>
-    <img class="img-fluid d-none d-xxl-block" src="../assets/components/landing-image-background.png" id="landing-image-background">
-    <img class="img-fluid d-none d-xxl-block" src="../assets/components/landing-image-3d-elements.png" id="landing-image-3d-components">
-
-    <div class="container-fluid landing-content-container">
-      <div class="row">
-        <div class="col">
-          <div class="container-fluid hero-header">
-            <h1 class="display-1 fw-bold"> 
-              Order fresh &<br>
-              delicious food in<br>
-              just <span id="red-hero-text">5 minutes!</span>
-            </h1>
-            <p class="display-6" id="hero-paragraph">What are you waiting?</p>
-            <button type="button" class="btn btn-danger button-big mt-3">Order now</button>
+    <div id="homepage">
+      <!--xxl screen visible, hidden on smaller than xxl-->
+      <img class="img-fluid d-none d-xxl-block" src="../assets/components/landing-image-background.png" id="landing-image-background">
+      <img class="img-fluid d-none d-xxl-block" src="../assets/components/landing-image-3d-elements.png" id="landing-image-3d-components">
+      <!--lg and xl screen visible, hidden on xxl and wider and xxl and hidden on smaller than lg-->
+      <img class="img-fluid px-0 d-xxl-none d-none d-lg-block" src="../assets/components/landing-image-background-xl.png">
+      <!--md screen visible, hidden on lg and wider than lg and hidden on smaller than md-->
+      <img class="img-fluid px-0 d-lg-none d-none d-md-block" src="../assets/components/landing-image-background-lg.png">
+      <!--hidden on md and wider, visible on small screeens-->
+      <div class="d-md-none" style="height: 750px; width:100%; clear:both;"></div>
+      
+      <!--Hero container-->
+      <div class="container-fluid hero-container">
+        <div class="row">
+          <div class="col">
+            <div class="container-fluid hero-header">
+              <h1 class="display-1 fw-bold"> 
+                Order fresh &<br>
+                delicious food in<br>
+                just <span id="red-hero-text">5 minutes!</span>
+              </h1>
+              <p class="display-6" id="hero-paragraph">What are you waiting?</p>
+              <button type="button" class="btn btn-danger button-big mt-3">Order now</button>
+            </div>
+          </div>
+          <div class="col-xxl-6">
+            <img class="img-fluid d-none d-xxl-block" id="landing-image-plate" src="../assets/images/landing-image.png">
           </div>
         </div>
-        <div class="col-xxl-6">
-          <img class="img-fluid d-none d-xxl-block" id="landing-image-plate" src="../assets/images/landing-image.png">
-        </div>
       </div>
-    </div>
 
-    <div class="container-fluid top-navigation">
-      <div class="container-fluid d-none d-xl-block px-0">
-        <img src="../assets/icons/nav-logo-desktop.png" alt="Brand logo" width="211" height="83" id="logo-desktop">
-      </div>
-      <div class="container d-xl-none px-0">
-        <img src="../assets/icons/nav-logo-mobile.png" alt="Brand logo" width="136" height="83" id="logo-mobile">
-      </div>
-      <nav class="navbar navbar-expand-xl navbar-light py-0">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active py-0" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link  py-0" href="#">Contact</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link py-0" href="#">About</a>
-              </li>
-            </ul>
+      <!--Navigation container-->
+      <div class="container-fluid navigation-container">
+        <div class="container-fluid d-none d-xl-block px-0">
+          <img src="../assets/icons/nav-logo-desktop.png" alt="Brand logo" width="211" height="83" id="logo-desktop">
+        </div>
+        <div class="container d-xl-none px-0">
+          <img src="../assets/icons/nav-logo-mobile.png" alt="Brand logo" width="136" height="83" id="logo-mobile">
+        </div>
+        <nav class="navbar navbar-expand-xl navbar-light py-0">
+          <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active py-0" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link  py-0" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link py-0" href="#">About</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div class="d-none d-xxl-block">
+          <div class="d-inline-flex sign-in-sign-up-container">
+            <a class="nav-link mx-5" href="#">Sign in</a>
+            <button type="button" class="btn btn-danger button-regular">Sign up</button>
           </div>
         </div>
-      </nav>
-      <div class="d-none d-xxl-block">
-        <div class="d-inline-flex sign-in-sign-up-container">
-          <a class="nav-link mx-5" href="#">Sign in</a>
-          <button type="button" class="btn btn-danger button-regular">Sign up</button>
-        </div>
       </div>
-    </div>
 
-    <div id="restaurant-search">
-      <div>
-        <div class="container-fluid px-0" id="search-container">
-          <div class="row m-0"> 
-            <h1 class="display-1 fw-bold mt-4"> 
-            Where to eat?
-            </h1>
-          </div>
-          <div v-bind:class="{ 'sticky-search' : stickySidebar }">
-            <div class="row search-fields g-4 m-0" >
-              <div class="col-xl-3 mb-3 ps-0">
-                <input type="text" class="form-control" id="restaurantNameField" placeholder="Restaurant name...">
+      <!--Search for restaurants container-->
+      <div class="container-fluid px-0" id="search-container">
+        <div class="row m-0"> 
+          <h1 class="display-1 fw-bold mt-4"> 
+          Where to eat?
+          </h1>
+        </div>
+        <div v-bind:class="{ 'sticky-search' : stickySearch }">
+          <div class="row search-fields g-4 m-0" >
+            <div class="col-xl-3 mb-3 ps-0">
+              <input type="text" class="form-control" id="restaurantNameField" placeholder="Restaurant name...">
+            </div>
+            <div class="col-xl-3 mb-3 ps-0">
+              <input type="text" class="form-control" id="locationField" placeholder="Location...">
+            </div>
+            <div class="col-xl-3 ps-0">
+              <div class="input-group mb-3">
+                <select class="form-select" id="inputGroupSelect01">
+                  <option selected>Cuisine...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
               </div>
-              <div class="col-xl-3 mb-3 ps-0">
-                <input type="text" class="form-control" id="locationField" placeholder="Location...">
+            </div>
+            <div class="col-xl-2 ps-0">
+              <div class="input-group mb-3">
+                <select class="form-select" id="inputGroupSelect01">
+                  <option selected>Rating...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
               </div>
-              <div class="col-xl-3 ps-0">
-                <div class="input-group mb-3">
-                  <select class="form-select" id="inputGroupSelect01">
-                    <option selected>Cuisine...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-xl-2 ps-0">
-                <div class="input-group mb-3">
-                  <select class="form-select" id="inputGroupSelect01">
-                    <option selected>Rating...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-xl-1 mb-4 ps-0">
-                <button type="button" class="btn btn-danger button-regular">Search</button>
-              </div>
+            </div>
+            <div class="col-xl-1 mb-4 ps-0">
+              <button type="button" class="btn btn-danger button-regular">Search</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="tall-div" v-bind:class="{ 'taller-div' : stickySidebar }"></div>
+      <div class="tall-div" v-bind:class="{ 'taller-div' : stickySearch }"></div>
 
-
-      <div class="container-fluid filter-and-sort-containers">
+      <!--Search results body-->
+      <div class="container-fluid search-result-body">
         <div class="row">
-          <div v-bind:class="{ 'col-4' : stickySidebar }"></div>
-          <div class="col-4" v-bind:class="{ 'sticky-filter-and-sort' : stickySidebar }">
-            
+          <div v-bind:class="{ 'col-4' : stickySearch }"></div>
+          <div class="col-4" v-bind:class="{ 'sticky-filter-and-sort' : stickySearch }">
             <div class="row mb-5 ps-5 py-5 filter-container">
               <h1 class="basic-title px-0">Cuisine</h1>
               <div class="form-check">
@@ -189,17 +193,18 @@
                 </label>
               </div>
             </div>
+          </div>
 
-          </div>
           <div class="col ms-4">
-            <restaurant-card></restaurant-card>
-            <restaurant-card></restaurant-card>
-            <restaurant-card></restaurant-card>
-            <restaurant-card></restaurant-card>
+            <ul>
+              <li v-for=""></li>  
+            </ul>
           </div>
+
         </div>
       </div>
-    </div> 
+      
+    </div>
   </body>
 
   <script type="text/x-template" id="restaurant-template">
@@ -230,11 +235,11 @@
               </div>
             </div>
             <p class="card-text restaurant-location"><img class="location-pin-img" src="../assets/icons/location-pin-red.png">Serbia, Belgrade, Nikole Djurkovic 46, 34000</p>
+            <a href="#" class="stretched-link"></a>
           </div>
         </div>
       </div>
     </div>
   </script>
-  <script type="text/javascript" src="../scripts/vue.js"></script>
-  <script type="text/javascript" src="../scripts/homepage.js"></script>
+  <script type="text/javascript" src="../js/scripts/homepage.js"></script>
 </html>

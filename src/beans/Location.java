@@ -10,6 +10,12 @@ public class Location implements java.io.Serializable {
    	private String latitude;
    
    	private Address address;
+   	
+   	public Location(String longitude, String latitude, Address address) {
+   		this.longitude = longitude;
+   		this.latitude = latitude;
+   		this.address = address;
+   	}
 
 	public String getLongitude() {
 		return longitude;
