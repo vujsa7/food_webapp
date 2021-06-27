@@ -8,21 +8,25 @@ public class Restaurant implements IIdentifiable<Integer>{
 	private String name;
    	private RestaurantType restaurantType;
    	private Boolean isOperating;
-   	private byte[] logo;
+   	private String logo;
+   	private String bannerImage;
+   	private double rating;
    	private Location location;
-   	private ArrayList<Article> article;
+   	private ArrayList<Article> articles;
    	private boolean isDeleted;
    	
-   	public Restaurant(String name, RestaurantType restaurantType, Boolean isOperating, Location location,
-			ArrayList<Article> article, boolean isDeleted) {
+   	public Restaurant(String name, RestaurantType restaurantType, Boolean isOperating, Location location, String logo, String bannerImage, double rating,
+			ArrayList<Article> articles, boolean isDeleted) {
    		super();
    		this.id = 0;
 		this.name = name;
 		this.restaurantType = restaurantType;
 		this.isOperating = isOperating;
-		this.logo = null;
+		this.logo = logo;
+		this.bannerImage = bannerImage;
+		this.rating = rating;
 		this.location = location;
-		this.article = article;
+		this.articles = articles;
 		this.isDeleted = isDeleted;
 	}
 
@@ -50,12 +54,28 @@ public class Restaurant implements IIdentifiable<Integer>{
 		this.isOperating = isOperating;
 	}
 	
-	public byte[] getLogo() {
+	public String getLogo() {
 		return logo;
 	}
 	
-	public void setLogo(byte[] logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+	
+	public String getBannerImage() {
+		return bannerImage;
+	}
+
+	public void setBannerImage(String bannerImage) {
+		this.bannerImage = bannerImage;
+	}
+	
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 	
 	public Location getLocation() {
@@ -66,12 +86,12 @@ public class Restaurant implements IIdentifiable<Integer>{
 		this.location = location;
 	}
 	
-	public ArrayList<Article> getArticle() {
-		return article;
+	public ArrayList<Article> getArticles() {
+		return articles;
 	}
 	
-	public void setArticle(ArrayList<Article> article) {
-		this.article = article;
+	public void setArticles(ArrayList<Article> articles) {
+		this.articles = articles;
 	}
 
 	@Override
@@ -108,4 +128,7 @@ public class Restaurant implements IIdentifiable<Integer>{
 		return this.isDeleted;
 	}
 
+	
+
+	
 }

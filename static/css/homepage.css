@@ -266,7 +266,7 @@
 }
 
 .restaurant-img {
-    height:248px;
+    height:256px;
     object-fit: cover;
     width: 375px;
 }
@@ -292,7 +292,8 @@
 }
 
 .restaurant-logo{
-    height: 50px;
+    max-height: 50px;
+    max-width: 60px;
 }
 
 .location-pin-img{

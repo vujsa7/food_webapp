@@ -194,48 +194,48 @@
               </div>
             </div>
           </div>
-
-          <div class="col ms-4">
-            <ul>
-              <li v-for=""></li>  
-            </ul>
+          <div class="col-8 ps-5">
+            <restaurant-search-results></restaurant-search-results>
           </div>
-
         </div>
       </div>
       
     </div>
   </body>
 
-  <script type="text/x-template" id="restaurant-template">
-    <div class="card restaurant-card mb-4">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="img-fluid rounded-start restaurant-img" alt="Restaurant image">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body py-5 ps-5">
-            <div class="row  mb-3">
-              <div class="col-1">
-                <img class="restaurant-logo" src="../assets/logos/los-polos-hermanos.png">
-              </div>
-              <div class="col">
-                <h5 class="card-title pt-2 ps-3 basic-title">Los Pollos Hermanos</h5>
+  <script type="text/x-template" id="restaurant-search-results-template">
+    <div>
+      <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
+        <div class="card restaurant-card mb-4">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="img-fluid rounded-start restaurant-img" v-bind:src="restaurant.bannerImage" alt="Restaurant image">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body py-5 ps-5">
+                <div class="row  mb-3">
+                  <div class="col-1">
+                    <img class="restaurant-logo" v-bind:src="restaurant.logo">
+                  </div>
+                  <div class="col">
+                    <h5 class="card-title pt-2 ps-3 basic-title">{{restaurant.name}}</h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p class="card-text mb-3 restaurant-cuisine">{{restaurant.restaurantType.charAt(0).toUpperCase() + restaurant.restaurantType.substring(1)}}</p>
+                  </div>
+                  <div class="col-2">
+                    <p class="fw-bold rating-text">
+                      <img class="location-pin-img" src="../assets/icons/star.png">
+                        {{restaurant.rating}}
+                    </p>
+                  </div>
+                </div>
+                <p class="card-text restaurant-location"><img class="location-pin-img" src="../assets/icons/location-pin-red.png">Serbia, {{restaurant.location.address.city.name}}, {{restaurant.location.address.street}} {{restaurant.location.address.number}}, {{restaurant.location.address.city.postalCode}}</p>
+                <a href="#" class="stretched-link"></a>
               </div>
             </div>
-            <div class="row">
-              <div class="col">
-                <p class="card-text mb-3 restaurant-cuisine">Mexican food</p>
-              </div>
-              <div class="col-2">
-                <p class="fw-bold rating-text">
-                  <img class="location-pin-img" src="../assets/icons/star.png">
-                    4.6
-                </p>
-              </div>
-            </div>
-            <p class="card-text restaurant-location"><img class="location-pin-img" src="../assets/icons/location-pin-red.png">Serbia, Belgrade, Nikole Djurkovic 46, 34000</p>
-            <a href="#" class="stretched-link"></a>
           </div>
         </div>
       </div>
