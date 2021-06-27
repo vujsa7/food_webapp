@@ -10,44 +10,231 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="../scripts/bootstrap-5.0.1-dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../scripts/vue.js"></script>
-    <script type="text/javascript" src="../scripts/test.js"></script>
+    
+    
   </head>
   <body>
-    <div class="container-fluid px-0">
-      <img src="../assets/components/landing-image-background.png" class="landing-image-background">
-    </div>
 
-    <div class="container-fluid d-none d-xl-block">
-      <img src="../assets/icons/nav-logo.png" alt="Brand logo" width="211" height="83" id="nav-logo-desktop">
-    </div>
-    
-    <div class="container d-xl-none">
-      <img src="../assets/icons/foodly.png" alt="Brand logo" width="136" height="83" id="nav-logo-mobile">
-    </div>
-    
-    <nav class="navbar navbar-expand-xl navbar-light mt-5">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-          </ul>
+    <img class="img-fluid px-0 d-xxl-none d-none d-lg-block" src="../assets/components/landing-image-background-xl.png">
+    <img class="img-fluid px-0 d-lg-none d-none d-md-block" src="../assets/components/landing-image-background-lg.png">
+    <div class="d-md-none" style="height: 750px; width:100%; clear:both;"></div>
+    <img class="img-fluid d-none d-xxl-block" src="../assets/components/landing-image-background.png" id="landing-image-background">
+    <img class="img-fluid d-none d-xxl-block" src="../assets/components/landing-image-3d-elements.png" id="landing-image-3d-components">
+
+    <div class="container-fluid landing-content-container">
+      <div class="row">
+        <div class="col">
+          <div class="container-fluid hero-header">
+            <h1 class="display-1 fw-bold"> 
+              Order fresh &<br>
+              delicious food in<br>
+              just <span id="red-hero-text">5 minutes!</span>
+            </h1>
+            <p class="display-6" id="hero-paragraph">What are you waiting?</p>
+            <button type="button" class="btn btn-danger button-big mt-3">Order now</button>
+          </div>
+        </div>
+        <div class="col-xxl-6">
+          <img class="img-fluid d-none d-xxl-block" id="landing-image-plate" src="../assets/images/landing-image.png">
         </div>
       </div>
-    </nav>
-  </body>
-  <script>
+    </div>
 
+    <div class="container-fluid top-navigation">
+      <div class="container-fluid d-none d-xl-block px-0">
+        <img src="../assets/icons/nav-logo-desktop.png" alt="Brand logo" width="211" height="83" id="logo-desktop">
+      </div>
+      <div class="container d-xl-none px-0">
+        <img src="../assets/icons/nav-logo-mobile.png" alt="Brand logo" width="136" height="83" id="logo-mobile">
+      </div>
+      <nav class="navbar navbar-expand-xl navbar-light py-0">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active py-0" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link  py-0" href="#">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link py-0" href="#">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="d-none d-xxl-block">
+        <div class="d-inline-flex sign-in-sign-up-container">
+          <a class="nav-link mx-5" href="#">Sign in</a>
+          <button type="button" class="btn btn-danger button-regular">Sign up</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="restaurant-search">
+      <div>
+        <div class="container-fluid px-0" id="search-container">
+          <div class="row m-0"> 
+            <h1 class="display-1 fw-bold mt-4"> 
+            Where to eat?
+            </h1>
+          </div>
+          <div v-bind:class="{ 'sticky-search' : stickySidebar }">
+            <div class="row search-fields g-4 m-0" >
+              <div class="col-xl-3 mb-3 ps-0">
+                <input type="text" class="form-control" id="restaurantNameField" placeholder="Restaurant name...">
+              </div>
+              <div class="col-xl-3 mb-3 ps-0">
+                <input type="text" class="form-control" id="locationField" placeholder="Location...">
+              </div>
+              <div class="col-xl-3 ps-0">
+                <div class="input-group mb-3">
+                  <select class="form-select" id="inputGroupSelect01">
+                    <option selected>Cuisine...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xl-2 ps-0">
+                <div class="input-group mb-3">
+                  <select class="form-select" id="inputGroupSelect01">
+                    <option selected>Rating...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xl-1 mb-4 ps-0">
+                <button type="button" class="btn btn-danger button-regular">Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tall-div" v-bind:class="{ 'taller-div' : stickySidebar }"></div>
+
+
+      <div class="container-fluid filter-and-sort-containers">
+        <div class="row">
+          <div v-bind:class="{ 'col-4' : stickySidebar }"></div>
+          <div class="col-4" v-bind:class="{ 'sticky-filter-and-sort' : stickySidebar }">
+            
+            <div class="row mb-5 ps-5 py-5 filter-container">
+              <h1 class="basic-title px-0">Cuisine</h1>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="show-all-checkbox" checked>
+                <label class="form-check-label" for="flexCheckDefault">
+                  Show all
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="barbeque-checkbox">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Barbeque
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="italian-checkbox">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Italian
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="chinese-checkbox">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Chinese
+                </label>
+              </div>
+              <h1 class="basic-title pt-3 px-0">Status</h1>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="show-open-checkbox" checked>
+                <label class="form-check-label" for="flexCheckDefault">
+                  Show only open restaurants
+                </label>
+              </div>
+            </div>
+
+            <div class="row mb-5 ps-5 pb-3 pt-3 sort-container">
+              <h1 class="basic-title pt-3 px-0">Sort by</h1>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Usual
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Restaurant name
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Nearest location
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Rating
+                </label>
+              </div>
+            </div>
+
+          </div>
+          <div class="col ms-4">
+            <restaurant-card></restaurant-card>
+            <restaurant-card></restaurant-card>
+            <restaurant-card></restaurant-card>
+            <restaurant-card></restaurant-card>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </body>
+
+  <script type="text/x-template" id="restaurant-template">
+    <div class="card restaurant-card mb-4">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="img-fluid rounded-start restaurant-img" alt="Restaurant image">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body py-5 ps-5">
+            <div class="row  mb-3">
+              <div class="col-1">
+                <img class="restaurant-logo" src="../assets/logos/los-polos-hermanos.png">
+              </div>
+              <div class="col">
+                <h5 class="card-title pt-2 ps-3 basic-title">Los Pollos Hermanos</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <p class="card-text mb-3 restaurant-cuisine">Mexican food</p>
+              </div>
+              <div class="col-2">
+                <p class="fw-bold rating-text">
+                  <img class="location-pin-img" src="../assets/icons/star.png">
+                    4.6
+                </p>
+              </div>
+            </div>
+            <p class="card-text restaurant-location"><img class="location-pin-img" src="../assets/icons/location-pin-red.png">Serbia, Belgrade, Nikole Djurkovic 46, 34000</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </script>
+  <script type="text/javascript" src="../scripts/vue.js"></script>
+  <script type="text/javascript" src="../scripts/homepage.js"></script>
 </html>
