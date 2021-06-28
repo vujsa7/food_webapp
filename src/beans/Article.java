@@ -2,13 +2,24 @@ package beans;
 
 public class Article{
 	
+	private int id;
 	private String name;
 	private double price;
 	private ArticleType articleType;
 	private int quantity;
 	private String description;
-	private byte[] image;
+	private String image;
 	
+	public Article(String name, double price, ArticleType articleType, int quantity, String description, String image) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.articleType = articleType;
+		this.quantity = quantity;
+		this.description = description;
+		this.image = image;
+	}
+
 	public Article() {
 		
 	}
@@ -53,11 +64,19 @@ public class Article{
 		this.description = description;
 	}
 	
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 	
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 }

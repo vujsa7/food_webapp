@@ -92,6 +92,10 @@ public class Restaurant implements IIdentifiable<Integer>{
 	public void setArticles(ArrayList<Article> articles) {
 		this.articles = articles;
 	}
+	
+	public void addArticle(Article article) {
+		this.articles.add(article);
+	}
 
 	@Override
 	public Integer getID() {

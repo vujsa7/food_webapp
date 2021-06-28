@@ -50,7 +50,12 @@ public class UserController {
 			try {
 				//User newBuyer = userService.registerNewUser(new RegisterNewUserDTO("kure","malo","pera","peric",Gender.male, new Date(),AccountType.buyer));
 				User newBuyer = userService.registerNewBuyer(gson.fromJson(req.body(), RegisterNewUserDTO.class));
-				return gson.toJson(newBuyer);
+				if(newBuyer == null) {
+					res.status(409);
+					return "";
+				}else {
+					return gson.toJson(newBuyer);
+				}		
 			}catch (Exception e) {
 				e.printStackTrace();
 				return "";
@@ -73,7 +78,12 @@ public class UserController {
 				    	return "";
 				    }
 				    User newManager = userService.registerNewManager(gson.fromJson(req.body(), RegisterNewUserDTO.class));
-					return gson.toJson(newManager);
+				    if(newManager == null) {
+						res.status(409);
+						return "";
+					}else {
+						return gson.toJson(newManager);
+					}				
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -97,7 +107,12 @@ public class UserController {
 				    	return "";
 				    }
 				    User newDeliveryWorker = userService.registerNewDeliveryWorker(gson.fromJson(req.body(), RegisterNewUserDTO.class));
-					return gson.toJson(newDeliveryWorker);
+				    if(newDeliveryWorker == null) {
+						res.status(409);
+						return "";
+					}else {
+						return gson.toJson(newDeliveryWorker);
+					}
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}

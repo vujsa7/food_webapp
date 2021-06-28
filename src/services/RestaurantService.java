@@ -65,4 +65,32 @@ public class RestaurantService {
 		userDao.update(manager);
 		return restaurantDao.create(restaurant);
 	}
+	
+	public Article addArticle(Article newArticle, Manager manager) throws JsonSyntaxException, IOException {
+		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
+		for(Article a : restaurant.getArticles()) {
+			if(a.getName().equals(newArticle.getName())) {
+				return null;
+			}
+		}
+		restaurant.addArticle(newArticle);
+		restaurantDao.update(restaurant);
+		return newArticle;
+	}
+	
+	public Article changeArticle(Article changedArticle, Manager manager) throws JsonSyntaxException, IOException {
+		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
+		for(Article a : restaurant.getArticles()) {
+			if(a.getId() == changedArticle.getId()) {
+				a.setName(changedArticle.getName());
+				a.setImage(changedArticle.getImage());
+				a.setDescription(changedArticle.getDescription());
+				a.setArticleType(changedArticle.getArticleType());
+				a.setPrice(changedArticle.getPrice());
+				a.setQuantity(changedArticle.getQuantity());
+			}
+		}
+		restaurantDao.update(restaurant);
+		return changedArticle;
+	}
 }
