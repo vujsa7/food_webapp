@@ -13,7 +13,7 @@ public class Manager extends User{
 	public Manager(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
 			AccountType accountType, boolean isDeleted, boolean isBlocked) {
 		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);
-		this.restaurant = 0;
+		this.restaurant = -1;
 	}
 	
 	public int getRestaurant() {

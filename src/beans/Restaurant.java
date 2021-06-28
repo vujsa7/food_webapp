@@ -18,7 +18,6 @@ public class Restaurant implements IIdentifiable<Integer>{
    	public Restaurant(String name, RestaurantType restaurantType, Boolean isOperating, Location location, String logo, String bannerImage, double rating,
 			ArrayList<Article> articles, boolean isDeleted) {
    		super();
-   		this.id = 0;
 		this.name = name;
 		this.restaurantType = restaurantType;
 		this.isOperating = isOperating;
