@@ -24,10 +24,6 @@ public class Main {
 		UserService userService = new UserService(userDao);
 		UserController userController = new UserController(userService);
 		
-		RestaurantDAO restaurantDao = new RestaurantDAO("./files/restaurants.json");
-		RestaurantService restaurantService = new RestaurantService(restaurantDao);
-		RestaurantController restaurantController = new RestaurantController(restaurantService);
-		
 		OrderDAO orderDao = new OrderDAO("./files/orders.json");
 		OrderService orderService = new OrderService(orderDao);
 		OrderController orderController = new OrderController(orderService);
@@ -35,6 +31,10 @@ public class Main {
 		CommentDAO commentDao = new CommentDAO("./files/comments.json");
 		CommentService commentService = new CommentService(commentDao);
 		CommentController commentController = new CommentController(commentService);
+		
+		RestaurantDAO restaurantDao = new RestaurantDAO("./files/restaurants.json");
+		RestaurantService restaurantService = new RestaurantService(restaurantDao, userDao, orderDao, commentDao);
+		RestaurantController restaurantController = new RestaurantController(restaurantService);
 		
 //		Restaurant r1 = new Restaurant("Los Pollos Hermanos", RestaurantType.barbecue, true,
 //				new Location("111333", "412111", new Address("Niksicka", "46A", new City("Belgrade", "181000"))),

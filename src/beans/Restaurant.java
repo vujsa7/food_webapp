@@ -18,7 +18,6 @@ public class Restaurant implements IIdentifiable<Integer>{
    	public Restaurant(String name, RestaurantType restaurantType, Boolean isOpen, Location location, String logo, String bannerImage, double rating,
 			ArrayList<Article> articles, boolean isDeleted) {
    		super();
-   		this.id = 0;
 		this.name = name;
 		this.restaurantType = restaurantType;
 		this.isOpen = isOpen;
@@ -92,6 +91,10 @@ public class Restaurant implements IIdentifiable<Integer>{
 	
 	public void setArticles(ArrayList<Article> articles) {
 		this.articles = articles;
+	}
+	
+	public void addArticle(Article article) {
+		this.articles.add(article);
 	}
 
 	@Override
