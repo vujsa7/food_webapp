@@ -3,7 +3,7 @@
     "id": 0,
     "name": "Grill 5",
     "restaurantType": "barbecue",
-    "isOperating": true,
+    "isOpen": true,
     "logo" : "../assets/images/logos/restaurant-logos/grill5.png",
     "bannerImage": "../assets/images/restaurant-images/grill5.jpg",
     "rating": 0.0,
@@ -26,7 +26,7 @@
     "id": 1,
     "name": "Los Pollos Hermanos",
     "restaurantType": "barbecue",
-    "isOperating": true,
+    "isOpen": true,
     "logo" : "../assets/images/logos/restaurant-logos/los-pollos-hermanos.png",
     "bannerImage": "../assets/images/restaurant-images/los-pollos-hermanos.jpg",
     "rating": 0.0,
@@ -49,7 +49,7 @@
     "id": 3,
     "name": "Dine Fine",
     "restaurantType": "italian",
-    "isOperating": true,
+    "isOpen": true,
     "logo" : "../assets/images/logos/restaurant-logos/dine-fine.png",
     "bannerImage": "../assets/images/restaurant-images/dine-fine.jpg",
     "rating": 0.0,
@@ -72,7 +72,7 @@
     "id": 4,
     "name": "The Bacon Diet",
     "restaurantType": "barbecue",
-    "isOperating": true,
+    "isOpen": false,
     "logo" : "../assets/images/logos/restaurant-logos/the-bacon-diet.png",
     "bannerImage": "../assets/images/restaurant-images/the-bacon-diet.jpg",
     "rating": 0.0,
@@ -85,6 +85,52 @@
         "city": {
           "name": "Novi Sad",
           "postalCode": "21000"
+        }
+      }
+    },
+    "articles": [],
+    "isDeleted": false
+  },
+  {
+    "id": 5,
+    "name": "McDonalds",
+    "restaurantType": "barbecue",
+    "isOpen": true,
+    "logo" : "../assets/images/logos/restaurant-logos/mcdonalds.png",
+    "bannerImage": "../assets/images/restaurant-images/mcdonalds.jpg",
+    "rating": 0.0,
+    "location": {
+      "longitude": "166113",
+      "latitude": "433321",
+      "address": {
+        "street": "Laze Kostica",
+        "number": "2",
+        "city": {
+          "name": "Novi Sad",
+          "postalCode": "21000"
+        }
+      }
+    },
+    "articles": [],
+    "isDeleted": false
+  },
+  {
+    "id": 6,
+    "name": "Burger King",
+    "restaurantType": "barbecue",
+    "isOpen": true,
+    "logo" : "../assets/images/logos/restaurant-logos/burger-king.png",
+    "bannerImage": "../assets/images/restaurant-images/burger-king.jpg",
+    "rating": 0.0,
+    "location": {
+      "longitude": "444156",
+      "latitude": "515322",
+      "address": {
+        "street": "Knez Mihajlova",
+        "number": "33A",
+        "city": {
+          "name": "Belgrade",
+          "postalCode": "113000"
         }
       }
     },

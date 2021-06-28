@@ -7,7 +7,7 @@ public class Restaurant implements IIdentifiable<Integer>{
 	private int id;
 	private String name;
    	private RestaurantType restaurantType;
-   	private Boolean isOperating;
+   	private Boolean isOpen;
    	private String logo;
    	private String bannerImage;
    	private double rating;
@@ -15,13 +15,13 @@ public class Restaurant implements IIdentifiable<Integer>{
    	private ArrayList<Article> articles;
    	private boolean isDeleted;
    	
-   	public Restaurant(String name, RestaurantType restaurantType, Boolean isOperating, Location location, String logo, String bannerImage, double rating,
+   	public Restaurant(String name, RestaurantType restaurantType, Boolean isOpen, Location location, String logo, String bannerImage, double rating,
 			ArrayList<Article> articles, boolean isDeleted) {
    		super();
    		this.id = 0;
 		this.name = name;
 		this.restaurantType = restaurantType;
-		this.isOperating = isOperating;
+		this.isOpen = isOpen;
 		this.logo = logo;
 		this.bannerImage = bannerImage;
 		this.rating = rating;
@@ -46,12 +46,12 @@ public class Restaurant implements IIdentifiable<Integer>{
 		this.restaurantType = restaurantType;
 	}
 	
-	public Boolean getIsOperating() {
-		return isOperating;
+	public Boolean getIsOpen() {
+		return isOpen;
 	}
 	
-	public void setIsOperating(Boolean isOperating) {
-		this.isOperating = isOperating;
+	public void setIsOpen(Boolean isOpen) {
+		this.isOpen = isOpen;
 	}
 	
 	public String getLogo() {

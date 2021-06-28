@@ -134,32 +134,32 @@
             <div class="row mb-5 ps-5 py-5 filter-container">
               <h1 class="basic-title px-0">Cuisine</h1>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="show-all-checkbox" checked>
+                <input class="form-check-input" type="checkbox" :disabled="checkedCuisines[0] == 'showAll'"  value="showAll" v-model="checkedCuisines" v-on:change="filterCuisines('showAll')">
                 <label class="form-check-label" for="flexCheckDefault">
                   Show all
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="barbeque-checkbox">
+                <input class="form-check-input" type="checkbox" value="barbecue" v-model="checkedCuisines" v-on:change="filterCuisines">
                 <label class="form-check-label" for="flexCheckDefault">
-                  Barbeque
+                  Barbecue
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="italian-checkbox">
+                <input class="form-check-input" type="checkbox" value="italian" v-model="checkedCuisines" v-on:change="filterCuisines">
                 <label class="form-check-label" for="flexCheckDefault">
                   Italian
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="chinese-checkbox">
+                <input class="form-check-input" type="checkbox" value="chinese" v-model="checkedCuisines" v-on:change="filterCuisines">
                 <label class="form-check-label" for="flexCheckDefault">
                   Chinese
                 </label>
               </div>
               <h1 class="basic-title pt-3 px-0">Status</h1>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="show-open-checkbox" checked>
+                <input class="form-check-input" type="checkbox" value="true" v-model="checkedOpenRestaurants">
                 <label class="form-check-label" for="flexCheckDefault">
                   Show only open restaurants
                 </label>
@@ -195,7 +195,7 @@
             </div>
           </div>
           <div class="col-8 ps-5">
-            <restaurant-search-results></restaurant-search-results>
+            <restaurant-search-results :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants"></restaurant-search-results>
           </div>
         </div>
       </div>
@@ -205,7 +205,7 @@
 
   <script type="text/x-template" id="restaurant-search-results-template">
     <div>
-      <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
+      <div v-for="restaurant in filteredRestaurants" v-bind:key="restaurant.id">
         <div class="card restaurant-card mb-4">
           <div class="row g-0">
             <div class="col-md-4">
