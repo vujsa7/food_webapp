@@ -9,6 +9,7 @@ import com.google.gson.JsonSyntaxException;
 
 import beans.*;
 import dao.*;
+import dto.RegisterNewRestaurantDTO;
 
 public class RestaurantService {
 	private RestaurantDAO restaurantDao;
@@ -50,5 +51,18 @@ public class RestaurantService {
 			}
 		}
 		return restaurantBuyers;
+	}
+	
+	public User getById(String userId) throws JsonSyntaxException, IOException {
+		return userDao.getById(userId);
+	}
+	
+	public Restaurant registerNewRestaurant(RegisterNewRestaurantDTO newRestaurantDTO) throws JsonSyntaxException, IOException {
+		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, newRestaurantDTO.getLocation(), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), 0.0,new ArrayList<Article>(), false);
+		restaurant.setID(restaurantDao.generateId());
+		Manager manager = (Manager) userDao.getById(newRestaurantDTO.getManager());
+		manager.setRestaurant(restaurant.getID());
+		userDao.update(manager);
+		return restaurantDao.create(restaurant);
 	}
 }

@@ -1,6 +1,7 @@
 package controllers;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 import java.security.Key;
 
@@ -11,7 +12,9 @@ import beans.Administrator;
 import beans.Buyer;
 import beans.DeliveryWorker;
 import beans.Manager;
+import beans.Restaurant;
 import beans.User;
+import dto.RegisterNewRestaurantDTO;
 import dto.RegisterNewUserDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -59,6 +62,30 @@ public class RestaurantController {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    // ako nije bacio izuzetak, onda je OK
 				    return gson.toJson(restaurantService.getUsersFromRestaurant(claims.getBody().getSubject()));
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			return "No user logged in.";
+		});
+		
+		post("/restaurants/addRrestaurant", (req,res) -> {
+			res.type("application/json");
+			RegisterNewUserDTO updatedProfile = gson.fromJson(req.body(), RegisterNewUserDTO.class);
+			String auth = req.headers("Authorization");
+			System.out.println("Authorization: " + auth);
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
+				    // ako nije bacio izuzetak, onda je OK
+				    User loggedInUser = restaurantService.getById(claims.getBody().getSubject());
+				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
+				    	res.status(403);
+				    	return "";
+				    }
+				    Restaurant newRestaurant = restaurantService.registerNewRestaurant(gson.fromJson(req.body(), RegisterNewRestaurantDTO.class));
+					return gson.toJson(newRestaurant);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
