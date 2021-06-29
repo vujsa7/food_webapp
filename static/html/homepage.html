@@ -92,33 +92,34 @@
         <div v-bind:class="{ 'sticky-search' : stickySearch }">
           <div class="row search-fields g-4 m-0" >
             <div class="col-xl-3 mb-3 ps-0">
-              <input type="text" class="form-control" id="restaurantNameField" placeholder="Restaurant name...">
+              <input type="text" class="form-control" placeholder="Restaurant name..." v-model="searchParameters[0]">
             </div>
             <div class="col-xl-3 mb-3 ps-0">
-              <input type="text" class="form-control" id="locationField" placeholder="Location...">
+              <input type="text" class="form-control" placeholder="Location..." v-model="searchParameters[1]">
             </div>
             <div class="col-xl-3 ps-0">
               <div class="input-group mb-3">
-                <select class="form-select" id="inputGroupSelect01">
-                  <option selected>Cuisine...</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                <select class="form-select" v-model="searchParameters[2]">
+                  <option value="allCuisines">Cuisine...</option>
+                  <option value="Barbecue">Barbecue</option>
+                  <option value="Italian">Italian</option>
+                  <option value="Chinese">Chinese</option>
                 </select>
               </div>
             </div>
             <div class="col-xl-2 ps-0">
               <div class="input-group mb-3">
-                <select class="form-select" id="inputGroupSelect01">
-                  <option selected>Rating...</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                <select class="form-select" v-model="searchParameters[3]">
+                  <option value="allRatings">Rating...</option>
+                  <option value="4-5">4-5 stars</option>
+                  <option value="3-4">3-4 stars</option>
+                  <option value="2-3">2-3 stars</option>
+                  <option value="1-2">1-2 stars</option>
                 </select>
               </div>
             </div>
             <div class="col-xl-1 mb-4 ps-0">
-              <button type="button" class="btn btn-danger button-regular">Search</button>
+              <button type="button" class="btn btn-danger button-regular" :disabled="searchParameters[0] == '' && searchParameters[1] == '' && searchParameters[2] == 'allCuisines' && searchParameters[3]=='allRatings'" @click="searchRestaurants">Search</button>
             </div>
           </div>
         </div>
@@ -131,36 +132,37 @@
         <div class="row">
           <div v-bind:class="{ 'col-4' : stickySearch }"></div>
           <div class="col-4" v-bind:class="{ 'sticky-filter-and-sort' : stickySearch }">
+
             <div class="row mb-5 ps-5 py-5 filter-container">
               <h1 class="basic-title px-0">Cuisine</h1>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" :disabled="checkedCuisines[0] == 'showAll'"  value="showAll" v-model="checkedCuisines" v-on:change="filterCuisines('showAll')">
-                <label class="form-check-label" for="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" :disabled="checkedCuisines[0] == 'showAll'"  value="showAll" v-model="checkedCuisines" v-on:change="filterCuisines('showAll')" id="flexCheckShowAll">
+                <label class="form-check-label" for="flexCheckShowAll">
                   Show all
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="barbecue" v-model="checkedCuisines" v-on:change="filterCuisines">
-                <label class="form-check-label" for="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" value="barbecue" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckBarbeque">
+                <label class="form-check-label" for="flexCheckBarbeque">
                   Barbecue
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="italian" v-model="checkedCuisines" v-on:change="filterCuisines">
-                <label class="form-check-label" for="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" value="italian" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckItalian">
+                <label class="form-check-label" for="flexCheckItalian">
                   Italian
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="chinese" v-model="checkedCuisines" v-on:change="filterCuisines">
-                <label class="form-check-label" for="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" value="chinese" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckChinese">
+                <label class="form-check-label" for="flexCheckChinese">
                   Chinese
                 </label>
               </div>
               <h1 class="basic-title pt-3 px-0">Status</h1>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="true" v-model="checkedOpenRestaurants">
-                <label class="form-check-label" for="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" value="true" v-model="checkedOpenRestaurants" id="flexCheckStatus">
+                <label class="form-check-label" for="flexCheckStatus">
                   Show only open restaurants
                 </label>
               </div>
@@ -168,34 +170,53 @@
 
             <div class="row mb-5 ps-5 pb-3 pt-3 sort-container">
               <h1 class="basic-title pt-3 px-0">Sort by</h1>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Usual
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Restaurant name
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Nearest location
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Rating
-                </label>
+              <div class="row">
+                <div class="col-9">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="usual" v-model="sortBy" id="flexRadioUsual">
+                    <label class="form-check-label" for="flexRadioUsual">
+                      Usual
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="name" v-model="sortBy" id="flexRadioName">
+                    <label class="form-check-label" for="flexRadioName">
+                      Restaurant name
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="location" v-model="sortBy" id="flexRadioLocation">
+                    <label class="form-check-label" for="flexRadioLocation">
+                      Nearest location
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" value="rating" v-model="sortBy" id="flexRadioRating">
+                    <label class="form-check-label" for="flexRadioRating">
+                      Rating
+                    </label>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="height: 41px;"></div>
+                  <div v-for="(sortOrder, index) in sortOrders">
+                    <div class="row sort-order-container">
+                      <div class="col px-0 pt-1" style="text-align:end;">
+                        <img :src="sortOrder == 'Asc' ? '../assets/icons/ascending.png' : '../assets/icons/descending.png'" class="img-fluid sort-icon">
+                      </div>
+                      <div class="col px-0">
+                        <a class="nav-link" href="#" @click="sortOrderChanged($event, index)">{{sortOrder}}</a>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
               </div>
             </div>
+
           </div>
           <div class="col-8 ps-5">
-            <restaurant-search-results :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants"></restaurant-search-results>
+            <restaurant-search-results ref="child1" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters"></restaurant-search-results>
           </div>
         </div>
       </div>

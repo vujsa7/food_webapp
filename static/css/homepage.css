@@ -269,6 +269,35 @@
     color: #a2a2a2
 }
 
+.sort-container a{
+    color:#a2a2a2;
+    font-family: 'Rubik', sans-serif;
+    font-size: 25px;
+    font-weight: 300;
+    white-space: nowrap;
+    padding:0;
+    height: 37px;
+}
+
+.sort-container a:visited{
+    color: #a2a2a2;
+}
+
+.sort-container a:hover{
+    color: #a2a2a2;
+}
+
+.sort-icon{
+    height: 20px;
+    width: 20px;
+}
+
+.sort-order-container{
+    margin-bottom: 2px;
+    height: 39px;
+    
+}
+
 .restaurant-img {
     height:256px;
     object-fit: cover;
