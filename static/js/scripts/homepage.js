@@ -3,8 +3,10 @@ let restaurantSearchResultsComponent = {
   template:'#restaurant-search-results-template',
   data(){
     return {
-      restaurants : [],
+      restaurants : [], // restaurants fetched from backend
       filteredRestaurants: [],
+      searchedRestaurants: [],
+      displayRestaurants: [],
     }
   },
   props:[
@@ -13,7 +15,8 @@ let restaurantSearchResultsComponent = {
     'sortRestaurantsBy',
     'sortOrders',
     'sortOrdersIndex',
-    'searchParameters'
+    'searchParameters',
+    'displayMode'
   ],
   mounted(){
     // Get all restaurants from server
@@ -21,61 +24,79 @@ let restaurantSearchResultsComponent = {
     .then(response => {
       this.restaurants = response.data;
       this.restaurants = this.restaurants.sort(this.compareByOpenRestaurants);
-      this.filteredRestaurants = this.restaurants;
+      this.displayRestaurants = this.restaurants;
     })
     .catch(function(error){
       console.log(error);
     })
   },
   watch: { 
+    displayMode: function(){
+      if(this.displayMode == "normal"){
+        this.displayRestaurants = this.restaurants;
+      }
+    },
     cuisinesToDisplay: function(){
-      if(this.cuisinesToDisplay.includes("showAll"))
-        this.filteredRestaurants = this.restaurants;
-      this.filteredRestaurants = this.restaurants.filter(this.filterCusines);
+        if(this.displayMode == "normal")
+          this.displayRestaurants = this.restaurants.filter(this.filterCusines);
+        else // search mode
+          this.displayRestaurants = this.searchedRestaurants.filter(this.filterCusines);
     },
     openRestaurantsToDisplay: function(){
-      // Show only open restaurants
-      if(this.openRestaurantsToDisplay==true){
-        this.filteredRestaurants = this.restaurants.filter(
-          restaurant => restaurant.isOpen == this.openRestaurantsToDisplay
-        );
-      } else {
-        // Show open & closed restaurants
-        this.filteredRestaurants = this.restaurants;
+      if(this.displayMode == "normal"){
+        // Show only open restaurants
+        if(this.openRestaurantsToDisplay == true){
+          this.displayRestaurants = this.restaurants.filter(
+            restaurant => restaurant.isOpen == this.openRestaurantsToDisplay
+          );
+        } else {
+          // Show open & closed restaurants
+          this.displayRestaurants = this.restaurants;
+        }
+      } else { // search mode
+        // Show only open restaurants
+        if(this.openRestaurantsToDisplay==true){
+          this.displayRestaurants = this.searchedRestaurants.filter(
+            restaurant => restaurant.isOpen == this.openRestaurantsToDisplay
+          );
+        } else {
+          // Show open & closed restaurants
+          this.displayRestaurants = this.searchedRestaurants;
+        }
       }
     },
     sortRestaurantsBy: function(){
       if(this.sortRestaurantsBy == "usual")
-        this.filteredRestaurants = this.restaurants.sort(this.compareByIdRestaurants);
+        this.displayRestaurants = this.displayRestaurants.sort(this.compareByIdRestaurants);
       else if(this.sortRestaurantsBy == "name")
-        this.filteredRestaurants = this.restaurants.sort(this.compareByNameRestaurants);
+        this.displayRestaurants = this.displayRestaurants.sort(this.compareByNameRestaurants);
       else if(this.sortRestaurantsBy == "location")
-        this.filteredRestaurants = this.restaurants.sort(this.compareByLocationRestaurants);
+        this.displayRestaurants = this.displayRestaurants.sort(this.compareByLocationRestaurants);
       else if(this.sortRestaurantsBy == "rating")
-        this.filteredRestaurants = this.restaurants.sort(this.compareByRatingRestaurants);
+        this.displayRestaurants = this.displayRestaurants.sort(this.compareByRatingRestaurants);
     },
     sortOrders: function(){
       switch(this.sortOrdersIndex){
         case 0: 
-          this.filteredRestaurants = this.restaurants.sort(this.compareByNameRestaurants);
+          this.displayRestaurants = this.displayRestaurants.sort(this.compareByNameRestaurants);
           break;
         case 1:
-          this.filteredRestaurants = this.restaurants.sort(this.compareByLocationRestaurants);
+          this.displayRestaurants = this.displayRestaurants.sort(this.compareByLocationRestaurants);
           break;
         case 2:
-          this.filteredRestaurants = this.restaurants.sort(this.compareByRatingRestaurants);
+          this.displayRestaurants = this.displayRestaurants.sort(this.compareByRatingRestaurants);
           break;
       }
     }
   },
   methods:{
     // Filter method for returning all restaurants that meet all the criteriums specified inside search bar
-    filterRestaurants(restaurant){
+    filterRestaurantsFromSearch(restaurant){
       if(this.searchParameters[0] != "")
         if(!restaurant.name.toLowerCase().includes(this.searchParameters[0].toLowerCase()))
           return false;
       if(this.searchParameters[1] != "")
-        if(!restaurant.location.address.city.name.includes(this.searchParameters[1]) && !restaurant.location.address.street.includes(this.searchParameters[1]) && !(restaurant.location.address.number == this.searchParameters[1]))
+        if(!restaurant.location.address.city.name.toLowerCase().includes(this.searchParameters[1].toLowerCase()) && !restaurant.location.address.street.toLowerCase().includes(this.searchParameters[1].toLowerCase()) && !(restaurant.location.address.number.toLowerCase()== this.searchParameters[1].toLowerCase()))
           return false;
       if(this.searchParameters[2] != "allCuisines")
         if(restaurant.restaurantType != this.searchParameters[2].toLowerCase())
@@ -160,7 +181,8 @@ let restaurantSearchResultsComponent = {
       return 0;
     },
     searchRestaurants(){
-      this.filteredRestaurants = this.restaurants.filter(this.filterRestaurants);
+      this.searchedRestaurants = this.restaurants.filter(this.filterRestaurantsFromSearch);
+      this.displayRestaurants = this.searchedRestaurants;
     }
   }
 };
@@ -175,6 +197,7 @@ new Vue({
       sortBy: "usual",
       sortOrders: ["A-Z", "Desc", "Desc"],
       sortOrdersIndex : undefined,
+      displayMode: "normal"
     },
     components: {
       restaurantSearchResults : restaurantSearchResultsComponent
@@ -198,7 +221,7 @@ new Vue({
           this.checkedCuisines = ["showAll"]
         }
       },
-      // Method that is  controlling which sortOrder is applied to each row of "Sort by" options
+      // Method that is controlling which sortOrder is applied to each row of "Sort by" options
       sortOrderChanged(e, index){
         e.preventDefault();
         if(index === 0){
@@ -220,7 +243,24 @@ new Vue({
       },
       searchRestaurants(e){
         e.preventDefault();
+        if(this.searchParameters[2] != "allCuisines")
+          this.checkedCuisines = [this.searchParameters[2].toLowerCase()];
+        this.adjustFilterAndSortValues();
+        this.displayMode = "search";
         this.$refs.child1.searchRestaurants();
+      },
+      // Method that is setting checkboxes and radio buttons back to start state
+      adjustFilterAndSortValues(){
+        this.checkedOpenRestaurants = undefined;
+        this.sortBy = "usual";
+        this.sortOrders = ["A-Z", "Desc", "Desc"];
+        this.sortOrdersIndex = undefined;
+      },
+      showAllRestaurants(e){
+        e.preventDefault();
+        this.checkedCuisines = ["showAll"];
+        this.adjustFilterAndSortValues();
+        this.displayMode = "normal";
       }
     },
     created() {

@@ -129,6 +129,7 @@
 
       <!--Search results body-->
       <div class="container-fluid search-result-body">
+        <div style="height: 2000px; position: absolute; top:1200px; width: 100%; z-index: -100; clear:both"></div>
         <div class="row">
           <div v-bind:class="{ 'col-4' : stickySearch }"></div>
           <div class="col-4" v-bind:class="{ 'sticky-filter-and-sort' : stickySearch }">
@@ -142,8 +143,8 @@
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="barbecue" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckBarbeque">
-                <label class="form-check-label" for="flexCheckBarbeque">
+                <input class="form-check-input" type="checkbox" value="barbecue" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckBarbecue">
+                <label class="form-check-label" for="flexCheckBarbecue">
                   Barbecue
                 </label>
               </div>
@@ -216,7 +217,17 @@
 
           </div>
           <div class="col-8 ps-5">
-            <restaurant-search-results ref="child1" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters"></restaurant-search-results>
+            <div class="row search-results-container">
+              <div class="col-3 px-0 pt-1" style="text-align:end;">
+                <h2 class="search-results-header ps-3" :hidden="displayMode!='search'">Search results</h2>
+              </div>
+              <div class="col px-0 pt-1">
+                <a class="nav-link" href="#" @click="showAllRestaurants" :hidden="displayMode!='search'">Show all restaurants</a>
+
+              </div>
+            </div>
+            
+            <restaurant-search-results ref="child1" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters" :display-mode="displayMode"></restaurant-search-results>
           </div>
         </div>
       </div>
@@ -226,7 +237,7 @@
 
   <script type="text/x-template" id="restaurant-search-results-template">
     <div>
-      <div v-for="restaurant in filteredRestaurants" v-bind:key="restaurant.id">
+      <div v-for="restaurant in displayRestaurants" v-bind:key="restaurant.id">
         <div class="card restaurant-card mb-4">
           <div class="row g-0">
             <div class="col-md-4">
