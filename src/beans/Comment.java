@@ -9,6 +9,7 @@ public class Comment implements IIdentifiable<Integer>{
    	private int restaurant;
 	private String buyer;
 	private boolean isDeleted;
+	private boolean isApproved;
 	
 	public Comment() {
 		
@@ -37,6 +38,14 @@ public class Comment implements IIdentifiable<Integer>{
 	}
 	public void setBuyer(String buyer) {
 		this.buyer = buyer;
+	}
+	
+	public boolean getIsApproved() {
+		return this.isApproved;
+	}
+	
+	public void setIsApproved(boolean isApproved) {
+		this.isApproved = isApproved;
 	}
 
 	@Override

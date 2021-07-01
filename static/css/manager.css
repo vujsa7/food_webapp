@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;700&display=swap');
+
+#landing-image-restaurant{
+    width:100%;
+    height:370px;
+    margin-top:180px;
+}
+
+.logo-margin{
+	position: absolute;
+	margin-left: 5%;
+	margin-top: 20px;
+}
+
+.name-margin{
+	position:absolute;
+	margin-left: 10%;
+	margin-top: 30px;
+}
+
+.grade-margin{
+	margin-left: 30%;
+	margin-top: 30px;
+}
+
+.cuisine-margin{
+	position:absolute;
+	margin-left: 90%;
+	margin-top: 30px;
+}
+
+.articles-header{
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color:#181e27;
+    text-align: left;
+}
+
+.add-item-margin{
+	position:absolute;
+	margin-left: 90%;
+}

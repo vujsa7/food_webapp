@@ -2,6 +2,7 @@ package controllers;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import java.security.Key;
 
@@ -29,8 +30,7 @@ public class RestaurantController {
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	
 	public RestaurantController(RestaurantService restaurantService) {
-		
-		
+	
 		get("rest/restaurants/", (req, res) -> {
 			res.type("application/json");
 			return gson.toJson(restaurantService.getAllRestaurants());
@@ -72,7 +72,6 @@ public class RestaurantController {
 		
 		post("/restaurants/addRestaurant", (req,res) -> {
 			res.type("application/json");
-			RegisterNewUserDTO updatedProfile = gson.fromJson(req.body(), RegisterNewUserDTO.class);
 			String auth = req.headers("Authorization");
 			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
@@ -96,7 +95,6 @@ public class RestaurantController {
 		
 		post("/restaurants/addArticle", (req,res) -> {
 			res.type("application/json");
-			RegisterNewUserDTO updatedProfile = gson.fromJson(req.body(), RegisterNewUserDTO.class);
 			String auth = req.headers("Authorization");
 			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
@@ -124,9 +122,8 @@ public class RestaurantController {
 			return "No user logged in.";
 		});
 		
-		post("/restaurants/updateRestaurant", (req,res) -> {
+		put("/restaurants/updateRestaurant", (req,res) -> {
 			res.type("application/json");
-			RegisterNewUserDTO updatedProfile = gson.fromJson(req.body(), RegisterNewUserDTO.class);
 			String auth = req.headers("Authorization");
 			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
