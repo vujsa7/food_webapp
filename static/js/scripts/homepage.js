@@ -268,6 +268,7 @@ new Vue({
     },
     computed: {
       // Method that returns true if window is scrolled past through certain amounts of pixels - in order to stick search menu to top
-      stickySearch() { return this.scrolled > 1060 }
+      stickySearch() { return this.scrolled > 893 },
+      
     }
   })
