@@ -1,4 +1,36 @@
 
+const searchWrapper = document.getElementById('search-wrapper');
+
+function getOffset(el) {
+  return document.querySelector('#search-wrapper').getBoundingClientRect().top
+}
+
+function findPos(obj) {
+	var curleft = curtop = 0;
+  if (obj.offsetParent) {
+    do {
+			curleft += obj.offsetLeft;
+			curtop += obj.offsetTop;
+    } while (obj = obj.offsetParent);
+    return curtop
+  }
+}
+
+
+var cumulativeOffset = function(element) {
+  var top = 0, left = 0;
+  do {
+      top += element.offsetTop  || 0;
+      left += element.offsetLeft || 0;
+      element = element.offsetParent;
+  } while(element);
+
+  return {
+      top: top,
+      left: left
+  };
+};
+
 let restaurantSearchResultsComponent = {
   template:'#restaurant-search-results-template',
   data(){
@@ -184,6 +216,14 @@ let restaurantSearchResultsComponent = {
       this.searchedRestaurants = this.restaurants.filter(this.filterRestaurantsFromSearch);
       this.displayRestaurants = this.searchedRestaurants;
     }
+  },
+  computed:{
+    isSearchMode(){ 
+      if(this.displayMode == "normal") 
+        return false;
+      else
+        return true;
+    }
   }
 };
 
@@ -197,14 +237,24 @@ new Vue({
       sortBy: "usual",
       sortOrders: ["A-Z", "Desc", "Desc"],
       sortOrdersIndex : undefined,
-      displayMode: "normal"
+      displayMode: "normal",
+      searchWrapperPosition: 10000,
+      socialMediaLogo: [
+        "../../assets/icons/linkedin-logo.png",
+        "../../assets/icons/facebook-logo.png",
+        "../../assets/icons/instagram-logo.png",
+        "../../assets/icons/linkedin-logo.png",
+        "../../assets/icons/facebook-logo.png",
+        "../../assets/icons/instagram-logo.png"
+      ]
     },
     components: {
       restaurantSearchResults : restaurantSearchResultsComponent
     },
     methods: {
       handleScroll() {
-        this.scrolled = window.scrollY
+        this.scrolled = window.scrollY;
+        this.checkOffset();
       },
       // Method that is controling which checkbox is disabled/enabled based on some conditions
       filterCuisines(val){
@@ -261,14 +311,56 @@ new Vue({
         this.checkedCuisines = ["showAll"];
         this.adjustFilterAndSortValues();
         this.displayMode = "normal";
+      },
+      changeToDarkLogo(index){
+        if(index == 0 || index == 3)
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
+        else if(index == 1 || index == 4)
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo-dark.png");
+        else
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo-dark.png");
+      },
+      changeToLightLogo(index){
+        if(index == 0 || index == 3)
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo.png");
+        else if(index == 1 || index == 4)
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo.png");
+        else
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
+      },
+      checkOffset(){
+        
+        if(document.getElementById("filter-sort-wrapper").getBoundingClientRect().top + this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight
+          >= document.getElementById("footer").offsetTop){
+          document.getElementById("filter-sort-wrapper").style.position = 'absolute';
+          document.getElementById("filter-sort-wrapper").style.top = 'auto';
+          document.getElementById("filter-sort-wrapper").style.bottom = '0px';
+        } 
+
+        // restore if location is above footer and when if should not stick
+        if(this.scrolled + window.innerHeight < document.getElementById("footer").offsetTop){
+            document.getElementById("filter-sort-wrapper").style.position = 'static';
+        }
+
+        // restore to sticky when scrolling above
+        if((this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 < document.getElementById("footer").offsetTop ) && this.stickySearch){
+          document.getElementById("filter-sort-wrapper").style.position = 'fixed'; 
+          document.getElementById("filter-sort-wrapper").style.top = '120px';
+          document.getElementById("filter-sort-wrapper").style.bottom = 'auto';
+        }
+         
       }
     },
     created() {
-      window.addEventListener('scroll', this.handleScroll)
+      window.addEventListener('scroll', this.handleScroll);
+      this.searchWrapperPosition = findPos(searchWrapper);
     },
     computed: {
       // Method that returns true if window is scrolled past through certain amounts of pixels - in order to stick search menu to top
-      stickySearch() { return this.scrolled > 893 },
-      
+      stickySearch() {
+        return this.scrolled > this.searchWrapperPosition;
+      }
     }
   })
+
+  

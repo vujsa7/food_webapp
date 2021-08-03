@@ -15,6 +15,7 @@ body{
     color: #181e27;
     width: 100%;
     min-height: 100vh;
+    
 }
 
 input, textarea, select{
@@ -28,6 +29,10 @@ input, textarea, select{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+#content{
+    position:relative;
 }
 
 #hero-image{
@@ -133,7 +138,7 @@ input, textarea, select{
     color: #FE0435;
 }
 
-.button-with-shadow{
+/* .button-with-shadow{
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: Bold;
@@ -142,8 +147,8 @@ input, textarea, select{
     border-radius: 9px;
     border-width: 0;
     background-color: #FE0435;
-    box-shadow: 0 0 20px #FE0435;
-}
+     box-shadow: 0 0 20px #FE0435;
+} */
 
 .hero-container{
     margin-top: 7.7vw;
@@ -180,7 +185,7 @@ input, textarea, select{
     font-family: 'Rubik', sans-serif;
 }
 
-.button-no-shadow{
+.regular-button{
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: Bold;
@@ -197,7 +202,7 @@ input, textarea, select{
     width: 100%;
     background-color: #181e27;
     z-index: 100;
-    padding-top:20px;
+    padding-top: 20px;
 }
 
 @media screen and (max-width: 992px) {
@@ -282,7 +287,7 @@ input, textarea, select{
         flex-direction: column;
     }
 
-    .search-wrapper .button-with-shadow{
+    .search-wrapper .regular-button{
         width: 100%;
     }
 
@@ -295,12 +300,6 @@ input, textarea, select{
         padding-right: 0;
         padding-bottom: 15px;
     }
-}
-
-.sticky-filter-and-sort{
-    position: fixed;
-    top: 147px;
-    z-index: 100;
 }
 
 .form-control:focus{
@@ -332,18 +331,6 @@ input, textarea, select{
     }
 }
 
-/* .flex-container-column{
-    display: flex;
-    flex-direction: column;
-}
-
-.flex-container-row{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-} */
-
 .shrinking-margin{
     width: 14.479vw;
 }
@@ -360,18 +347,29 @@ input, textarea, select{
 }
 
 .search-body-container{
-    display: flex;
+    
     width: 100%;
 }
 
-.big-filter-search-container{
-    padding-top: 40px;
+.big-filter-sort-container{
+    padding-top: 30px;
     font-family: 'Rubik', sans-serif;
-    width: 338px;
+    min-width: 338px;
+}
+
+.filter-sort-wrapper-sticky{
+    position: fixed;
+    top: 120px;
 }
 
 @media screen and (max-width: 992px) {
-    .big-filter-search-container{
+    .big-filter-sort-container{
+        display: none;
+    }
+}
+
+@media screen and (max-height: 683px) {
+    .big-filter-sort-container{
         display: none;
     }
 }
@@ -393,7 +391,7 @@ input, textarea, select{
 }
 
 .last-form-check{
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .form-check-input:checked {
@@ -424,8 +422,8 @@ input, textarea, select{
     border-width: 0px;
     width: 338px; 
     padding-left: 2.604vw;
-    padding-top: 2.083vw;
-    margin-bottom: 40px;
+    padding-top: 20px;
+    margin-bottom: 30px;
 }
 
 .filter-sort-container a{
@@ -445,6 +443,21 @@ input, textarea, select{
     color: #a2a2a2;
 }
 
+/* .filter-sticky{
+    position: fixed;
+    top: 120px;
+}
+
+.sort-sticky{
+    position: fixed;
+    top: 460px;
+} */
+
+.empty-filter-sort{
+    margin: 0;
+    width: 338px;
+}
+
 .sort-icon{
     height: 20px;
     width: 20px;
@@ -460,9 +473,12 @@ input, textarea, select{
 
 .restaurants-body{
     width: 100%;
-    padding-top: 40px;
-    padding-left: 3.64vw;
+    padding-left: 1.82vw;
     font-family: 'Rubik', sans-serif;
+}
+
+.restaurant-body-search-mode{
+    padding-top: 30px;
 }
 
 .restaurant-card{
@@ -470,7 +486,7 @@ input, textarea, select{
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
     border-radius: 15px;
     border-width: 0px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .restaurant-img{
@@ -528,10 +544,22 @@ input, textarea, select{
     }
 }
 
+@media screen and (max-width: 576px){
+    .restaurant-img{
+        display: none;
+    }
+}
+
+.search-results{
+    padding-top: 30px;
+    padding-left: 3.64vw;
+    align-items: center;
+}
+
 .search-results-header{
     font-weight: bold;
     color:#181e27;
-    text-align: left;
+    margin: 0;
 }
 
 .search-results-container a{
@@ -546,4 +574,31 @@ input, textarea, select{
 
 .search-results-container a:hover{
     color: #a2a2a2;
+}
+
+footer{
+    background-color: #20242b;
+    
+}
+
+footer .copyright{
+    background-color: #181e27;
+}
+
+.footer-info{
+    justify-content: space-between;
+}
+
+.btn-circle {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+}
+
+.link-image{
+    width: 12px;
+    height: 12px;
 }
