@@ -38,7 +38,7 @@ input, textarea, select{
 #hero-image{
     width: 100vw;
     position: absolute;
-    z-index: -100;
+    z-index: -1;
     top:0;
     
 }
@@ -46,7 +46,7 @@ input, textarea, select{
 .landing-image-background-xl{
     width: 100vw;
     text-align: right;
-    z-index: -100;
+    z-index: -1;
 }
 
 .navigation-container{
@@ -54,7 +54,7 @@ input, textarea, select{
 }
 
 .navbar{
-    height: 68px;
+    min-height: 68px;
 }
 
 .nav-item{
@@ -76,6 +76,7 @@ input, textarea, select{
 .navbar-toggler{
     justify-content: center;
     margin-left: 7.292vw;
+    margin-bottom: 12px;
 }
 
 .navbar-collapse{
@@ -85,7 +86,7 @@ input, textarea, select{
 @media screen and (max-width: 992px) {
     .navbar-collapse{
         justify-content: center;
-        margin-left: c;
+        margin-left: 7.292vw;
     }
     .nav-item{
         padding: 0.2rem 1.3vw ;
@@ -107,7 +108,7 @@ input, textarea, select{
     left: 0;
     right: 0;
     text-align: center;
-    z-index: -2;
+    z-index: -1;
 }
 
 .signin-signup-container{
@@ -137,18 +138,6 @@ input, textarea, select{
 .signin-signup-container a:hover{
     color: #FE0435;
 }
-
-/* .button-with-shadow{
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: Bold;
-    width: 150px;
-    height: 50px;
-    border-radius: 9px;
-    border-width: 0;
-    background-color: #FE0435;
-     box-shadow: 0 0 20px #FE0435;
-} */
 
 .hero-container{
     margin-top: 7.7vw;
@@ -201,7 +190,7 @@ input, textarea, select{
     top: 0;
     width: 100%;
     background-color: #181e27;
-    z-index: 100;
+    z-index: 1;
     padding-top: 20px;
 }
 
@@ -302,8 +291,14 @@ input, textarea, select{
     }
 }
 
+.modal-content .form-control, .modal-content .form-select{
+    box-shadow: 0px 0px 0px 1px rgb(162,162,162);
+}
+
+.modal-content
+
 .form-control:focus{
-    box-shadow: 0px 0px 10px #00BC8B;
+    box-shadow: 0px 0px 0px 2px rgba(64, 145, 255, 0.4);
 }
 
 .form-select{
@@ -317,7 +312,7 @@ input, textarea, select{
 }
 
 .form-select:focus{
-    box-shadow: 0px 0px 10px #00BC8B;
+    box-shadow: 0px 0px 0px 2px rgba(64, 145, 255, 0.4);
 }
 
 .sticky-empty-div{
@@ -347,7 +342,6 @@ input, textarea, select{
 }
 
 .search-body-container{
-    
     width: 100%;
 }
 
@@ -355,6 +349,7 @@ input, textarea, select{
     padding-top: 30px;
     font-family: 'Rubik', sans-serif;
     min-width: 338px;
+    min-height: 625px;
 }
 
 .filter-sort-wrapper-sticky{
@@ -400,7 +395,7 @@ input, textarea, select{
 }
 
 .form-check-input:focus {
-    box-shadow: 0px 0px 5px #00BC8B;
+    box-shadow: 0px 0px 0px 2px rgba(64, 145, 255, 0.4);
 }
 
 .form-check-input{
@@ -417,7 +412,7 @@ input, textarea, select{
 
 .filter-sort-container{
     margin: 0;
-    box-shadow: 0px 0px 5px #0000001a;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
     border-radius: 15px;
     border-width: 0px;
     width: 338px; 
@@ -578,7 +573,6 @@ input, textarea, select{
 
 footer{
     background-color: #20242b;
-    
 }
 
 footer .copyright{
@@ -601,4 +595,138 @@ footer .copyright{
 .link-image{
     width: 12px;
     height: 12px;
+}
+
+.modal {
+    font-size: 16px;
+    font-weight: lighter;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+  
+.modal-content {
+    position: relative;
+    background-color: white;
+    margin: auto;
+    padding: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 452px;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    border-radius: 9px;
+    border: 0px;
+    overflow-y: auto; /* Enable scroll if needed */
+    max-height: 100vh;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:50%; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:50%; opacity:1}
+}
+
+.modal-header {
+    font-size: 20px;
+    padding: 0;
+    padding-top: 30px;
+    font-weight: bold;
+    border-bottom: 0px;
+    position: relative;
+}
+
+.close {
+    color: #a2a2a2;
+    position: absolute;
+    right: 50px;
+    font-size: 28px;
+    font-weight: 300;
+    margin-top: 4px;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+.border-bottom-sign-up{
+    position: absolute;
+    width: 50%;
+    bottom: 0;
+    left: 50%;
+    border-bottom: 2px solid #181e27 !important;
+}
+
+.border-bottom-sign-in{
+    position: absolute;
+    width: 50%;
+    bottom: 0;
+    right: 50%;
+    border-bottom: 2px solid #181e27 !important;
+}
+
+.modal-header .modal-buttons{
+    font-weight: 300;
+    width: 100%;
+    justify-content: space-around;
+    padding-top: 18px;
+    padding-bottom: 13px;
+}
+
+.modal-buttons span:hover{
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 18px 50px 30px 50px;
+}
+
+.date-of-birth-holder div{
+    width: 100%;
+}
+
+.form-control-label{
+    margin-bottom: 5px;
+}
+
+.modal-content .regular-button{
+    width: 100%;
+}
+
+.modal ::-webkit-scrollbar {
+    width: 12px;
+}
+
+.modal ::-webkit-scrollbar-track {
+    background-color:white;
+    box-shadow: inset 0 0 3px #a2a2a2;
+}
+
+.modal ::-webkit-scrollbar-thumb {
+    background: #a2a2a2; 
+    border-radius: 10px;
+}
+
+.modal ::-webkit-scrollbar-thumb:hover {
+    background: #898989; 
+}
+
+.error-message{
+    font-size: 14px;
+    color: red;
 }

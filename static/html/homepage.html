@@ -13,10 +13,19 @@
     <script type="text/javascript" src="../js/bootstrap-5.0.1-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/axios.js"></script>
+    <script type="text/javascript" src="../js/vuelidate.min.js"></script>
+    <script type="text/javascript" src="../js/validators.min.js"></script>
   </head>
 
   <body>
+    
     <div id="homepage">
+      <div id="sign-up-modal" class="modal">
+        <register-info></register-info>
+      </div>
+      <div id="sign-in-modal" class="modal">
+        <login-info></login-info>
+      </div>
       <div id="content">
         <!--Visible only on xl-->
         <img class="img-fluid d-none d-xl-block" src="../assets/components/hero-image.png" id="hero-image">
@@ -46,10 +55,10 @@
                   <li class="nav-item">
                     <a class="nav-link py-0" href="#">About us</a>
                   </li>
-                  <li class="nav-item d-lg-none">
+                  <li class="nav-item d-lg-none signinlink">
                     <a class="nav-link py-0" href="#">Sing in</a>
                   </li>
-                  <li class="nav-item d-lg-none">
+                  <li class="nav-item d-lg-none signuplink">
                     <a class="nav-link py-0" href="#">Sign up</a>
                   </li>
                 </ul>
@@ -58,13 +67,12 @@
             <div class="d-none d-lg-block">
               <div class="signin-signup-container mt-2">
                 <div>
-                  <a class="nav-link" href="#">Sign in</a>
+                  <a id="signinbtn" class="nav-link" href="#">Sign in</a>
                 </div>
                 <div>
-                  <button type="button" class="btn btn-danger regular-button">Sign up</button>
+                  <button id="signupbtn" type="button" class="btn btn-danger regular-button">Sign up</button>
                 </div>
               </div> 
-              
             </div>
           </nav>
         </div>
@@ -140,19 +148,19 @@
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input m-0" type="checkbox" value="barbecue" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckBarbecue">
+                      <input class="form-check-input m-0" type="checkbox" value="barbecue" v-model="checkedCuisines" v-on:change="filterCuisines()" id="flexCheckBarbecue">
                       <label class="form-check-label" for="flexCheckBarbecue">
                         Barbecue
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input m-0" type="checkbox" value="italian" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckItalian">
+                      <input class="form-check-input m-0" type="checkbox" value="italian" v-model="checkedCuisines" v-on:change="filterCuisines()" id="flexCheckItalian">
                       <label class="form-check-label" for="flexCheckItalian">
                         Italian
                       </label>
                     </div>
                     <div class="form-check last-form-check">
-                      <input class="form-check-input m-0" type="checkbox" value="chinese" v-model="checkedCuisines" v-on:change="filterCuisines" id="flexCheckChinese">
+                      <input class="form-check-input m-0" type="checkbox" value="chinese" v-model="checkedCuisines" v-on:change="filterCuisines()" id="flexCheckChinese">
                       <label class="form-check-label" for="flexCheckChinese">
                         Chinese
                       </label>
@@ -275,7 +283,6 @@
         </div>
       </footer>
     </div>
-    
   </body>
 
   <script type="text/x-template" id="restaurant-search-results-template">
@@ -302,5 +309,119 @@
       </div>
     </div>
   </script>
+  <script type="text/x-template" id="register-info-template">
+    <div class="modal-content">
+      <div class="modal-header d-flex flex-column">
+        <div class="d-flex flex-row align-items-center">
+          <span class="align-self-center">Create an account</span>
+          <span class="close">&times;</span>
+        </div>
+        <div class="d-flex flex-row modal-buttons">
+          <span class="signinspan">
+            Sign in
+          </span>
+          <span class="fw-bold">
+            Sign up
+          </span>
+        </div>
+        <div class="border-bottom-sign-up"></div>
+      </div>
+      <div class="modal-body">
+        <form action="http://localhost:8081/rest/register/" method="post" @submit.prevent="submitForm()" autocomplete="off">
+          <div class="mb-1">
+            <label class="form-control-label">Name</label>
+            <input v-model="form.name" type="text" class="form-control">
+            <p v-if="$v.form.name.$invalid" class="error-message">The name field is required.</p>
+          </div>
+          <div class="mb-1">
+            <label class="form-control-label">Surname</label>
+            <input v-model="form.surname" type="text" class="form-control">
+            <p v-if="$v.form.surname.$invalid" class="error-message">The surname field is required.</p>
+          </div>
+          <div class="mb-1">
+            <label class="form-control-label">Gender</label>
+            <select v-model="form.gender" class="form-select">
+              <option value="selectGender">Select gender...</option>
+              <option value="4-5">Male</option>
+              <option value="3-4">Female</option>
+            </select>
+            <p v-if="$v.form.name.$invalid" class="error-message">The gender field is required.</p>
+          </div>
+          <label class="form-control-label">Date of Birth</label>
+          <div class="d-flex d-row mb-1 justify-content-between date-of-birth-holder">
+            <div class="me-3">
+              <select v-model="form.yearOfBirth" class="form-select">
+                <option value="YYYY">YYYY</option>
+                <option v-for="x in dateOfBirthYears">
+                  {{x}}
+                </option>
+              </select>
+            </div>
+            <div class="me-3">
+              <select v-model="form.monthOfBirth" class="form-select" >
+                <option value="MM">MM</option>
+                <option v-for="x in dateOfBirthMonths">
+                  {{x}}
+                </option>
+              </select>
+            </div>
+            <div>
+              <select v-model="form.dayOfBirth" class="form-select">
+                <option value="DD">DD</option>
+                <option v-for="x in dateOfBirthDays">
+                  {{x}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <p v-if="$v.form.name.$invalid" class="error-message">The date of birth field is required.</p>
+          <div class="mb-1">
+            <label class="form-control-label">Username</label>
+            <input v-model="form.username" type="text" class="form-control">
+            <p v-if="$v.form.name.$invalid" class="error-message">The username can't contain special characters.</p>
+          </div>
+          <div class="mb-4">
+            <label class="form-control-label">Password</label>
+            <input v-model="form.password" type="password" class="form-control">
+            <p v-if="$v.form.name.$invalid" class="error-message">Password must contain at least 6 characters.</p>
+          </div>
+          <button :disabled="$v.form.$invalid" type="submit" class="btn btn-danger regular-button">Register</button>
+        </form>
+      </div>
+    </div>
+  </script>
+  <script type="text/x-template" id="login-info-template">
+    <div class="modal-content">
+      <div class="modal-header d-flex flex-column">
+        <div class="d-flex flex-row align-items-center">
+          <span class="align-self-center">Login to your account</span>
+          <span class="close">&times;</span>
+        </div>
+        <div class="d-flex flex-row modal-buttons">
+          <span class="fw-bold">
+            Sign in
+          </span>
+          <span class="signupspan">
+            Sign up
+          </span>
+        </div>
+        <div class="border-bottom-sign-in"></div>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="mb-1">
+            <label class="form-control-label">Username</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="mb-4">
+            <label class="form-control-label">Password</label>
+            <input type="password" class="form-control">
+          </div>
+          <button type="button" class="btn btn-danger regular-button">Sign in</button>
+        </form>
+      </div>
+    </div>
+  </script>
   <script type="text/javascript" src="../js/scripts/homepage.js"></script>
+  <script type="text/javascript" src="../js/scripts/modal-popup.js"></script>
 </html>

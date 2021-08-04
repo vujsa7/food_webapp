@@ -1,9 +1,7 @@
 
 const searchWrapper = document.getElementById('search-wrapper');
 
-function getOffset(el) {
-  return document.querySelector('#search-wrapper').getBoundingClientRect().top
-}
+Vue.use(vuelidate.default);
 
 function findPos(obj) {
 	var curleft = curtop = 0;
@@ -16,20 +14,9 @@ function findPos(obj) {
   }
 }
 
-
-var cumulativeOffset = function(element) {
-  var top = 0, left = 0;
-  do {
-      top += element.offsetTop  || 0;
-      left += element.offsetLeft || 0;
-      element = element.offsetParent;
-  } while(element);
-
-  return {
-      top: top,
-      left: left
-  };
-};
+function range(start, end) {
+  return Array(end - start + 1).fill().map((_, idx) => start + idx)
+}
 
 let restaurantSearchResultsComponent = {
   template:'#restaurant-search-results-template',
@@ -227,6 +214,89 @@ let restaurantSearchResultsComponent = {
   }
 };
 
+let registerInfoComponent = {
+  template: '#register-info-template',
+  data(){
+    return{
+      dateOfBirthYears: range(1991, 2021),
+      dateOfBirthMonths: ['Jan', 'Feb', 'Mart', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+      dateOfBirthDays: range(1,30),
+      form:{
+        name: null,
+        surname: null,
+        gender: null,
+        yearOfBirth: null,
+        monthOfBirth: null,
+        dayOfBirth: null,
+        username: null,
+        password: null
+      }
+    }
+  },
+  validations:{
+    form:{
+      name:{
+        required: validators.required,
+        
+      },
+      surname:{
+        required: validators.required
+      }
+    }
+  },
+  // computed:{
+  //   nameIsValid(){
+  //     return !!this.form.name;
+  //   },
+  //   surnameIsValid(){
+  //     return true;
+  //   },
+  //   genderIsValid(){
+  //     return true;
+  //   },
+  //   dateOfBirthIsValid(){
+  //     return !!this.form.yearOfBirth && !!this.form.monthOfBirth && !!this.form.dayOfBirth && this.form.yearOfBirth != "YYYY" && this.form.monthOfBirth != "MM" && this.form.dayOfBirth != "DD";
+  //   },
+  //   usernameIsValid(){
+  //     return true;
+  //   },
+  //   passwordIsValid(){
+  //     return true;
+  //   },
+  //   formIsValid(){
+  //     return this.nameIsValid && this.surnameIsValid && this.genderIsValid && this.dateOfBirthIsValid && this.usernameIsValid && this.passwordIsValid;
+  //   }
+  // },
+  methods: {
+    // submitForm(){
+    //   if(this.formIsValid){
+    //     console.log("form submitted");
+    //   } else {
+    //     console.log("invalid form");
+    //   }
+    // }
+     submitForm(){
+      if(!this.$v.form.$invalid){
+        console.log("form submitted");
+      } else {
+        console.log("invalid form");
+      }
+    }
+  }
+}
+
+let loginInfoComponent = {
+  template: '#login-info-template',
+  data(){
+    return{
+      form:{
+        username: null,
+        password: null
+      }
+    }
+  }
+}
+
 new Vue({
     el: '#homepage',
     data: {
@@ -246,10 +316,12 @@ new Vue({
         "../../assets/icons/linkedin-logo.png",
         "../../assets/icons/facebook-logo.png",
         "../../assets/icons/instagram-logo.png"
-      ]
+      ],
     },
     components: {
-      restaurantSearchResults : restaurantSearchResultsComponent
+      restaurantSearchResults : restaurantSearchResultsComponent,
+      registerInfo: registerInfoComponent,
+      loginInfo: loginInfoComponent
     },
     methods: {
       handleScroll() {
@@ -329,7 +401,7 @@ new Vue({
           Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
       },
       checkOffset(){
-        
+
         if(document.getElementById("filter-sort-wrapper").getBoundingClientRect().top + this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight
           >= document.getElementById("footer").offsetTop){
           document.getElementById("filter-sort-wrapper").style.position = 'absolute';
@@ -338,17 +410,16 @@ new Vue({
         } 
 
         // restore if location is above footer and when if should not stick
-        if(this.scrolled + window.innerHeight < document.getElementById("footer").offsetTop){
+        if(this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 <= document.getElementById("footer").offsetTop){
             document.getElementById("filter-sort-wrapper").style.position = 'static';
         }
 
         // restore to sticky when scrolling above
-        if((this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 < document.getElementById("footer").offsetTop ) && this.stickySearch){
+        if((this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 <= document.getElementById("footer").offsetTop ) && this.stickySearch){
           document.getElementById("filter-sort-wrapper").style.position = 'fixed'; 
           document.getElementById("filter-sort-wrapper").style.top = '120px';
           document.getElementById("filter-sort-wrapper").style.bottom = 'auto';
         }
-         
       }
     },
     created() {
