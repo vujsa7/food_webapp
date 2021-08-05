@@ -291,6 +291,14 @@ input, textarea, select{
     }
 }
 
+.field-invalid{
+    box-shadow: 0px 0px 0px 1px #FE0435 !important; 
+}
+
+.field-valid{
+    box-shadow: 0px 0px 0px 1px #00BC8B !important;
+}
+
 .modal-content .form-control, .modal-content .form-select{
     box-shadow: 0px 0px 0px 1px rgb(162,162,162);
 }
@@ -728,5 +736,10 @@ footer .copyright{
 
 .error-message{
     font-size: 14px;
-    color: red;
+    color: #FE0435;
 }
+
+.invalid-feedback{
+    display:inline;
+}
+

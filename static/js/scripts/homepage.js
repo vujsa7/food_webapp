@@ -1,4 +1,3 @@
-
 const searchWrapper = document.getElementById('search-wrapper');
 
 Vue.use(vuelidate.default);
@@ -16,6 +15,10 @@ function findPos(obj) {
 
 function range(start, end) {
   return Array(end - start + 1).fill().map((_, idx) => start + idx)
+}
+
+function daysInMonth (month, year) {
+  return new Date(year, month, 0).getDate();
 }
 
 let restaurantSearchResultsComponent = {
@@ -117,10 +120,10 @@ let restaurantSearchResultsComponent = {
       if(this.searchParameters[1] != "")
         if(!restaurant.location.address.city.name.toLowerCase().includes(this.searchParameters[1].toLowerCase()) && !restaurant.location.address.street.toLowerCase().includes(this.searchParameters[1].toLowerCase()) && !(restaurant.location.address.number.toLowerCase()== this.searchParameters[1].toLowerCase()))
           return false;
-      if(this.searchParameters[2] != "allCuisines")
+      if(this.searchParameters[2] != "")
         if(restaurant.restaurantType != this.searchParameters[2].toLowerCase())
           return false;
-      if(this.searchParameters[3] != "allRatings")
+      if(this.searchParameters[3] != "")
         switch(this.searchParameters[3]){
           case "4-5":
             if(restaurant.rating < 4)
@@ -214,34 +217,63 @@ let restaurantSearchResultsComponent = {
   }
 };
 
+const isSelected = (value) => value != "";
+const usernameRegex = new RegExp('[^a-zA-Z0-9]');
+const isUsernameValid = (value) => !usernameRegex.test(value);
+
 let registerInfoComponent = {
   template: '#register-info-template',
   data(){
     return{
       dateOfBirthYears: range(1991, 2021),
-      dateOfBirthMonths: ['Jan', 'Feb', 'Mart', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
-      dateOfBirthDays: range(1,30),
+      dateOfBirthMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       form:{
-        name: null,
-        surname: null,
-        gender: null,
-        yearOfBirth: null,
-        monthOfBirth: null,
-        dayOfBirth: null,
-        username: null,
-        password: null
+        name: "",
+        surname: "",
+        gender: "",
+        yearOfBirth: "",
+        monthOfBirth: "",
+        dayOfBirth: "",
+        username: "",
+        password: ""
       }
     }
   },
   validations:{
     form:{
       name:{
-        required: validators.required,
-        
+        required: validators.required
       },
       surname:{
-        required: validators.required
+        required : validators.required
+      },
+      gender:{
+        isSelected
+      },
+      yearOfBirth:{
+        isSelected
+      },
+      monthOfBirth:{
+        isSelected
+      },
+      dayOfBirth:{
+        isSelected
+      },
+      username:{
+        required: validators.required,
+        isUsernameValid
+      },
+      password:{
+        required: validators.required,
+        minLength: validators.minLength(3)
       }
+    }
+  },
+  computed:{
+    dateOfBirthDays(){
+      if(this.form.monthOfBirth == "" || this.form.yearOfBirth == "")
+        return range(1, 30);
+      return range(1, daysInMonth(parseInt(this.form.monthOfBirth), parseInt(this.form.yearOfBirth)))
     }
   },
   // computed:{
@@ -277,6 +309,15 @@ let registerInfoComponent = {
     // }
      submitForm(){
       if(!this.$v.form.$invalid){
+        // axios.post("http://localhost:8081/rest/signup/")
+        // .then(response => {
+        //   this.restaurants = response.data;
+        //   this.restaurants = this.restaurants.sort(this.compareByOpenRestaurants);
+        //   this.displayRestaurants = this.restaurants;
+        // })
+        // .catch(function(error){
+        //   console.log(error);
+        // })
         console.log("form submitted");
       } else {
         console.log("invalid form");
@@ -290,8 +331,20 @@ let loginInfoComponent = {
   data(){
     return{
       form:{
-        username: null,
-        password: null
+        username: "",
+        password: ""
+      }
+    }
+  },
+  validations:{
+    form:{
+      username:{
+        required: validators.required,
+        isUsernameValid
+      },
+      password:{
+        required: validators.required,
+        minLength: validators.minLength(3)
       }
     }
   }
@@ -301,7 +354,7 @@ new Vue({
     el: '#homepage',
     data: {
       scrolled: 0,
-      searchParameters : ["","", "allCuisines", "allRatings"],
+      searchParameters : ["", "", "", ""],
       checkedCuisines: ["showAll"],
       checkedOpenRestaurants: undefined,
       sortBy: "usual",
@@ -365,7 +418,7 @@ new Vue({
       },
       searchRestaurants(e){
         e.preventDefault();
-        if(this.searchParameters[2] != "allCuisines")
+        if(this.searchParameters[2] != "")
           this.checkedCuisines = [this.searchParameters[2].toLowerCase()];
         this.adjustFilterAndSortValues();
         this.displayMode = "search";

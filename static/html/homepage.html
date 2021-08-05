@@ -106,7 +106,7 @@
                 </div>
                 <div>
                   <select class="form-select" v-model="searchParameters[2]">
-                    <option value="allCuisines">Cuisine...</option>
+                    <option value="" disabled selected>Cuisine...</option>
                     <option value="Barbecue">Barbecue</option>
                     <option value="Italian">Italian</option>
                     <option value="Chinese">Chinese</option>
@@ -114,7 +114,7 @@
                 </div>
                 <div>
                   <select class="form-select" v-model="searchParameters[3]">
-                    <option value="allRatings">Rating...</option>
+                    <option value="" disabled selected>Rating...</option>
                     <option value="4-5">4-5 stars</option>
                     <option value="3-4">3-4 stars</option>
                     <option value="2-3">2-3 stars</option>
@@ -123,7 +123,7 @@
                 </div>
               </div>
               <div>
-                <button type="button" class="btn btn-danger regular-button" :disabled="searchParameters[0] == '' && searchParameters[1] == '' && searchParameters[2] == 'allCuisines' && searchParameters[3]=='allRatings'" @click="searchRestaurants">Search</button>
+                <button type="button" class="btn btn-danger regular-button" :disabled="searchParameters[0] == '' && searchParameters[1] == '' && searchParameters[2] == '' && searchParameters[3]==''" @click="searchRestaurants">Search</button>
               </div>
             </div>
           </div>
@@ -330,60 +330,73 @@
         <form action="http://localhost:8081/rest/register/" method="post" @submit.prevent="submitForm()" autocomplete="off">
           <div class="mb-1">
             <label class="form-control-label">Name</label>
-            <input v-model="form.name" type="text" class="form-control">
-            <p v-if="$v.form.name.$invalid" class="error-message">The name field is required.</p>
+            <input v-model="form.name" @blur="$v.form.name.$touch()" type="text" :class="{'field-invalid': $v.form.name.$dirty, 'field-valid': (!$v.form.name.$invalid && form.name != '')}" class="form-control">
+            <div v-if="$v.form.name.$dirty">
+              <span class="error-message" v-if="$v.form.name.$invalid">Name is required.</span>
+            </div>
           </div>
           <div class="mb-1">
             <label class="form-control-label">Surname</label>
-            <input v-model="form.surname" type="text" class="form-control">
-            <p v-if="$v.form.surname.$invalid" class="error-message">The surname field is required.</p>
+            <input v-model="form.surname" @blur="$v.form.surname.$touch()" type="text" :class="{'field-invalid': $v.form.surname.$dirty, 'field-valid': (!$v.form.surname.$invalid && form.surname != '')}" class="form-control" >
+            <div v-if="$v.form.surname.$dirty">
+              <span class="error-message" v-if="$v.form.surname.$invalid">Surname is required.</span>
+            </div>
           </div>
           <div class="mb-1">
             <label class="form-control-label">Gender</label>
-            <select v-model="form.gender" class="form-select">
-              <option value="selectGender">Select gender...</option>
-              <option value="4-5">Male</option>
-              <option value="3-4">Female</option>
+            <select @blur="$v.form.gender.$touch()" v-model="form.gender" :class="{'field-invalid': $v.form.gender.$dirty, 'field-valid': (!$v.form.gender.$invalid && form.gender != '')}" class="form-select">
+              <option value="" disabled selected>Select gender...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
             </select>
-            <p v-if="$v.form.name.$invalid" class="error-message">The gender field is required.</p>
+            <div v-if="$v.form.gender.$dirty">
+              <span class="error-message" v-if="$v.form.gender.$invalid">Gender is required.</span>
+            </div>
           </div>
           <label class="form-control-label">Date of Birth</label>
           <div class="d-flex d-row mb-1 justify-content-between date-of-birth-holder">
             <div class="me-3">
               <select v-model="form.yearOfBirth" class="form-select">
-                <option value="YYYY">YYYY</option>
+                <option value="" disabled selected>YYYY</option>
                 <option v-for="x in dateOfBirthYears">
                   {{x}}
                 </option>
               </select>
             </div>
             <div class="me-3">
-              <select v-model="form.monthOfBirth" class="form-select" >
-                <option value="MM">MM</option>
+              <select :disabled="form.yearOfBirth == ''" v-model="form.monthOfBirth" class="form-select" >
+                <option value="" disabled selected>MM</option>
                 <option v-for="x in dateOfBirthMonths">
                   {{x}}
                 </option>
               </select>
             </div>
             <div>
-              <select v-model="form.dayOfBirth" class="form-select">
-                <option value="DD">DD</option>
+              <select :disabled="form.monthOfBirth == ''" @blur="$v.form.dayOfBirth.$touch()" v-model="form.dayOfBirth" class="form-select">
+                <option value="" disabled selected>DD</option>
                 <option v-for="x in dateOfBirthDays">
                   {{x}}
                 </option>
               </select>
             </div>
           </div>
-          <p v-if="$v.form.name.$invalid" class="error-message">The date of birth field is required.</p>
+          <div v-if="$v.form.dayOfBirth.$dirty">
+            <span class="error-message" v-if="$v.form.dayOfBirth.$invalid">Please select a full date of birth.</span>
+          </div>
           <div class="mb-1">
             <label class="form-control-label">Username</label>
-            <input v-model="form.username" type="text" class="form-control">
-            <p v-if="$v.form.name.$invalid" class="error-message">The username can't contain special characters.</p>
+            <input @blur="$v.form.username.$touch()" v-model="form.username" type="text" :class="{'field-invalid': $v.form.username.$dirty, 'field-valid': (!$v.form.username.$invalid && form.username != '')}" class="form-control">
+            <div v-if="$v.form.username.$dirty">
+              <span class="error-message" v-if="!$v.form.username.required">Username is required.</span>
+              <span class="error-message" v-if="!$v.form.username.isUsernameValid">Special characters aren't allowed.</span>
+            </div>
           </div>
           <div class="mb-4">
             <label class="form-control-label">Password</label>
-            <input v-model="form.password" type="password" class="form-control">
-            <p v-if="$v.form.name.$invalid" class="error-message">Password must contain at least 6 characters.</p>
+            <input @blur="$v.form.password.$touch()" v-model="form.password" type="password" :class="{'field-invalid': $v.form.password.$dirty, 'field-valid': (!$v.form.password.$invalid && form.password != '')}" class="form-control">
+            <div v-if="$v.form.password.$dirty">
+              <span class="error-message" v-if="$v.form.password.$invalid">Password must contain at least 3 characters.</span>
+            </div>
           </div>
           <button :disabled="$v.form.$invalid" type="submit" class="btn btn-danger regular-button">Register</button>
         </form>
@@ -411,11 +424,17 @@
         <form action="">
           <div class="mb-1">
             <label class="form-control-label">Username</label>
-            <input type="text" class="form-control">
+            <input @blur="$v.form.username.$touch()" v-model="form.username" type="text" class="form-control">
+            <div v-if="$v.form.username.$dirty">
+              <span class="error-message" v-if="!$v.form.username.required">Username is required.</span>
+            </div>
           </div>
           <div class="mb-4">
             <label class="form-control-label">Password</label>
-            <input type="password" class="form-control">
+            <input @blur="$v.form.password.$touch()" v-model="form.password" type="password" class="form-control">
+            <div v-if="$v.form.password.$dirty">
+              <span class="error-message" v-if="!$v.form.password.required">Password must contain at least 3 characters.</span>
+            </div>
           </div>
           <button type="button" class="btn btn-danger regular-button">Sign in</button>
         </form>
