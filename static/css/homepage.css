@@ -23,6 +23,10 @@ input, textarea, select{
     display:block
 }
 
+a:hover {
+    cursor: pointer;
+}
+
 #homepage{
     object-fit: cover;
     -webkit-background-size: cover;
@@ -303,8 +307,6 @@ input, textarea, select{
     box-shadow: 0px 0px 0px 1px rgb(162,162,162);
 }
 
-.modal-content
-
 .form-control:focus{
     box-shadow: 0px 0px 0px 2px rgba(64, 145, 255, 0.4);
 }
@@ -555,7 +557,7 @@ input, textarea, select{
 
 .search-results{
     padding-top: 30px;
-    padding-left: 3.64vw;
+    padding-left: 1.82vw;
     align-items: center;
 }
 
@@ -617,6 +619,19 @@ footer .copyright{
     height: 100%; /* Full height */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+
+.info-modal{
+    font-size: 16px;
+    font-weight: lighter;
+    position: absolute; /* Stay in place */
+    display: none;
+    z-index: 3; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
   
 .modal-content {
     position: relative;
@@ -634,6 +649,26 @@ footer .copyright{
     border: 0px;
     overflow-y: auto; /* Enable scroll if needed */
     max-height: 100vh;
+}
+
+.info-modal-content{
+    position: relative;
+    width: 540px;
+    background-color: white;
+    top: 50%;
+    margin: auto;
+    padding: 0;
+    transform: translate(0, -50%);
+    border-radius: 9px;
+    border: 0px;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+.info-modal-content .regular-button{
+    width: 150px !important;
 }
 
 /* Add Animation */

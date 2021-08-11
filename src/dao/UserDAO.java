@@ -14,7 +14,7 @@ import beans.User;
 public class UserDAO extends GenericDAOImpl<User, String>{
 
 	public UserDAO(String path) {
-		super(path, new TypeToken<ArrayList<User>>(){}.getType() ,createJSONSerializer());
+		super(path, new TypeToken<ArrayList<User>>(){}.getType(), createJSONSerializer());
 		// TODO Auto-generated constructor stub
 	}
 

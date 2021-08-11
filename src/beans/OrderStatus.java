@@ -1,11 +1,18 @@
 package beans;
 
-public enum OrderStatus {
-   processing,
-   inPreparation,
-   awaitingDelivery,
-   shipping,
-   delivered,
-   canceled;
+import com.google.gson.annotations.SerializedName;
 
+public enum OrderStatus {
+	@SerializedName("processing")
+   processing,
+   @SerializedName("inPreparation")
+   inPreparation,
+   @SerializedName("awaitingDelivery")
+   awaitingDelivery,
+   @SerializedName("shipping")
+   shipping,
+   @SerializedName("delivered")
+   delivered,
+   @SerializedName("canceled")
+   canceled;
 }

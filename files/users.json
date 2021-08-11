@@ -1,0 +1,59 @@
+[
+  {
+    "type": "Buyer",
+    "points": 0,
+    "buyerType": "bronze",
+    "discount": 0,
+    "orders": [],
+    "cart": {
+      "price": 0.0
+    },
+    "username": "aki",
+    "password": "car",
+    "name": "Aleksa",
+    "surname": "Vujisic",
+    "gender": "male",
+    "dateOfBirth": "Sep 16, 1999, 10:00:00 PM",
+    "accountType": "buyer",
+    "isDeleted": false,
+    "isBlocked": false
+  },
+  {
+    "type": "Buyer",
+    "points": 0,
+    "buyerType": "bronze",
+    "discount": 0,
+    "orders": [],
+    "cart": {
+      "price": 0.0
+    },
+    "username": "gordon",
+    "password": "ramsey",
+    "name": "Gordon",
+    "surname": "Ramsey",
+    "gender": "male",
+    "dateOfBirth": "Mar 14, 1968, 11:00:00 PM",
+    "accountType": "buyer",
+    "isDeleted": false,
+    "isBlocked": false
+  },
+  {
+    "type": "Buyer",
+    "points": 0,
+    "buyerType": "bronze",
+    "discount": 0,
+    "orders": [],
+    "cart": {
+      "price": 0.0
+    },
+    "username": "miki",
+    "password": "123",
+    "name": "Mihajlo",
+    "surname": "Vujisic",
+    "gender": "male",
+    "dateOfBirth": "Mar 29, 2001, 10:00:00 PM",
+    "accountType": "buyer",
+    "isDeleted": false,
+    "isBlocked": false
+  }
+]

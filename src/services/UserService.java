@@ -3,7 +3,6 @@ package services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -14,67 +13,8 @@ import dto.*;
 public class UserService {
 	private UserDAO userDao;
 	
-	public UserService(UserDAO userDao) {
-		this.userDao = userDao;
-	}
-	
-	public User registerNewBuyer(RegisterNewUserDTO newUser) throws JsonSyntaxException, IOException {
-		User checkUser = userDao.getById(newUser.getUsername());
-		if(checkUser != null) {
-			return null;
-		}
-		
-		if(newUser.getAccountType().equals(AccountType.buyer)) {
-			Buyer newBuyer = new Buyer(newUser.getUsername(), newUser.getPassword(), newUser.getName(), newUser.getSurname(),
-					newUser.getGender(), newUser.getDateOfBirth(), newUser.getAccountType(),false,false);
-			userDao.create(newBuyer);
-			return newBuyer;
-		}
-		return null;
-	}
-	
-	public User registerNewManager(RegisterNewUserDTO newUser) throws JsonSyntaxException, IOException {
-		User checkUser = userDao.getById(newUser.getUsername());
-		if(checkUser != null) {
-			return null;
-		}
-		
-		if(newUser.getAccountType().equals(AccountType.manager)) {
-			Manager manager = new Manager(newUser.getUsername(), newUser.getPassword(), newUser.getName(), newUser.getSurname(),
-					newUser.getGender(), newUser.getDateOfBirth(), newUser.getAccountType(),false,false);
-			userDao.create(manager);
-			return manager;
-		}
-		return null;
-	}
-	
-	public User registerNewDeliveryWorker(RegisterNewUserDTO newUser) throws JsonSyntaxException, IOException {
-		User checkUser = userDao.getById(newUser.getUsername());
-		if(checkUser != null) {
-			return null;
-		}
-		
-		if(newUser.getAccountType().equals(AccountType.deliveryWorker)) {
-			DeliveryWorker newDeliveryWorker = new DeliveryWorker(newUser.getUsername(), newUser.getPassword(), newUser.getName(), newUser.getSurname(),
-					newUser.getGender(), newUser.getDateOfBirth(), newUser.getAccountType(),false,false);
-			userDao.create(newDeliveryWorker);
-			return newDeliveryWorker;
-		}
-		return null;
-	}
-	
-	public User login(LoginDTO loginUser) throws JsonSyntaxException, IOException {
-		User checkUser = null;
-		if(loginUser.getUsername() != null) {
-			checkUser = userDao.getById(loginUser.getUsername());
-		}
-		
-		if(checkUser != null) {
-			if(checkUser.getPassword().equals(loginUser.getPassword())) {
-				return checkUser;
-			}
-		}
-		return null;
+	public UserService() {
+		this.userDao = new UserDAO("./files/users.json");;
 	}
 	
 	public Collection<User> getAll() throws JsonSyntaxException, IOException{
@@ -85,7 +25,7 @@ public class UserService {
 		return userDao.getById(userId);
 	}
 	
-	public Buyer updateBuyer(Buyer buyer, RegisterNewUserDTO updatedProfile) throws JsonSyntaxException, IOException {
+	public Buyer updateBuyer(Buyer buyer, UpdateUserDTO updatedProfile) throws JsonSyntaxException, IOException {
 		buyer.setName(updatedProfile.getName());
 		buyer.setSurname(updatedProfile.getSurname());
 		buyer.setUsername(updatedProfile.getUsername());
@@ -94,7 +34,7 @@ public class UserService {
 		return (Buyer) userDao.update(buyer);
 	}
 	
-	public Administrator updateAdministrator(Administrator admin, RegisterNewUserDTO updatedProfile) throws JsonSyntaxException, IOException {
+	public Administrator updateAdministrator(Administrator admin, UpdateUserDTO updatedProfile) throws JsonSyntaxException, IOException {
 		admin.setName(updatedProfile.getName());
 		admin.setSurname(updatedProfile.getSurname());
 		admin.setUsername(updatedProfile.getUsername());
@@ -103,7 +43,7 @@ public class UserService {
 		return (Administrator) userDao.update(admin);
 	}
 	
-	public Manager updateManager(Manager manager, RegisterNewUserDTO updatedProfile) throws JsonSyntaxException, IOException {
+	public Manager updateManager(Manager manager, UpdateUserDTO updatedProfile) throws JsonSyntaxException, IOException {
 		manager.setName(updatedProfile.getName());
 		manager.setSurname(updatedProfile.getSurname());
 		manager.setUsername(updatedProfile.getUsername());
@@ -112,7 +52,7 @@ public class UserService {
 		return (Manager) userDao.update(manager);
 	}
 	
-	public DeliveryWorker updateDeliveryWorker(DeliveryWorker deliveryWorker, RegisterNewUserDTO updatedProfile) throws JsonSyntaxException, IOException {
+	public DeliveryWorker updateDeliveryWorker(DeliveryWorker deliveryWorker, UpdateUserDTO updatedProfile) throws JsonSyntaxException, IOException {
 		deliveryWorker.setName(updatedProfile.getName());
 		deliveryWorker.setSurname(updatedProfile.getSurname());
 		deliveryWorker.setUsername(updatedProfile.getUsername());

@@ -3,17 +3,20 @@ package dto;
 import java.util.Date;
 
 import beans.Gender;
+import beans.Restaurant;
 
-public class RegisterNewUserDTO {
+public class RegisterNewManagerDTO {
+	
 	private String username;
    	private String password;
    	private String name;
    	private String surname;
    	private Gender gender;
    	private Date dateOfBirth;
+   	private Restaurant restaurant;
    	
-	public RegisterNewUserDTO(String username, String password, String name, String surname, Gender gender,
-			Date dateOfBirth) {
+	public RegisterNewManagerDTO(String username, String password, String name, String surname, Gender gender,
+			Date dateOfBirth, Restaurant restaurant) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -21,6 +24,7 @@ public class RegisterNewUserDTO {
 		this.surname = surname;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
+		this.restaurant = restaurant;
 	}
 
 	public String getUsername() {
@@ -69,5 +73,13 @@ public class RegisterNewUserDTO {
 
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 }

@@ -16,9 +16,13 @@ public class Buyer extends User {
    	}
    	
    	public Buyer(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
-			AccountType accountType, boolean isDeleted, boolean isBlocked) {
+			AccountType accountType, boolean isDeleted, boolean isBlocked, int points, BuyerType buyerType, int discount) {
 		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);
-		// TODO Auto-generated constructor stub
+		this.points = points;
+		this.buyerType = buyerType;
+		this.discount = discount;
+		this.orders = new ArrayList<Order>();
+		this.cart = new Cart();
 	}
    	
 	public int getPoints() {

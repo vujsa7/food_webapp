@@ -32,5 +32,5 @@ new Vue({
     },
     created() {
       window.addEventListener('scroll', this.handleScroll)
-    }
+    }}
   })

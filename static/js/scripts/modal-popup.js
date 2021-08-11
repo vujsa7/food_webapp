@@ -1,3 +1,4 @@
+
 var signUpModal = document.getElementById("sign-up-modal");
 
 // Get the button that opens the modal
@@ -31,6 +32,7 @@ signInLink.onclick = function() {
 var spanSignUp = document.getElementsByClassName("close")[0];
 var spanSignIn = document.getElementsByClassName("close")[1];
 
+
 // When the user clicks on <span> (x), close the modal
 spanSignUp.onclick = function() {
   signUpModal.style.display = "none";
@@ -52,4 +54,16 @@ signInSpan.onclick = function() {
   signUpModal.style.display = "none";
   signInModal.style.display = "block";
 }
+
+var dialogInfoModal = document.getElementById("dialog-info-modal");
+
+window.onclick = function(event) {
+  if (event.target == dialogInfoModal) {
+    dialogInfoModal.style.display = "none";
+  }
+}
+
+
+
+
 

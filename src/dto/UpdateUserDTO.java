@@ -4,7 +4,8 @@ import java.util.Date;
 
 import beans.Gender;
 
-public class RegisterNewUserDTO {
+public class UpdateUserDTO {
+	
 	private String username;
    	private String password;
    	private String name;
@@ -12,7 +13,7 @@ public class RegisterNewUserDTO {
    	private Gender gender;
    	private Date dateOfBirth;
    	
-	public RegisterNewUserDTO(String username, String password, String name, String surname, Gender gender,
+	public UpdateUserDTO(String username, String password, String name, String surname, Gender gender,
 			Date dateOfBirth) {
 		super();
 		this.username = username;

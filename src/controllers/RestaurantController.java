@@ -31,7 +31,7 @@ public class RestaurantController {
 	
 	public RestaurantController(RestaurantService restaurantService) {
 	
-		get("rest/restaurants/", (req, res) -> {
+		get("rest/restaurants", (req, res) -> {
 			res.type("application/json");
 			return gson.toJson(restaurantService.getAllRestaurants());
 		});

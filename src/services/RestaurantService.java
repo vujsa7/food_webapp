@@ -17,11 +17,11 @@ public class RestaurantService {
 	private OrderDAO orderDao;
 	private CommentDAO commentDao;
 	
-	public RestaurantService(RestaurantDAO restaurantDao, UserDAO userDao, OrderDAO orderDao, CommentDAO commentDao) {
-		this.restaurantDao = restaurantDao;
-		this.userDao = userDao;
-		this.orderDao = orderDao;
-		this.commentDao = commentDao;
+	public RestaurantService() {
+		this.restaurantDao = new RestaurantDAO("./files/restaurants.json");
+		this.userDao = new UserDAO("./files/users.json");
+		this.orderDao = new OrderDAO("./files/orders.json");
+		this.commentDao = new CommentDAO("./files/comments.json");
 	}
 	
 	public Collection<Restaurant> getAllRestaurants() throws JsonSyntaxException, IOException {

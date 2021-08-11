@@ -12,8 +12,8 @@ import dao.CommentDAO;
 public class CommentService {
 	private CommentDAO commentDao;
 	
-	public CommentService(CommentDAO commentDao) {
-		this.commentDao = commentDao;
+	public CommentService() {
+		this.commentDao = new CommentDAO("./files/comments.json");
 	}
 	
 	public Collection<Comment> getCommentsByRestaurant(int restaurantId) throws JsonSyntaxException, IOException{
