@@ -38,12 +38,7 @@ public class Main {
 		before((request, response) -> {
 			response.header("Access-Control-Allow-Origin", "*");
 		});
-		
-//		get("/", (request, response) -> {
-//			response.sendFile("");
-//			return response;
-//		});
-		
+	
 		
 		UserService userService = new UserService();
 		RegistrationService registrationService = new RegistrationService();
@@ -55,7 +50,7 @@ public class Main {
 
 		UserController userController = new UserController(userService);
 		RegistrationController registrationController = new RegistrationController(registrationService, userService);
-		LoginController loginController = new LoginController(loginService);
+		LoginController loginController = new LoginController(loginService, userService);
 		OrderController orderController = new OrderController(orderService);
 		CommentController commentController = new CommentController(commentService);
 		RestaurantController restaurantController = new RestaurantController(restaurantService);

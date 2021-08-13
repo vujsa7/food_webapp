@@ -1,0 +1,39 @@
+Vue.component("loading-view", {
+    methods: {
+        wait(ms){
+            var start = new Date().getTime();
+            var end = start;
+            while(end < start + ms) {
+              end = new Date().getTime();
+           }
+        }
+    },
+    mounted(){
+        // window.localStorage.setItem('token', undefined)
+        let token = window.localStorage.getItem('token');
+        if(!token)
+            return;
+        axios
+        .get("http://localhost:8081/rest/loginWithJwt", {
+            headers:{
+            'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => {
+            this.wait(500);  
+            this.$router.push({ name: 'homepageBuyer', params: { user: response.data }})
+        })
+        .catch(error => {
+            this.wait(500);
+            this.$router.push({ name: 'homepage'})
+        })
+    },
+    template:
+    `
+    <div class="loader-screen d-flex flex-column align-items-center justify-content-center">
+        <img id="full-logo" class="full-logo-splash" src="../assets/images/logos/full-logo.png" alt="Brand logo" >
+        <div class="loader"></div>
+    </div>
+    
+    `
+});

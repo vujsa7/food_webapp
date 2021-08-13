@@ -25,7 +25,7 @@ public class UserController {
 	
 	public UserController(UserService userService) {
 		
-		get("/user/getAll", (req,res) -> {
+		get("user/getAll", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
 			System.out.println("Authorization: " + auth);

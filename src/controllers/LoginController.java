@@ -1,27 +1,31 @@
 package controllers;
 
 import static spark.Spark.post;
+import static spark.Spark.get;
 
 import java.security.Key;
 import java.util.Date;
 
-import javax.servlet.http.Cookie;
 
 import com.google.gson.Gson;
 
 import beans.User;
+import dto.LoggedInBuyerDTO;
 import dto.LoginDTO;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import services.LoginService;
+import services.UserService;
 
 public class LoginController {
 	
 	private Gson gson = new Gson();
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	
-	public LoginController(LoginService loginService) {
+	public LoginController(LoginService loginService, UserService userService) {
 		
 		post("rest/login", (req,res) -> {
 			res.type("application/json");
@@ -42,6 +46,28 @@ public class LoginController {
 				e.printStackTrace();
 				return "";
 			}
+		});
+		
+		get("rest/loginWithJwt", (req, res) -> {
+			res.type("application/json");
+			String auth = req.headers("Authorization");
+			System.out.println("Authorization: " + auth);
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
+				    User user = userService.getById(claims.getBody().getSubject());
+				    res.status(200);
+				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth());
+				    return gson.toJson(loggedInBuyerDTO);
+				}catch (Exception e) {
+					e.printStackTrace();
+					res.status(401);
+					return "Your session has expired.";
+				}
+			}
+			res.status(401);
+			return "Please log in to continue.";
 		});
 	}
 

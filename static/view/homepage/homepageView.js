@@ -14,6 +14,7 @@ function findPos(obj) {
 Vue.component("homepage-view", {
   data(){
     return{
+        user: this.$route.params.user,
         scrolled: 0,
         searchParameters : ["", "", "", ""],
         checkedCuisines: ["showAll"],
@@ -34,7 +35,7 @@ Vue.component("homepage-view", {
     }
 },
 components: {
-    restaurantSearchResults : restaurantSearchResultsComponent,
+    restaurants: restaurantsComponent,
     registerDialog: registerDialogComponent,
     loginDialog: loginDialogComponent
 },
@@ -116,6 +117,7 @@ methods: {
         Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
     },
     checkOffset(){
+        if(!document.getElementById("filter-sort-wrapper")) return
         if(document.getElementById("filter-sort-wrapper").getBoundingClientRect().top + this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight
         >= document.getElementById("footer").offsetTop){
             document.getElementById("filter-sort-wrapper").style.position = 'absolute';
@@ -137,11 +139,65 @@ methods: {
     }
 },
 created() {
-    window.addEventListener('scroll', this.handleScroll);
+  window.addEventListener('scroll', this.handleScroll);
+  
 },
 mounted(){
   searchWrapper = document.getElementById('search-wrapper');
   this.searchWrapperPosition = findPos(searchWrapper);
+  if(!this.user){
+    var signUpModal = document.getElementById("sign-up-modal");
+    var signUpBtn = document.getElementById("signupbtn");
+    var signUpLink = document.getElementsByClassName("signuplink")[0];
+    var signInModal = document.getElementById("sign-in-modal");
+    var signInBtn = document.getElementById("signinbtn");
+    var signInLink = document.getElementsByClassName("signinlink")[0];
+    var spanSignUp = document.getElementsByClassName("close")[0];
+    var spanSignIn = document.getElementsByClassName("close")[1];
+    var signUpSpan = document.getElementsByClassName("signupspan")[0];
+    var signInSpan = document.getElementsByClassName("signinspan")[0];
+    var dialogInfoModal = document.getElementById("dialog-info-modal");
+
+    signUpBtn.onclick = function() {
+      signUpModal.style.display = "block";
+    }
+    
+    signUpLink.onclick = function() {
+      signUpModal.style.display = "block";
+    }
+    
+    signInBtn.onclick = function() {
+      signInModal.style.display = "block";
+    }
+    
+    signInLink.onclick = function() {
+      signInModal.style.display = "block";
+    }
+    
+    spanSignUp.onclick = function() {
+      signUpModal.style.display = "none";
+    }
+    
+    spanSignIn.onclick = function() {
+      signInModal.style.display = "none";
+    }
+    
+    signUpSpan.onclick = function() {
+      signUpModal.style.display = "block";
+      signInModal.style.display = "none";
+    }
+    
+    signInSpan.onclick = function() {
+      signUpModal.style.display = "none";
+      signInModal.style.display = "block";
+    }
+    
+    window.onclick = function(event) {
+      if (event.target == dialogInfoModal) {
+        dialogInfoModal.style.display = "none";
+      }
+    }
+  }
 },
 computed: {
     // Method that returns true if window is scrolled past through certain amounts of pixels - in order to stick search menu to top
@@ -184,19 +240,22 @@ template: `
             <li class="nav-item">
               <a class="nav-link active py-0" aria-current="page" href="#">Home</a>
             </li>
+            <li v-if="user && user.accountType == 'buyer'" class="nav-item">
+              <a class="nav-link py-0" aria-current="page" href="#">Orders</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link py-0" href="#">About us</a>
             </li>
-            <li class="nav-item d-lg-none signinlink">
+            <li v-if="!user" class="nav-item d-lg-none signinlink">
               <a class="nav-link py-0" href="#">Sing in</a>
             </li>
-            <li class="nav-item d-lg-none signuplink">
+            <li v-if="!user" class="nav-item d-lg-none signuplink">
               <a class="nav-link py-0" href="#">Sign up</a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="d-none d-lg-block">
+      <div v-if="!user" class="d-none d-lg-block">
         <div class="signin-signup-container mt-2">
           <div>
             <a id="signinbtn" class="nav-link">Sign in</a>
@@ -206,6 +265,25 @@ template: `
           </div>
         </div> 
       </div>
+      <div v-if="user">
+        <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
+          <div class="user-info-container d-flex flex-row-reverse mt-2">
+            <div>
+              <img src="../assets/icons/arrow.png" alt="arrow" class="arrow-pic mx-2">
+            </div>
+            <span>
+              {{user.name}}
+            </span>
+            <div class="image-cropper mx-2">
+              <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+            </div>
+            <div>
+              <img src="../assets/icons/cart.png" alt="shopping-cart" class="shopping-cart-pic mx-1">
+            </div>
+          </div> 
+        </div>
+      </div>
+      
     </nav>
   </div>
 
@@ -218,7 +296,7 @@ template: `
         just <span id="red-hero-text">5 minutes!</span>
       </h1>
       <p class="display-6 m-0 mt-3" id="hero-paragraph">What are you waiting?</p>
-      <button type="button" class="btn btn-danger regular-button mt-3">Order now</button>
+      <button type="button" onclick="smoothScroll('search-container')" class="btn btn-danger regular-button mt-3">Order now</button>
   </div>
   <div class="container-fluid px-0" id="search-container">
     <div>
@@ -356,7 +434,7 @@ template: `
             <h5 class="search-results-header" :hidden="displayMode!='search'">Search results</h5>
             <a class="nav-link" href="#" :hidden="displayMode!='search'" @click="showAllRestaurants">Show all restaurants</a>
           </div>
-          <restaurant-search-results ref="child1" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters" :display-mode="displayMode"></restaurant-search-results>
+          <restaurants ref="child1" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters" :display-mode="displayMode" :user="user"></restaurants>
         </div>
         <div footer-bar>
 

@@ -31,33 +31,25 @@ var loginDialogComponent = {
                 .then(response => {
                     if(response.status == 200){
                         window.localStorage.setItem('token', response.data);
+                        
                         axios
                         .get("http://localhost:8081/rest/loginWithJwt", {
                             headers:{
-                            'Authorization': 'Bearer ' + response.data
+                            'Authorization': 'Bearer ' + token
                             }
                         })
                         .then(response => {
                             if(response.data.accountType == "buyer")
-                                this.$router.push({ name: 'homepageBuyer', params: { user: response.data }}).catch(err => {
-                                    if (err.name !== 'NavigationDuplicated' && !err.message.includes('Avoided redundant navigation to current location')) {
-                                        logError(err);
-                                    }
-                                });
+                            this.$router.push({ name: 'buyerRestaurants', params: { user: response.data }})
                         })
                         .catch(error => {
-                            this.$router.push({ name: 'homepage'}).catch(err => {
-                                if (err.name !== 'NavigationDuplicated' && !err.message.includes('Avoided redundant navigation to current location')) {
-                                    logError(err);
-                                }
-                            });
+                            this.$router.push({ name: 'homepage'})
                         })
                     }
                 })
                 .catch(error => {
                     if(error.response){
-                        // TODO If username and password are wrong
-                        console.log(error.response.status)
+                        this.showServerResponse(error);
                     }
                 });
             }

@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="js/bootstrap-5.0.1-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/loader.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap" rel="stylesheet">
@@ -20,16 +21,20 @@
 </head>
 <body>
     <div id="app">
-        <router-view></router-view>
+        <transition name="fade"> 
+            <router-view :key="$route.fullPath"></router-view>
+        </transition>
     </div>
 </body>
 
+<script src="view/loading/loadingView.js"></script>
 <script src="js/scripts/global-functions.js"></script>
+<script src="view/restaurant/restaurantView.js"></script>
 <script src="view/components/infoDialogComponent.js"></script>
 <script src="view/homepage/components/registerDialogComponent.js"></script>
 <script src="view/homepage/components/loginDialogComponent.js"></script>
-<script src="view/homepage/components/restaurantSearchResultComponent.js"></script>
-<script src="view/homepage/homepage.js"></script>
+<script src="view/homepage/components/restaurantsComponent.js"></script>
+<script src="view/homepage/homepageView.js"></script>
 <script src="app.js"></script>
-<script src="js/scripts/modal-popup.js"></script>
+
 </html>
