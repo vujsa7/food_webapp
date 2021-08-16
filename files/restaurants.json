@@ -1,12 +1,13 @@
 [
   {
-    "id": 0,
+    "id": 1,
     "name": "Grill 5",
     "restaurantType": "barbecue",
     "isOpen": true,
-    "logo" : "../assets/images/logos/restaurant-logos/grill5.png",
-    "bannerImage": "../assets/images/restaurant-images/grill5.jpg",
-    "rating": 5,
+    "logo": "../assets/images/logos/restaurant-logos/grill5.png",
+    "bannerImage": "../assets/images/restaurant-images/banners/grill5.jpg",
+    "coverImage": "../assets/images/restaurant-images/covers/grill5.jpg",
+    "rating": 5.0,
     "location": {
       "longitude": "414114",
       "latitude": "444324",
@@ -19,17 +20,109 @@
         }
       }
     },
-    "articles": [],
+    "articles": [
+      {
+        "id": 1,
+        "name": "Steak",
+        "price": 12.39,
+        "articleType": "meal",
+        "quantity": 81,
+        "description": "A good steak is juicy, tender, loaded with flavor, and has a minimum amount of fat.",
+        "image": "../assets/images/restaurant-images/foods/001.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Hamburger",
+        "price": 7.39,
+        "articleType": "meal",
+        "quantity": 40,
+        "description": "Juicy, big, loaded with toppings of your choice.",
+        "image": "../assets/images/restaurant-images/foods/002.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Kebabs",
+        "price": 9.79,
+        "articleType": "meal",
+        "quantity": 64,
+        "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/003.jpg"
+      },
+      {
+        "id": 4,
+        "name": "Capricciosa",
+        "price": 6.99,
+        "articleType": "meal",
+        "quantity": 120,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/004.jpg"
+      },
+      {
+        "id": 5,
+        "name": "Beef ",
+        "price": 11.39,
+        "articleType": "meal",
+        "quantity": 34,
+        "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
+        "image": "../assets/images/restaurant-images/foods/005.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Burger",
+        "price": 6.49,
+        "articleType": "meal",
+        "quantity": 133,
+        "description": "Tasty, delicious, and will have you craving more on the first bite.",
+        "image": "../assets/images/restaurant-images/foods/006.jpg"
+      },
+      {
+        "id": 7,
+        "name": "Lemonade",
+        "price": 2.49,
+        "articleType": "drink",
+        "quantity": 100,
+        "description": "A beverage of sweetened lemon juice mixed with water.",
+        "image": "../assets/images/restaurant-images/foods/011.jpg"
+      },
+      {
+        "id": 8,
+        "name": "Strawberry juice",
+        "price": 4.49,
+        "articleType": "drink",
+        "quantity": 85,
+        "description": "Strawberries shine in this tall, refreshing, gingery cocktail.",
+        "image": "../assets/images/restaurant-images/foods/012.jpg"
+      },
+      {
+        "id": 9,
+        "name": "Coca Cola",
+        "price": 1.99,
+        "articleType": "drink",
+        "quantity": 76,
+        "description": "Fresh, cold and sweet drink.",
+        "image": "../assets/images/restaurant-images/foods/013.jpg"
+      },
+      {
+        "id": 10,
+        "name": "Orange juice",
+        "price": 3.49,
+        "articleType": "drink",
+        "quantity": 93,
+        "description": "100% pure-squeezed, pasteurized orange juice.",
+        "image": "../assets/images/restaurant-images/foods/014.jpg"
+      }
+    ],
     "isDeleted": false
   },
   {
-    "id": 1,
+    "id": 2,
     "name": "Los Pollos Hermanos",
     "restaurantType": "barbecue",
     "isOpen": true,
-    "logo" : "../assets/images/logos/restaurant-logos/los-pollos-hermanos.png",
-    "bannerImage": "../assets/images/restaurant-images/los-pollos-hermanos.jpg",
-    "rating": 4,
+    "logo": "../assets/images/logos/restaurant-logos/los-pollos-hermanos.png",
+    "bannerImage": "../assets/images/restaurant-images/banners/los-pollos-hermanos.jpg",
+    "coverImage": "../assets/images/restaurant-images/covers/los-pollos-hermanos.jpg",
+    "rating": 4.0,
     "location": {
       "longitude": "111333",
       "latitude": "412111",
@@ -50,9 +143,10 @@
     "name": "Dine Fine",
     "restaurantType": "italian",
     "isOpen": true,
-    "logo" : "../assets/images/logos/restaurant-logos/dine-fine.png",
-    "bannerImage": "../assets/images/restaurant-images/dine-fine.jpg",
-    "rating": 3,
+    "logo": "../assets/images/logos/restaurant-logos/dine-fine.png",
+    "bannerImage": "../assets/images/restaurant-images/banners/dine-fine.jpg",
+    "coverImage": "../assets/images/restaurant-images/covers/dine-fine.jpg",
+    "rating": 3.0,
     "location": {
       "longitude": "113213",
       "latitude": "433311",
@@ -73,8 +167,9 @@
     "name": "The Bacon Diet",
     "restaurantType": "barbecue",
     "isOpen": false,
-    "logo" : "../assets/images/logos/restaurant-logos/the-bacon-diet.png",
-    "bannerImage": "../assets/images/restaurant-images/the-bacon-diet.jpg",
+    "logo": "../assets/images/logos/restaurant-logos/the-bacon-diet.png",
+    "bannerImage": "../assets/images/restaurant-images/banners/the-bacon-diet.jpg",
+    "coverImage": "../assets/images/restaurant-images/covers/the-bacon-diet.jpg",
     "rating": 0.0,
     "location": {
       "longitude": "166623",
@@ -96,8 +191,9 @@
     "name": "McDonalds",
     "restaurantType": "barbecue",
     "isOpen": true,
-    "logo" : "../assets/images/logos/restaurant-logos/mcdonalds.png",
-    "bannerImage": "../assets/images/restaurant-images/mcdonalds.jpg",
+    "logo": "../assets/images/logos/restaurant-logos/mcdonalds.png",
+    "bannerImage": "../assets/images/restaurant-images/banners/mcdonalds.jpg",
+    "coverImage": "../assets/images/restaurant-images/covers/mcdonalds.jpg",
     "rating": 0.0,
     "location": {
       "longitude": "166113",
@@ -119,8 +215,9 @@
     "name": "Burger King",
     "restaurantType": "barbecue",
     "isOpen": true,
-    "logo" : "../assets/images/logos/restaurant-logos/burger-king.png",
-    "bannerImage": "../assets/images/restaurant-images/burger-king.jpg",
+    "logo": "../assets/images/logos/restaurant-logos/burger-king.png",
+    "bannerImage": "../assets/images/restaurant-images/banners/burger-king.jpg",
+    "coverImage": "../assets/images/restaurant-images/covers/burger-king.jpg",
     "rating": 0.0,
     "location": {
       "longitude": "444156",

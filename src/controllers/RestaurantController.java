@@ -24,16 +24,34 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import services.RestaurantService;
+import services.UserService;
 
 public class RestaurantController {
 	private static Gson gson = new Gson();
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	
-	public RestaurantController(RestaurantService restaurantService) {
+	public RestaurantController(RestaurantService restaurantService, UserService userService) {
 	
 		get("rest/restaurants", (req, res) -> {
 			res.type("application/json");
 			return gson.toJson(restaurantService.getAllRestaurants());
+		});
+		
+		get("rest/restaurant/:id", (req, res) -> {
+			res.type("application/json");
+			String idString = req.params("id");
+			try {
+				int id = Integer.parseInt(idString);
+				Restaurant restaurant = restaurantService.getById(id);
+				return gson.toJson(restaurant);
+			} catch(NumberFormatException n) {
+				res.status(400);
+				return "Bad Request";
+			} catch(Exception e) {
+				res.status(400);
+				return "Bad Request";
+			}
+			
 		});
 		
 		get("/restaurants/getForManager", (req,res) -> {
@@ -79,7 +97,7 @@ public class RestaurantController {
 				try {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    // ako nije bacio izuzetak, onda je OK
-				    User loggedInUser = restaurantService.getById(claims.getBody().getSubject());
+				    User loggedInUser = userService.getById(claims.getBody().getSubject());
 				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
 				    	res.status(403);
 				    	return "";
@@ -102,7 +120,7 @@ public class RestaurantController {
 				try {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    // ako nije bacio izuzetak, onda je OK
-				    User loggedInUser = restaurantService.getById(claims.getBody().getSubject());
+				    User loggedInUser = userService.getById(claims.getBody().getSubject());
 				    if(!loggedInUser.getAccountType().equals(AccountType.manager)) {
 				    	res.status(403);
 				    	return "";
@@ -131,7 +149,7 @@ public class RestaurantController {
 				try {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    // ako nije bacio izuzetak, onda je OK
-				    User loggedInUser = restaurantService.getById(claims.getBody().getSubject());
+				    User loggedInUser = userService.getById(claims.getBody().getSubject());
 				    if(!loggedInUser.getAccountType().equals(AccountType.manager)) {
 				    	res.status(403);
 				    	return "";

@@ -7,17 +7,19 @@ public class RegisterNewRestaurantDTO {
    	private RestaurantType restaurantType;
    	private String logo;
    	private String bannerImage;
+   	private String coverImage;
    	private double rating;
    	private Location location;
    	private String manager;
    	
-	public RegisterNewRestaurantDTO(String name, RestaurantType restaurantType, String logo, String bannerImage,
+	public RegisterNewRestaurantDTO(String name, RestaurantType restaurantType, String logo, String bannerImage, String coverImage,
 			double rating, Location location, String manager) {
 		super();
 		this.name = name;
 		this.restaurantType = restaurantType;
 		this.logo = logo;
 		this.bannerImage = bannerImage;
+		this.coverImage = coverImage;
 		this.rating = rating;
 		this.location = location;
 		this.manager = manager;
@@ -77,5 +79,13 @@ public class RegisterNewRestaurantDTO {
 
 	public void setManager(String manager) {
 		this.manager = manager;
+	}
+
+	public String getCoverImage() {
+		return coverImage;
+	}
+
+	public void setCoverImage(String coverImage) {
+		this.coverImage = coverImage;
 	}
 }

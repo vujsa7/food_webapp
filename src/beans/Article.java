@@ -10,8 +10,9 @@ public class Article{
 	private String description;
 	private String image;
 	
-	public Article(String name, double price, ArticleType articleType, int quantity, String description, String image) {
+	public Article(int id, String name, double price, ArticleType articleType, int quantity, String description, String image) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.articleType = articleType;

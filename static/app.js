@@ -6,7 +6,7 @@ const routes = [
     {path: '/', name: 'loading', component: Loading},
     {path: '/homepage', name: 'homepage', component: Homepage},
     {path: '/homepage/buyer', name: 'homepageBuyer', component: Homepage},
-    {path: '/restaurant/:name', name: 'restaurant', component: Restaurant},
+    {path: '/restaurant/:id', name: 'restaurant', component: Restaurant},
 ]
 
 const router = new VueRouter({

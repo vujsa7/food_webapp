@@ -28,7 +28,7 @@ public class UserController {
 		get("user/getAll", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
-			System.out.println("Authorization: " + auth);
+//			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {

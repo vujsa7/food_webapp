@@ -2,7 +2,7 @@ var searchWrapper = undefined;
 
 function findPos(obj) {
 	var curleft = curtop = 0;
-  if (obj.offsetParent) {
+  if (obj && obj.offsetParent) {
     do {
 			curleft += obj.offsetLeft;
 			curtop += obj.offsetTop;
@@ -14,8 +14,9 @@ function findPos(obj) {
 Vue.component("homepage-view", {
   data(){
     return{
-        user: this.$route.params.user,
+        user: undefined,
         scrolled: 0,
+        selectedNavIndex: 0,
         searchParameters : ["", "", "", ""],
         checkedCuisines: ["showAll"],
         checkedOpenRestaurants: undefined,
@@ -31,7 +32,7 @@ Vue.component("homepage-view", {
           "../../assets/icons/linkedin-logo.png",
           "../../assets/icons/facebook-logo.png",
           "../../assets/icons/instagram-logo.png"
-        ]
+        ],
     }
 },
 components: {
@@ -85,7 +86,7 @@ methods: {
         this.checkedCuisines = [this.searchParameters[2].toLowerCase()];
         this.adjustFilterAndSortValues();
         this.displayMode = "search";
-        this.$refs.child1.searchRestaurants();
+        this.$refs.restaurantsChild.searchRestaurants();
     },
     // Method that is setting checkboxes and radio buttons back to start state
     adjustFilterAndSortValues(){
@@ -136,68 +137,42 @@ methods: {
             document.getElementById("filter-sort-wrapper").style.top = '120px';
             document.getElementById("filter-sort-wrapper").style.bottom = 'auto';
         }
-    }
+    },
+    isSelectedNavItem(index){
+      if(index == this.selectedNavIndex)
+        return true;
+      return false;
+    },
+    changeSelectedNavItem(index){
+      this.selectedNavIndex = index;
+    },
+    displaySignInModal(){
+      this.$refs.loginChild.displaySignInModal();
+    },
+    displaySignUpModal(){
+      this.$refs.registerChild.displaySignUpModal();
+    },
 },
 created() {
   window.addEventListener('scroll', this.handleScroll);
-  
 },
 mounted(){
   searchWrapper = document.getElementById('search-wrapper');
   this.searchWrapperPosition = findPos(searchWrapper);
-  if(!this.user){
-    var signUpModal = document.getElementById("sign-up-modal");
-    var signUpBtn = document.getElementById("signupbtn");
-    var signUpLink = document.getElementsByClassName("signuplink")[0];
-    var signInModal = document.getElementById("sign-in-modal");
-    var signInBtn = document.getElementById("signinbtn");
-    var signInLink = document.getElementsByClassName("signinlink")[0];
-    var spanSignUp = document.getElementsByClassName("close")[0];
-    var spanSignIn = document.getElementsByClassName("close")[1];
-    var signUpSpan = document.getElementsByClassName("signupspan")[0];
-    var signInSpan = document.getElementsByClassName("signinspan")[0];
-    var dialogInfoModal = document.getElementById("dialog-info-modal");
 
-    signUpBtn.onclick = function() {
-      signUpModal.style.display = "block";
-    }
-    
-    signUpLink.onclick = function() {
-      signUpModal.style.display = "block";
-    }
-    
-    signInBtn.onclick = function() {
-      signInModal.style.display = "block";
-    }
-    
-    signInLink.onclick = function() {
-      signInModal.style.display = "block";
-    }
-    
-    spanSignUp.onclick = function() {
-      signUpModal.style.display = "none";
-    }
-    
-    spanSignIn.onclick = function() {
-      signInModal.style.display = "none";
-    }
-    
-    signUpSpan.onclick = function() {
-      signUpModal.style.display = "block";
-      signInModal.style.display = "none";
-    }
-    
-    signInSpan.onclick = function() {
-      signUpModal.style.display = "none";
-      signInModal.style.display = "block";
-    }
-    
-    window.onclick = function(event) {
-      if (event.target == dialogInfoModal) {
-        dialogInfoModal.style.display = "none";
+  axios
+  .get("http://localhost:8081/rest/loginWithJwt", {
+      headers:{
+      'Authorization': 'Bearer ' + window.localStorage.getItem("token")
       }
-    }
-  }
+  })
+  .then(response => {
+     this.user = response.data;
+  })
+  .catch(error => {
+      // TODO session probably expired, jwt invalid
+  })
+  
 },
 computed: {
     // Method that returns true if window is scrolled past through certain amounts of pixels - in order to stick search menu to top
@@ -207,28 +182,25 @@ computed: {
 },
 template: `
 <div id="homepage">
-<div id="sign-up-modal" class="modal">
-  <register-dialog></register-dialog>
-</div>
-<div id="sign-in-modal" class="modal">
-  <login-dialog></login-dialog>
-</div>
 
-<div id="content">
+<register-dialog ref="registerChild"></register-dialog>
+<login-dialog ref="loginChild"></login-dialog>
+
+<div id="homepage-content">
   <!--Visible only on xl-->
-  <img class="img-fluid d-none d-xl-block" src="../assets/components/hero-image.png" id="hero-image">
+  <img class="img-fluid d-none d-xl-block" src="../assets/images/hero-image.png" id="hero-image">
   <!--Visible only on lg-->
-  <img class="img-fluid d-xl-none d-none d-lg-block" src="../assets/components/hero-image-xl-lg.png" id="hero-image">
+  <img class="img-fluid d-xl-none d-none d-lg-block" src="../assets/images/hero-image-xl-lg.png" id="hero-image">
   <!--Visible only on md-->
-  <img class="img-fluid d-lg-none d-none d-md-block" src="../assets/components/hero-image-md.png" id="hero-image">
+  <img class="img-fluid d-lg-none d-none d-md-block" src="../assets/images/hero-image-md.png" id="hero-image">
 
   <!--Navigation container-->
   <div class="container-fluid navigation-container pt-3 px-0">
     <div class="container-fluid d-none d-lg-block px-0">
-      <img src="../assets/images/logos/full-logo.png" alt="Brand logo" id="full-logo">
+      <img src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" id="full-logo">
     </div>
     <div class="container d-lg-none px-0">
-      <img src="../assets/images/logos/foodly-logo.png" alt="Brand logo" id="foodly-logo">
+      <img src="../assets/images/logos/foodly-logos/foodly-logo.png" alt="Brand logo" id="foodly-logo">
     </div>
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid px-0">
@@ -236,54 +208,62 @@ template: `
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active py-0" aria-current="page" href="#">Home</a>
-            </li>
-            <li v-if="user && user.accountType == 'buyer'" class="nav-item">
-              <a class="nav-link py-0" aria-current="page" href="#">Orders</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link py-0" href="#">About us</a>
-            </li>
-            <li v-if="!user" class="nav-item d-lg-none signinlink">
-              <a class="nav-link py-0" href="#">Sing in</a>
-            </li>
-            <li v-if="!user" class="nav-item d-lg-none signuplink">
-              <a class="nav-link py-0" href="#">Sign up</a>
-            </li>
-          </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <div class="nav-link-container">
+                  <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                  <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
+                </div>
+              </li>
+              <li v-if="user && user.accountType=='buyer'" class="nav-item">
+                <div class="nav-link-container">
+                  <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                  <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                </div>
+              </li>
+              <li class="nav-item">
+                <div class="nav-link-container">
+                  <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)" href="#">About us</a>
+                  <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                </div>
+              </li>
+              <li v-if="!user" class="nav-item d-lg-none">
+                <a class="nav-link py-0" href="#" @click="displaySignInModal()">Sing in</a>
+              </li>
+              <li v-if="!user" class="nav-item d-lg-none">
+                <a class="nav-link py-0" href="#" @click="displaySignUpModal()">Sign up</a>
+              </li>
+            </ul>
         </div>
       </div>
       <div v-if="!user" class="d-none d-lg-block">
-        <div class="signin-signup-container mt-2">
+        <div class="homepage-signin-signup-container mt-2">
           <div>
-            <a id="signinbtn" class="nav-link">Sign in</a>
+            <a @click="displaySignInModal()" class="nav-link">Sign in</a>
           </div>
           <div>
-            <button id="signupbtn" type="button" class="btn btn-danger regular-button">Sign up</button>
+            <button type="button" @click="displaySignUpModal()" class="btn btn-danger regular-button">Sign up</button>
           </div>
         </div> 
       </div>
       <div v-if="user">
         <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
-          <div class="user-info-container d-flex flex-row-reverse mt-2">
+          <div class="homepage-user-info-container d-flex flex-row-reverse mt-2">
             <div>
               <img src="../assets/icons/arrow.png" alt="arrow" class="arrow-pic mx-2">
             </div>
             <span>
-              {{user.name}}
+              {{user.name}} {{user.surname}}
             </span>
             <div class="image-cropper mx-2">
               <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
             </div>
-            <div>
+            <div class="mb-1">
               <img src="../assets/icons/cart.png" alt="shopping-cart" class="shopping-cart-pic mx-1">
             </div>
           </div> 
         </div>
       </div>
-      
     </nav>
   </div>
 
@@ -434,7 +414,7 @@ template: `
             <h5 class="search-results-header" :hidden="displayMode!='search'">Search results</h5>
             <a class="nav-link" href="#" :hidden="displayMode!='search'" @click="showAllRestaurants">Show all restaurants</a>
           </div>
-          <restaurants ref="child1" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters" :display-mode="displayMode" :user="user"></restaurants>
+          <restaurants ref="restaurantsChild" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters" :display-mode="displayMode"></restaurants>
         </div>
         <div footer-bar>
 

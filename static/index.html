@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="js/bootstrap-5.0.1-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/homepage.css">
     <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/restaurantView.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap" rel="stylesheet">
@@ -21,18 +22,20 @@
 </head>
 <body>
     <div id="app">
-        <transition name="fade"> 
+        <transition name="fade" mode="out-in"> 
             <router-view :key="$route.fullPath"></router-view>
         </transition>
     </div>
 </body>
 
-<script src="view/loading/loadingView.js"></script>
+
 <script src="js/scripts/global-functions.js"></script>
+<script src="view/components/messageDialogComponent.js"></script>
+<script src="view/components/registerDialogComponent.js"></script>
+<script src="view/components/loginDialogComponent.js"></script>
+<script src="view/loading/loadingView.js"></script>
+<script src="view/restaurant/components/articleComponent.js"></script>
 <script src="view/restaurant/restaurantView.js"></script>
-<script src="view/components/infoDialogComponent.js"></script>
-<script src="view/homepage/components/registerDialogComponent.js"></script>
-<script src="view/homepage/components/loginDialogComponent.js"></script>
 <script src="view/homepage/components/restaurantsComponent.js"></script>
 <script src="view/homepage/homepageView.js"></script>
 <script src="app.js"></script>

@@ -4,7 +4,8 @@ var loginDialogComponent = {
         form:{
           username: "",
           password: ""
-        }
+        },
+        isSignInModalDisplayed: false
       }
     },
     validations:{
@@ -31,27 +32,7 @@ var loginDialogComponent = {
                 .then(response => {
                     if(response.status == 200){
                         window.localStorage.setItem('token', response.data);
-                        axios
-                        .get("http://localhost:8081/rest/loginWithJwt", {
-                            headers:{
-                            'Authorization': 'Bearer ' + response.data
-                            }
-                        })
-                        .then(response => {
-                            if(response.data.accountType == "buyer")
-                                this.$router.push({ name: 'homepageBuyer', params: { user: response.data }}).catch(err => {
-                                    if (err.name !== 'NavigationDuplicated' && !err.message.includes('Avoided redundant navigation to current location')) {
-                                        logError(err);
-                                    }
-                                });
-                        })
-                        .catch(error => {
-                            this.$router.push({ name: 'homepage'}).catch(err => {
-                                if (err.name !== 'NavigationDuplicated' && !err.message.includes('Avoided redundant navigation to current location')) {
-                                    logError(err);
-                                }
-                            });
-                        })
+                        this.$router.push({name: 'homepageBuyer'});
                     }
                 })
                 .catch(error => {
@@ -69,20 +50,31 @@ var loginDialogComponent = {
                 this.dialogInfoData.infoBtn = "Try again";
             }
             dialogInfoModal.style.display = "block";
+        },
+        displaySignInModal(){
+            this.isSignInModalDisplayed = true;
+        },
+        closeDialog(){
+            this.isSignInModalDisplayed = false;
+        },
+        displaySignUpModal(){
+            this.isSignInModalDisplayed = false;
+            this.$parent.displaySignUpModal();
         }
     },
     template: `
+    <div class="modal" :class="{ 'display-block' : isSignInModalDisplayed }">
         <div class="modal-content">
             <div class="modal-header d-flex flex-column">
                 <div class="d-flex flex-row align-items-center">
                 <span class="align-self-center">Login to your account</span>
-                <span class="close">&times;</span>
+                <span class="close" @click="closeDialog">&times;</span>
                 </div>
                 <div class="d-flex flex-row modal-buttons">
                 <span class="fw-bold">
                     Sign in
                 </span>
-                <span class="signupspan">
+                <span class="signupspan" @click="displaySignUpModal">
                     Sign up
                 </span>
                 </div>
@@ -108,5 +100,6 @@ var loginDialogComponent = {
                 </form>
             </div>
         </div>
+    </div>
     `
 }

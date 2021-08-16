@@ -12,13 +12,25 @@ public class CommentController {
 	
 	public CommentController(CommentService commentService) {
 		
-		get("/comments/GetCommentsByRestaurant/:id", (req,res) -> {
+		get("rest/commentsForPublic/:id", (req,res) -> {
 			res.type("application/json");
 			try {
-				return gson.toJson(commentService.getCommentsByRestaurant(Integer.parseInt(req.params("id")))); 
+				return gson.toJson(commentService.getNotDeletedApprovedCommentsByRestaurant(Integer.parseInt(req.params("id")))); 
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "";
+				res.status(400);
+				return "Bad Request";
+			}
+		});
+		
+		get("rest/commentsForManager/:id", (req,res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(commentService.getNotDeletedCommentsByRestaurant(Integer.parseInt(req.params("id")))); 
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.status(400);
+				return "Bad Request";
 			}
 		});
 	}

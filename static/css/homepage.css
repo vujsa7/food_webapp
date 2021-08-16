@@ -23,6 +23,10 @@ input, textarea, select{
     display:block
 }
 
+img{
+    image-rendering: crisp-edges;
+}
+
 a, a:hover, a:focus, a:active {
     text-decoration: none;
     color: inherit;
@@ -40,8 +44,8 @@ a:hover {
     background-size: cover;
 }
 
-#content{
-    position:relative;
+#homepage-content{
+    position: relative;
 }
 
 #hero-image{
@@ -49,7 +53,6 @@ a:hover {
     position: absolute;
     z-index: -1;
     top:0;
-    
 }
 
 .landing-image-background-xl{
@@ -74,6 +77,8 @@ a:hover {
 .nav-link{
     padding: 0 2rem;
     height: min-content;
+    
+    position: relative;
 }
 
 .navigation-container{
@@ -90,6 +95,21 @@ a:hover {
 
 .navbar-collapse{
     justify-content: center;
+}
+
+.selected-box{
+    height: 8px;
+    width: 40px;
+    background-color: #FE0435;
+    border-radius: 9px;
+}
+
+@media screen and (min-width: 992px){
+    .nav-link-container{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 @media screen and (max-width: 992px) {
@@ -120,7 +140,7 @@ a:hover {
     z-index: -1;
 }
 
-.signin-signup-container{
+.homepage-signin-signup-container{
     position: absolute;
     height: 50px;
     width: 275px;
@@ -131,20 +151,20 @@ a:hover {
     align-items: center;
 }
 
-.signin-signup-container .nav-link{
+.homepage-signin-signup-container .nav-link{
     padding: 0;
     padding-right: 50px;
 }
 
-.signin-signup-container a{
+.homepage-signin-signup-container a{
     color:white;
 }
 
-.signin-signup-container a:visited{
+.homepage-signin-signup-container a:visited{
     color: white;
 }
 
-.signin-signup-container a:hover{
+.homepage-signin-signup-container a:hover{
     color: #FE0435;
 }
 
@@ -453,16 +473,6 @@ a:hover {
     color: #a2a2a2;
 }
 
-/* .filter-sticky{
-    position: fixed;
-    top: 120px;
-}
-
-.sort-sticky{
-    position: fixed;
-    top: 460px;
-} */
-
 .empty-filter-sort{
     margin: 0;
     width: 338px;
@@ -635,6 +645,14 @@ footer .copyright{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+.display-block{
+    display: block !important;
+}
+
+.display-none{
+    display: none !important;
+}
+
 .info-modal{
     font-size: 16px;
     font-weight: lighter;
@@ -793,7 +811,7 @@ footer .copyright{
     display:inline;
 }
 
-.user-info-container{
+.homepage-user-info-container{
     position: absolute;
     height: 50px;
     width: 275px;
@@ -826,7 +844,16 @@ footer .copyright{
     width: 13px;
 }
 
-.user-info-container span{
+.homepage-user-info-container span{
     color: white;
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "details": "The food was so delicious, great place and good prices.",
+    "review": 5,
+    "restaurantId": 1,
+    "buyerId": "aki",
+    "isDeleted": false,
+    "isApproved": true
+  },
+  {
+    "id": 2,
+    "details": "Chef knows what he\u0027s doing.",
+    "review": 4,
+    "restaurantId": 1,
+    "buyerId": "gordon",
+    "isDeleted": false,
+    "isApproved": true
+  },
+  {
+    "id": 3,
+    "details": "My brother showed me this place, very delicious hamburgers, best in town.",
+    "review": 5,
+    "restaurantId": 1,
+    "buyerId": "miki",
+    "isDeleted": false,
+    "isApproved": true
+  }
+]

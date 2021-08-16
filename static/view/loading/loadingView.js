@@ -20,18 +20,16 @@ Vue.component("loading-view", {
             }
         })
         .then(response => {
-            this.wait(500);  
-            this.$router.push({ name: 'homepageBuyer', params: { user: response.data }})
+            this.$router.push({ name: 'homepageBuyer'})
         })
         .catch(error => {
-            this.wait(500);
             this.$router.push({ name: 'homepage'})
         })
     },
     template:
     `
     <div class="loader-screen d-flex flex-column align-items-center justify-content-center">
-        <img id="full-logo" class="full-logo-splash" src="../assets/images/logos/full-logo.png" alt="Brand logo" >
+        <img id="full-logo" class="full-logo-splash" src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" >
         <div class="loader"></div>
     </div>
     

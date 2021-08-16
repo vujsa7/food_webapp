@@ -25,15 +25,16 @@ var registerDialogComponent = {
           username: "",
           password: ""
         },
-        dialogInfoData:{
-          infoTitle: "",
-          infoMessage: "",
-          infoBtn: ""
-        }
+        messageDialogData:{
+          title: "",
+          message: "",
+          buttonText: ""
+        },
+        isSignUpModalDisplayed: false,
       }
     },
     components:{
-      infoDialog: infoDialogComponent 
+      messageDialog: messageDialogComponent 
     },
     validations:{
       form:{
@@ -98,23 +99,34 @@ var registerDialogComponent = {
       },
       showServerResponse(error){
         if(error.response.status == "409"){
-          this.dialogInfoData.infoTitle = "Username taken";
-          this.dialogInfoData.infoMessage = "User with that username already exists, please try again.";
-          this.dialogInfoData.infoBtn = "Try again";
+          this.messageDialogData.title = "Username taken";
+          this.messageDialogData.message = "User with that username already exists, please try again.";
+          this.messageDialogData.buttonText = "Try again";
+          this.$refs.messageDialogChild.displayDialog();
         }
-        dialogInfoModal.style.display = "block";
+        
+      },
+      displaySignUpModal(){
+        this.isSignUpModalDisplayed = true;
+      },
+      closeDialog(){
+        this.isSignUpModalDisplayed = false;
+      },
+      displaySignInModal(){
+        this.isSignUpModalDisplayed = false;
+        this.$parent.displaySignInModal();
       }
     },
     template: `
-    <div style="width: 100%; height: 100%;">
+    <div class="modal" :class="{ 'display-block' : isSignUpModalDisplayed }">
       <div class="modal-content">
         <div class="modal-header d-flex flex-column">
           <div class="d-flex flex-row align-items-center">
             <span class="align-self-center">Create an account</span>
-            <span class="close">&times;</span>
+            <span class="close" @click="closeDialog">&times;</span>
           </div>
           <div class="d-flex flex-row modal-buttons">
-            <span class="signinspan">
+            <span class="signinspan" @click="displaySignInModal">
               Sign in
             </span>
             <span class="fw-bold">
@@ -198,11 +210,8 @@ var registerDialogComponent = {
             <button :disabled="$v.form.$invalid" type="submit" class="btn btn-danger regular-button">Register</button>
           </form>
         </div>
-        
       </div>
-      <div id="dialog-info-modal" class="info-modal">
-        <infoDialog ref="child2" :dialog-info="dialogInfoData"></infoDialog>
-      </div>
+      <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
     </div>
     `
   }

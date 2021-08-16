@@ -53,12 +53,12 @@ public class RestaurantService {
 		return restaurantBuyers;
 	}
 	
-	public User getById(String userId) throws JsonSyntaxException, IOException {
-		return userDao.getById(userId);
+	public Restaurant getById(int restaurantId) throws JsonSyntaxException, IOException {
+		return restaurantDao.getById(restaurantId);
 	}
 	
 	public Restaurant registerNewRestaurant(RegisterNewRestaurantDTO newRestaurantDTO) throws JsonSyntaxException, IOException {
-		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, newRestaurantDTO.getLocation(), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), 0.0,new ArrayList<Article>(), false);
+		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, newRestaurantDTO.getLocation(), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), newRestaurantDTO.getCoverImage(), 0.0, new ArrayList<Article>(), false);
 		restaurant.setID(restaurantDao.generateId());
 		Manager manager = (Manager) userDao.getById(newRestaurantDTO.getManager());
 		manager.setRestaurant(restaurant.getID());

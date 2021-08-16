@@ -10,12 +10,13 @@ public class Restaurant implements IIdentifiable<Integer>{
    	private Boolean isOpen;
    	private String logo;
    	private String bannerImage;
+   	private String coverImage;
    	private double rating;
    	private Location location;
    	private ArrayList<Article> articles;
    	private boolean isDeleted;
    	
-   	public Restaurant(String name, RestaurantType restaurantType, Boolean isOpen, Location location, String logo, String bannerImage, double rating,
+   	public Restaurant(String name, RestaurantType restaurantType, Boolean isOpen, Location location, String logo, String bannerImage, String coverImage, double rating,
 			ArrayList<Article> articles, boolean isDeleted) {
    		super();
 		this.name = name;
@@ -23,6 +24,7 @@ public class Restaurant implements IIdentifiable<Integer>{
 		this.isOpen = isOpen;
 		this.logo = logo;
 		this.bannerImage = bannerImage;
+		this.coverImage = coverImage;
 		this.rating = rating;
 		this.location = location;
 		this.articles = articles;
@@ -67,6 +69,14 @@ public class Restaurant implements IIdentifiable<Integer>{
 
 	public void setBannerImage(String bannerImage) {
 		this.bannerImage = bannerImage;
+	}
+
+	public String getCoverImage() {
+		return coverImage;
+	}
+
+	public void setCoverImage(String coverImage) {
+		this.coverImage = coverImage;
 	}
 	
 	public double getRating() {
@@ -130,6 +140,8 @@ public class Restaurant implements IIdentifiable<Integer>{
 		// TODO Auto-generated method stub
 		return this.isDeleted;
 	}
+
+	
 
 	
 
