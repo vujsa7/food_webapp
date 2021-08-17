@@ -25,7 +25,7 @@ let cartItemComponent = {
             var self = this;
             $('#' + this.cartArticle.article.name.split(' ').join('')).hide(500, function(){
                 $(this).remove()
-                self.$parent.removeArticle(self.cartArticle.article.name);
+                self.$parent.removeEntireArticle(self.cartArticle.article, self.numberOfItems);
             })
             
         }

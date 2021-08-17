@@ -15,7 +15,6 @@ body{
     color: #181e27;
     width: 100%;
     min-height: 100vh;
-    
 }
 
 input, textarea, select{
@@ -68,6 +67,7 @@ input[type="text"], textarea, [contenteditable]{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    overflow-x: hidden;
 }
 
 #homepage-content{

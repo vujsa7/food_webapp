@@ -6,7 +6,7 @@
     "discount": 0,
     "orders": [],
     "cart": {
-      "price": 0.0,
+      "price": -7.470000000000001,
       "articles": [],
       "buyerId": "aki"
     },
