@@ -22,8 +22,8 @@ import services.UserService;
 
 public class LoginController {
 	
-	private Gson gson = new Gson();
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+	private Gson gson = new Gson();
 	
 	public LoginController(LoginService loginService, UserService userService) {
 		
@@ -42,26 +42,23 @@ public class LoginController {
 				}
 				res.status(401);
 				return "The username or password you've entered is incorrect.";
-			}catch (Exception e) {
-				e.printStackTrace();
-				return "";
+			} catch (Exception e) {
+				return "Server error!";
 			}
 		});
 		
-		get("rest/loginWithJwt", (req, res) -> {
+		get("rest/accessUserWithJwt", (req, res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
-//			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    User user = userService.getById(claims.getBody().getSubject());
 				    res.status(200);
-				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth());
+				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getUsername(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth());
 				    return gson.toJson(loggedInBuyerDTO);
 				}catch (Exception e) {
-					e.printStackTrace();
 					res.status(401);
 					return "Your session has expired.";
 				}

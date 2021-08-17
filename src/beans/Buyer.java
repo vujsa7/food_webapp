@@ -22,7 +22,7 @@ public class Buyer extends User {
 		this.buyerType = buyerType;
 		this.discount = discount;
 		this.orders = new ArrayList<Order>();
-		this.cart = new Cart();
+		this.cart = new Cart(0, new ArrayList<Article>(), username);
 	}
    	
 	public int getPoints() {

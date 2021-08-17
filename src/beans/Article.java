@@ -2,7 +2,7 @@ package beans;
 
 public class Article{
 	
-	private int id;
+	private int restaurantId;
 	private String name;
 	private double price;
 	private ArticleType articleType;
@@ -10,9 +10,9 @@ public class Article{
 	private String description;
 	private String image;
 	
-	public Article(int id, String name, double price, ArticleType articleType, int quantity, String description, String image) {
+	public Article(int restaurantId, String name, double price, ArticleType articleType, int quantity, String description, String image) {
 		super();
-		this.id = id;
+		this.restaurantId = restaurantId;
 		this.name = name;
 		this.price = price;
 		this.articleType = articleType;
@@ -73,11 +73,11 @@ public class Article{
 		this.image = image;
 	}
 	
-	public int getId() {
-		return this.id;
+	public int getRestaurantId() {
+		return this.restaurantId;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setRestaurantId(int restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 }

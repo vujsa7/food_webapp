@@ -13,7 +13,8 @@ Vue.component("restaurant-view", {
             "../../assets/icons/linkedin-logo.png",
             "../../assets/icons/facebook-logo.png",
             "../../assets/icons/instagram-logo.png"
-          ]
+          ],
+          cart: undefined,
       }
     },
     components:{
@@ -47,6 +48,42 @@ Vue.component("restaurant-view", {
       displaySignUpModal(){
         this.$refs.registerChild.displaySignUpModal();
       },
+      addArticleToCart(article, numberOfItems){
+        if(!this.cart){
+          let articles = [];
+          for(x = 0; x < numberOfItems; x+=1){
+            articles.push(article);
+          }
+          this.cart = {articles: articles, price: article.price*numberOfItems, buyerId: this.user.username}
+        } else {
+          let articles = [];
+          for(x = 0; x < numberOfItems; x+=1){
+            this.cart.articles.push(article);
+          }
+          this.cart.price += article.price*numberOfItems;
+        }
+        this.saveCartOnServer();
+      },
+      saveCartOnServer(){
+        let token = window.localStorage.getItem('token');
+        if(token){
+          axios
+          .put("http://localhost:8081/rest/updateCart/" + this.user.username, this.cart, {
+            headers:{
+              'Authorization': 'Bearer ' + token 
+            }
+          })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.log(error.data);
+          });
+        }
+      },
+      navigateToCartView(){
+        this.$router.push({name: 'cart'})
+      }
     },
     created(){
       window.addEventListener('scroll', this.handleScroll);
@@ -64,22 +101,36 @@ Vue.component("restaurant-view", {
         this.restaurant = response.data;
       })
       .catch(error => {
-        // Bad request for fetching a restaurant -> failed to get that restaurant
         console.log(response.data);
       });
 
-      axios
-      .get("http://localhost:8081/rest/loginWithJwt", {
-          headers:{
-          'Authorization': 'Bearer ' + window.localStorage.getItem("token")
-          }
-      })
-      .then(response => {
-          this.user = response.data;
-      })
-      .catch(error => {
-          // TODO session probably expired, jwt invalid
-      })
+      let token = window.localStorage.getItem('token');
+      if(token){
+        axios
+        .get("http://localhost:8081/rest/accessUserWithJwt", {
+            headers:{
+            'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => {
+            this.user = response.data;
+            axios
+            .get("http://localhost:8081/rest/cart/" + this.user.username, {
+              headers:{
+              'Authorization': 'Bearer ' + token
+              }
+            })
+            .then(response => {
+              this.cart = response.data;
+            })
+            .catch(error => {
+              console.log(response.data);
+            });
+        })
+        .catch(error => {
+            // TODO session probably expired, jwt invalid
+        })
+      }
 
       axios
       .get("http://localhost:8081/rest/commentsForPublic/" + this.$route.params.id)
@@ -90,7 +141,6 @@ Vue.component("restaurant-view", {
           // Failed to fetch comments
           this.comments = []
       })
-      
     },
     template: 
     `
@@ -98,8 +148,11 @@ Vue.component("restaurant-view", {
       <register-dialog ref="registerChild"></register-dialog>
       <login-dialog ref="loginChild"></login-dialog>
       <transition name="fade">
-        <div v-if="stickyCart" id="floating-cart-container">
-          <div class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
+        <div v-if="cart && stickyCart" id="floating-cart-container">
+          <div @click="navigateToCartView()" class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
+            <div v-if="cart.articles.length > 0" class="dot floating-cart-article-number d-flex justify-content-center align-items-center">
+              {{cart.articles.length}}
+            </div>
             <img src="../assets/icons/cart.png" alt="shopping-cart" class="shopping-cart-pic">
           </div>
         </div>
@@ -158,7 +211,10 @@ Vue.component("restaurant-view", {
                 <div class="image-cropper mx-2">
                   <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
                 </div>
-                <div v-if="!stickyCart" class="mb-1">
+                <div v-if="cart && !stickyCart" @click="navigateToCartView()" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
+                  <div v-if="cart.articles.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
+                    {{cart.articles.length}}
+                  </div>
                   <img src="../assets/icons/cart-dark.png" alt="shopping-cart" class="shopping-cart-pic mx-1">
                 </div>
               </div> 

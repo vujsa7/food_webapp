@@ -9,6 +9,7 @@ import beans.Article;
 import beans.ArticleType;
 import beans.Comment;
 import beans.Restaurant;
+import controllers.CartController;
 import controllers.CommentController;
 import controllers.LoginController;
 import controllers.OrderController;
@@ -52,6 +53,7 @@ public class Main {
 		OrderService orderService = new OrderService();
 		CommentService commentService = new CommentService();
 		RestaurantService restaurantService = new RestaurantService();
+		CartService cartService = new CartService();
 		
 
 		UserController userController = new UserController(userService);
@@ -60,6 +62,7 @@ public class Main {
 		OrderController orderController = new OrderController(orderService);
 		CommentController commentController = new CommentController(commentService);
 		RestaurantController restaurantController = new RestaurantController(restaurantService, userService);
+		CartController cartController = new CartController(cartService, userService);
 		
 		
 //		Article a1 = new Article(0, "Steak", 12.39, ArticleType.meal, 81, "A good steak is juicy, tender, loaded with flavor, and has a minimum amount of fat.", "../assets/images/restaurant-images/foods/001.jpg");	

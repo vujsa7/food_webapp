@@ -22,7 +22,7 @@
     },
     "articles": [
       {
-        "id": 1,
+      	"restaurantId": 1,
         "name": "Steak",
         "price": 12.39,
         "articleType": "meal",
@@ -31,7 +31,7 @@
         "image": "../assets/images/restaurant-images/foods/001.jpg"
       },
       {
-        "id": 2,
+        "restaurantId": 1,
         "name": "Hamburger",
         "price": 7.39,
         "articleType": "meal",
@@ -40,7 +40,7 @@
         "image": "../assets/images/restaurant-images/foods/002.jpg"
       },
       {
-        "id": 3,
+        "restaurantId": 1,
         "name": "Kebabs",
         "price": 9.79,
         "articleType": "meal",
@@ -49,7 +49,7 @@
         "image": "../assets/images/restaurant-images/foods/003.jpg"
       },
       {
-        "id": 4,
+        "restaurantId": 1,
         "name": "Capricciosa",
         "price": 6.99,
         "articleType": "meal",
@@ -58,7 +58,7 @@
         "image": "../assets/images/restaurant-images/foods/004.jpg"
       },
       {
-        "id": 5,
+        "restaurantId": 1,
         "name": "Beef ",
         "price": 11.39,
         "articleType": "meal",
@@ -67,7 +67,7 @@
         "image": "../assets/images/restaurant-images/foods/005.jpg"
       },
       {
-        "id": 6,
+        "restaurantId": 1,
         "name": "Burger",
         "price": 6.49,
         "articleType": "meal",
@@ -76,7 +76,7 @@
         "image": "../assets/images/restaurant-images/foods/006.jpg"
       },
       {
-        "id": 7,
+        "restaurantId": 1,
         "name": "Lemonade",
         "price": 2.49,
         "articleType": "drink",
@@ -85,7 +85,7 @@
         "image": "../assets/images/restaurant-images/foods/011.jpg"
       },
       {
-        "id": 8,
+        "restaurantId": 1,
         "name": "Strawberry juice",
         "price": 4.49,
         "articleType": "drink",
@@ -94,7 +94,7 @@
         "image": "../assets/images/restaurant-images/foods/012.jpg"
       },
       {
-        "id": 9,
+        "restaurantId": 1,
         "name": "Coca Cola",
         "price": 1.99,
         "articleType": "drink",
@@ -103,7 +103,7 @@
         "image": "../assets/images/restaurant-images/foods/013.jpg"
       },
       {
-        "id": 10,
+        "restaurantId": 1,
         "name": "Orange juice",
         "price": 3.49,
         "articleType": "drink",

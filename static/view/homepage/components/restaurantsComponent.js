@@ -183,7 +183,7 @@ var restaurantsComponent = {
         this.searchedRestaurants = this.restaurants.filter(this.filterRestaurantsFromSearch);
         this.displayRestaurants = this.searchedRestaurants;
       },
-      showRestaurant(id, restaurant){
+      navigateToRestaurantView(id, restaurant){
         this.$router.push({ name: 'restaurant', params: { id: id }});
       }
     },
@@ -198,7 +198,7 @@ var restaurantsComponent = {
     template:
     `
     <div class="restaurants-body" v-bind:class="{'restaurant-body-search-mode' : isSearchMode}">
-      <div class="card restaurant-card d-flex flex-row" @click="showRestaurant(restaurant.id, restaurant)" v-for="restaurant in displayRestaurants" v-bind:key="restaurant.id">
+      <div class="card restaurant-card d-flex flex-row" @click="navigateToRestaurantView(restaurant.id, restaurant)" v-for="restaurant in displayRestaurants" v-bind:key="restaurant.id">
           <img class="restaurant-img" v-bind:src="restaurant.bannerImage" alt="Restaurant image">
           <div class="d-flex flex-column restaurant-info">
             <div class="d-flex flex-row">

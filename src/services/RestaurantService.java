@@ -81,7 +81,7 @@ public class RestaurantService {
 	public Article changeArticle(Article changedArticle, Manager manager) throws JsonSyntaxException, IOException {
 		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
 		for(Article a : restaurant.getArticles()) {
-			if(a.getId() == changedArticle.getId()) {
+			if(a.getRestaurantId() == changedArticle.getRestaurantId()) {
 				a.setName(changedArticle.getName());
 				a.setImage(changedArticle.getImage());
 				a.setDescription(changedArticle.getDescription());

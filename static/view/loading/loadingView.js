@@ -14,7 +14,7 @@ Vue.component("loading-view", {
         if(!token)
             return;
         axios
-        .get("http://localhost:8081/rest/loginWithJwt", {
+        .get("http://localhost:8081/rest/accessUserWithJwt", {
             headers:{
             'Authorization': 'Bearer ' + token
             }
@@ -23,7 +23,8 @@ Vue.component("loading-view", {
             this.$router.push({ name: 'homepageBuyer'})
         })
         .catch(error => {
-            this.$router.push({ name: 'homepage'})
+            window.localStorage.setItem('token', null);
+            this.$router.push({ name: 'homepage'})            
         })
     },
     template:

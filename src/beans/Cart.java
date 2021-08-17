@@ -4,16 +4,24 @@ import java.util.ArrayList;
 
 public class Cart implements java.io.Serializable{
 
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8552954323788623082L;
 	private double price;  
    	private ArrayList<Article> articles;
-	private Buyer buyer;
+	private String buyerId;
    	
 	public Cart() {
 		
+	}
+	
+	public Cart(double price, ArrayList<Article> articles, String buyerId) {
+		super();
+		this.price = price;
+		this.articles = articles;
+		this.buyerId = buyerId;
 	}
 	
 	public double getPrice() {
@@ -24,12 +32,12 @@ public class Cart implements java.io.Serializable{
 		this.price = price;
 	}
 	
-	public Buyer getBuyer() {
-		return buyer;
+	public String getBuyerId() {
+		return buyerId;
 	}
 
-	public void setBuyer(Buyer buyer) {
-		this.buyer = buyer;
+	public void setBuyer(String buyerid) {
+		this.buyerId = buyerId;
 	}
 	
 	public ArrayList<Article> getArticles() {

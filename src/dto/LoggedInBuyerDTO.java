@@ -6,15 +6,17 @@ import beans.AccountType;
 import beans.Gender;
 
 public class LoggedInBuyerDTO {
+	private String username;
    	private String name;
    	private String surname;
    	private Gender gender;
    	private Date dateOfBirth;
    	private AccountType accountType;
    	
-	public LoggedInBuyerDTO(String name, String surname, Gender gender,
+	public LoggedInBuyerDTO(String username, String name, String surname, Gender gender,
 			Date dateOfBirth) {
 		super();
+		this.setUsername(username);
 		this.name = name;
 		this.surname = surname;
 		this.gender = gender;
@@ -60,5 +62,13 @@ public class LoggedInBuyerDTO {
 
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

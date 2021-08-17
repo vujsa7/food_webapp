@@ -36,6 +36,32 @@ a:hover {
     cursor: pointer;
 }
 
+img::selection {
+    background-color:transparent;
+} 
+
+img::-moz-selection{
+    background-color:transparent;
+}
+
+img{        
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    /*IE10*/
+    -ms-user-select: none;
+    user-select: none;
+
+    /*You just need this if you are only concerned with android and not desktop browsers.*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input[type="text"], textarea, [contenteditable]{
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 #homepage{
     object-fit: cover;
     -webkit-background-size: cover;
@@ -856,4 +882,18 @@ footer .copyright{
 
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+.homepage-floating-cart-article-number{
+    background-color: #181e27;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    top:-5px;
+    right:-5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
 }

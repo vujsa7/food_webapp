@@ -1,0 +1,229 @@
+.shopping-cart-body{
+    padding-left: 7.292vw;
+    padding-right: 7.292vw;
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    font-weight: lighter;
+}
+
+.shopping-cart-title-container{
+    margin-top: 30px;
+}
+
+.shopping-cart-title{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.articles-in-cart-container{
+    margin-right: 25px;
+    width: 100%;
+}
+
+.order-info-container{
+    margin-left: 25px;
+    height: 322px;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
+    border-radius: 15px;
+    border-width: 0px;
+}
+
+@media screen and (min-width: 1300px) {
+    .order-info-container{
+        min-width: 368px;
+    }
+
+    .continue-shopping-bottom-container{
+        display: none !important;
+    }
+}
+
+
+.cart-article-card{
+    height: 166px;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
+    border-radius: 15px;
+    border-width: 0px;
+    margin-bottom: 30px;
+}
+
+.cart-article-img{
+    height: 166px;
+    min-width: 16.354vw;
+    flex-shrink: 5;
+    border-radius: 15px 0 0 15px;
+    object-fit: cover;
+}
+
+
+.cart-article-info{
+    width: 100%;
+}
+
+.cart-article-name-container{
+    height: 86px;
+    flex-basis: 51.82%;
+    padding-left: 30px;
+}
+
+.cart-article-quantity-container{
+    height: 86px;
+    flex-basis: 35.51%;
+}
+
+.cart-article-price-container{
+    height: 86px;
+    flex-basis: 12.66%;
+    margin-right: 30px;
+}
+
+.cart-article-title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.cart-link{
+    color: #FE0435;
+}
+
+.cart-link:hover{
+    color: #c70028;
+}
+
+.cart-article-plus-minus-container{
+    width: 120px;
+    border: 1px solid #a2a2a2;
+    border-radius: 9px;
+    height: 50px;
+}
+
+@media screen and (max-width: 1300px){
+    .cart-body-container{
+        flex-direction: column !important;
+    }
+
+    .order-info-container{
+        width: 368px;
+        margin: 0px;
+        align-self: flex-end;
+    }
+
+    .articles-in-cart-container{
+        margin: 0px;
+    }
+
+    .continue-shopping-container{
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .cart-article-card{
+        padding: 20px 20px 20px 20px;
+        height: 191px;
+    }
+
+    .cart-article-img{
+        height: 151px;
+        min-width: 151px;
+        border-radius: 9px;
+    }
+
+    .cart-article-info{
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+    .order-info-container{
+        max-width: 100%;
+        margin: 0px;
+    }
+
+    .cart-article-quantity-container .cart-article-title{
+        display:none;
+    }
+
+    .cart-article-name-container{
+        height: 57px;
+        flex-basis: 100%;
+        padding-left: 30px;
+        margin-bottom: 18px;
+    }
+
+    .cart-article-price-container{
+        padding-left: 30px;
+        height: 57px;
+        flex-basis: 100%;
+    }
+    
+    .cart-article-price-container .cart-article-title, .cart-article-name-container .cart-article-title{
+        margin-bottom: .25rem !important;
+    }
+
+    .cart-article-quantity-container{
+        position: absolute;
+        height: 57px;
+        right: 10px;
+        top: 95px;
+    }
+}
+
+@media screen and (max-width: 510px){
+    .cart-article-card{
+        height: 132px;
+    }
+
+    .cart-article-img{
+        height: 94px;
+        min-width: 94px;
+        border-radius: 9px;
+    }
+
+    .cart-article-name-container{
+        margin-bottom: 5px
+    }
+
+    .cart-article-price-container .cart-article-title{
+        display: none;
+    }
+
+    .cart-article-quantity-container{
+        position: absolute;
+        right: 10px;
+        top: 37px;
+    }
+
+    .cart-article-plus-minus-container{
+        width: 100px;
+    }
+    
+}
+
+.order-info-container{
+    padding: 40px 50px;
+}
+
+.order-info-container .regular-button{
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+}
+
+.left-arrow-img{
+    width: 30px;
+}
+
+.continue-shopping-container{
+    width: fit-content;
+}
+
+.continue-shopping-container:hover, .continue-shopping:hover{
+    cursor: pointer;
+}
+
+.continue-shopping-bottom-container{
+    align-self: flex-end;
+}
+

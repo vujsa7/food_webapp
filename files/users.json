@@ -6,7 +6,9 @@
     "discount": 0,
     "orders": [],
     "cart": {
-      "price": 0.0
+      "price": 0.0,
+      "articles": [],
+      "buyerId": "aki"
     },
     "username": "aki",
     "password": "car",
@@ -25,7 +27,9 @@
     "discount": 0,
     "orders": [],
     "cart": {
-      "price": 0.0
+      "price": 0.0,
+      "articles": [],
+      "buyerId": "gordon"
     },
     "username": "gordon",
     "password": "ramsey",
@@ -44,7 +48,9 @@
     "discount": 0,
     "orders": [],
     "cart": {
-      "price": 0.0
+      "price": 0.0,
+      "articles": [],
+      "buyerId": "miki"
     },
     "username": "miki",
     "password": "123",
