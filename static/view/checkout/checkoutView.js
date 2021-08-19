@@ -54,6 +54,10 @@ Vue.component("checkout-view",{
         messageDialog: messageDialogComponent 
     },
     methods:{
+        logout(){
+            window.localStorage.setItem('token', null);
+            this.$router.push({name: 'logout'});
+        },
         changeToDarkLogo(index){
             if(index == 0 || index == 3)
             Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
@@ -85,7 +89,6 @@ Vue.component("checkout-view",{
             this.form.expiryDate = e.target.value.replace("/",'');
           },
           submitForm(){
-
               if(!this.isMakeOrderBtnDisabled){
                 var order = {
                     "price": this.cart.price,
@@ -132,6 +135,9 @@ Vue.component("checkout-view",{
                     }
                 });
              }
+          },
+          navigateToCartView(){
+              this.$router.push({name: 'cart'});
           }
     },
     computed:{
@@ -277,8 +283,14 @@ Vue.component("checkout-view",{
         <div v-if="user">
             <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
                 <div class="user-info-container d-flex flex-row-reverse mt-2">
-                    <div>
+                    <div class="dropdown" style="z-index: 100">
+                        <a id="imageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="../assets/icons/arrow-dark.png" alt="arrow" class="arrow-pic mx-2">
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
+                        <li><a class="dropdown-item">Edit profile</a></li>
+                        <li><a class="dropdown-item" @click="logout()">Logout</a></li>
+                        </ul>
                     </div>
                     <span>
                         {{user.name}} {{user.surname}}
@@ -469,11 +481,10 @@ Vue.component("checkout-view",{
             </div>
             <div class="checkout-actions-container align-items-center d-flex flex-row mt-4">
                 <div class="left">
-                    <div class="d-flex flex-row align-items-center return-to-cart-container">
+                    <div @click="navigateToCartView()" class="d-flex flex-row align-items-center return-to-cart-container">
                         <img src="../assets/icons/arrow-left.png" class="left-arrow-img me-2">
                         <span class="fw-bold">Return to cart</span>
                     </div>
-                    
                 </div>
                 <div class="right text-end">
                     <button :disabled="isMakeOrderBtnDisabled" type="submit" class="btn btn-danger regular-button">Make order</button>

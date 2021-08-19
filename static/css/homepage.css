@@ -906,3 +906,9 @@ footer .copyright{
     border-radius: 50%;
     display: inline-block;
 }
+
+.dropdown-menu{
+    top: 120% !important;
+    left: -135px !important;
+    margin-top: .125rem;
+}

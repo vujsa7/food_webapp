@@ -30,6 +30,10 @@ Vue.component("restaurant-view", {
       messageDialog: messageDialogComponent 
     },
     methods:{
+      logout(){
+        window.localStorage.setItem('token', null);
+        this.$router.push({name: 'logout'});
+      },
       changeToDarkLogo(index){
         if(index == 0 || index == 3)
         Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
@@ -243,9 +247,15 @@ Vue.component("restaurant-view", {
           <div v-if="user">
             <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
               <div class="user-info-container d-flex flex-row-reverse mt-2">
-                <div class="arrow-container">
+              <div class="dropdown arrow-container" style="z-index: 100">
+                <a id="imageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                   <img src="../assets/icons/arrow-dark.png" alt="arrow" class="arrow-pic mx-2">
-                </div>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
+                  <li><a class="dropdown-item">Edit profile</a></li>
+                  <li><a class="dropdown-item" @click="logout()">Logout</a></li>
+                </ul>
+              </div>
                 <span>
                   {{user.name}} {{user.surname}}
                 </span>

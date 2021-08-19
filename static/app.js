@@ -7,6 +7,7 @@ const Checkout = {template: '<checkout-view></checkout-view>'}
 const routes = [
     {path: '/', name: 'loading', component: Loading},
     {path: '/homepage', name: 'homepage', component: Homepage},
+    {path: '/logout', name: 'logout', component: Homepage},
     {path: '/homepage/buyer', name: 'homepageBuyer', component: Homepage},
     {path: '/restaurant/:id', name: 'restaurant', component: Restaurant},
     {path: '/cart', name: 'cart', component: Cart},

@@ -158,6 +158,10 @@ methods: {
     },
     navigateHome(){
       this.$router.push({name: 'homepage'})
+    },
+    logout(){
+      window.localStorage.setItem('token', null);
+      this.$router.push({name: 'logout'});
     }
 },
 created() {
@@ -282,8 +286,14 @@ template: `
         <div v-if="user">
           <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
             <div class="homepage-user-info-container d-flex flex-row-reverse mt-2">
-              <div>
-                <img src="../assets/icons/arrow.png" alt="arrow" class="arrow-pic mx-2">
+              <div class="dropdown" style="z-index: 100">
+                <a id="imageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="../assets/icons/arrow.png" alt="arrow" class="arrow-pic mx-2">
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
+                  <li><a class="dropdown-item">Edit profile</a></li>
+                  <li><a class="dropdown-item" @click="logout()">Logout</a></li>
+                </ul>
               </div>
               <span>
                 {{user.name}} {{user.surname}}
