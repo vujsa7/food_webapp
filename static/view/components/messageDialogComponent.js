@@ -24,8 +24,8 @@ var messageDialogComponent = {
       }
     },
     template: `
-    <div class="info-modal" :class="{ 'display-block' : isMessageModalDisplayed }" @click="hideDialog">
-      <div class="info-modal-content">
+    <div class="modal" :class="{ 'display-block' : isMessageModalDisplayed }" @click="hideDialog">
+      <div class="modal-content">
           <div class="modal-header d-flex flex-column">
               <div class="d-flex flex-row align-items-center">
               <span class="align-self-center">{{message.title}}</span>

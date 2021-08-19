@@ -6,8 +6,27 @@
     "discount": 0,
     "orders": [],
     "cart": {
-      "price": 0.0,
-      "articles": [],
+      "price": 26.36,
+      "articles": [
+        {
+          "restaurantId": 2,
+          "name": "Chicken",
+          "price": 5.79,
+          "articleType": "meal",
+          "quantity": 150,
+          "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
+          "image": "../assets/images/restaurant-images/foods/203.jpg"
+        },
+        {
+          "restaurantId": 2,
+          "name": "Chicken",
+          "price": 5.79,
+          "articleType": "meal",
+          "quantity": 150,
+          "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
+          "image": "../assets/images/restaurant-images/foods/203.jpg"
+        }
+      ],
       "buyerId": "aki"
     },
     "username": "aki",

@@ -24,11 +24,8 @@ var articleItemComponent = {
             this.isSvgAnimationActive = true;
             setTimeout(() => {
                 this.isSvgAnimationActive = false;
-              }, 2000);
+                }, 2000);
         }
-    },
-    computed:{
-        
     },
     template:
     `
@@ -51,7 +48,7 @@ var articleItemComponent = {
                     <div @click="addArticle()" class="article-plus-container d-flex justify-content-center align-items-center">
                         <img class="plus-minus-img" src="../assets/icons/plus.png" alt="Add article">
                     </div>
-                </div> <!--&#36;-->
+                </div>
                 <button type="button" :class="{'open': isSvgAnimationActive, 'zero-font-size': isSvgAnimationActive}" class="btn btn-danger regular-button" @click="addArticleToCart">
                     {{article.price}} <span class="ms-1" :class="{'zero-font-size': isSvgAnimationActive}" style="font-weight: 300; font-size: 14px;">Add to cart</span>
                     <svg class="mt-1 me-1" version="1.1" width="30px" height="30px" x="0px" y="0px"

@@ -28,7 +28,7 @@
         "articleType": "meal",
         "quantity": 81,
         "description": "A good steak is juicy, tender, loaded with flavor, and has a minimum amount of fat.",
-        "image": "../assets/images/restaurant-images/foods/001.jpg"
+        "image": "../assets/images/restaurant-images/foods/101.jpg"
       },
       {
         "restaurantId": 1,
@@ -37,7 +37,7 @@
         "articleType": "meal",
         "quantity": 40,
         "description": "Juicy, big, loaded with toppings of your choice.",
-        "image": "../assets/images/restaurant-images/foods/002.jpg"
+        "image": "../assets/images/restaurant-images/foods/102.jpg"
       },
       {
         "restaurantId": 1,
@@ -46,7 +46,7 @@
         "articleType": "meal",
         "quantity": 64,
         "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
-        "image": "../assets/images/restaurant-images/foods/003.jpg"
+        "image": "../assets/images/restaurant-images/foods/103.jpg"
       },
       {
         "restaurantId": 1,
@@ -55,7 +55,7 @@
         "articleType": "meal",
         "quantity": 120,
         "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
-        "image": "../assets/images/restaurant-images/foods/004.jpg"
+        "image": "../assets/images/restaurant-images/foods/104.jpg"
       },
       {
         "restaurantId": 1,
@@ -64,7 +64,7 @@
         "articleType": "meal",
         "quantity": 34,
         "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
-        "image": "../assets/images/restaurant-images/foods/005.jpg"
+        "image": "../assets/images/restaurant-images/foods/105.jpg"
       },
       {
         "restaurantId": 1,
@@ -73,7 +73,7 @@
         "articleType": "meal",
         "quantity": 133,
         "description": "Tasty, delicious, and will have you craving more on the first bite.",
-        "image": "../assets/images/restaurant-images/foods/006.jpg"
+        "image": "../assets/images/restaurant-images/foods/106.jpg"
       },
       {
         "restaurantId": 1,
@@ -82,7 +82,7 @@
         "articleType": "drink",
         "quantity": 100,
         "description": "A beverage of sweetened lemon juice mixed with water.",
-        "image": "../assets/images/restaurant-images/foods/011.jpg"
+        "image": "../assets/images/restaurant-images/foods/111.jpg"
       },
       {
         "restaurantId": 1,
@@ -91,7 +91,7 @@
         "articleType": "drink",
         "quantity": 85,
         "description": "Strawberries shine in this tall, refreshing, gingery cocktail.",
-        "image": "../assets/images/restaurant-images/foods/012.jpg"
+        "image": "../assets/images/restaurant-images/foods/112.jpg"
       },
       {
         "restaurantId": 1,
@@ -100,7 +100,7 @@
         "articleType": "drink",
         "quantity": 76,
         "description": "Fresh, cold and sweet drink.",
-        "image": "../assets/images/restaurant-images/foods/013.jpg"
+        "image": "../assets/images/restaurant-images/foods/113.jpg"
       },
       {
         "restaurantId": 1,
@@ -109,7 +109,7 @@
         "articleType": "drink",
         "quantity": 93,
         "description": "100% pure-squeezed, pasteurized orange juice.",
-        "image": "../assets/images/restaurant-images/foods/014.jpg"
+        "image": "../assets/images/restaurant-images/foods/114.jpg"
       }
     ],
     "isDeleted": false
@@ -135,7 +135,89 @@
         }
       }
     },
-    "articles": [],
+    "articles": [
+      {
+      	"restaurantId": 2,
+        "name": "Chicken wings",
+        "price": 8.39,
+        "articleType": "meal",
+        "quantity": 200,
+        "description": "Juicy, tender, loaded with flavor, and has a minimum amount of fat.",
+        "image": "../assets/images/restaurant-images/foods/201.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Los Pollos Burger",
+        "price": 10.39,
+        "articleType": "meal",
+        "quantity": 250,
+        "description": "Big, soft and filled with toppings of your choice.",
+        "image": "../assets/images/restaurant-images/foods/202.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Chicken",
+        "price": 5.79,
+        "articleType": "meal",
+        "quantity": 150,
+        "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/203.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Margarita",
+        "price": 11.99,
+        "articleType": "meal",
+        "quantity": 300,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/204.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Salmon",
+        "price": 15.39,
+        "articleType": "meal",
+        "quantity": 180,
+        "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
+        "image": "../assets/images/restaurant-images/foods/205.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Coca Cola",
+        "price": 3.49,
+        "articleType": "drink",
+        "quantity": 100,
+        "description": "Well known sweet drink.",
+        "image": "../assets/images/restaurant-images/foods/211.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Lemonade juice",
+        "price": 4.49,
+        "articleType": "drink",
+        "quantity": 80,
+        "description": "A beverage of sweetened lemon juice mixed with water.",
+        "image": "../assets/images/restaurant-images/foods/212.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Kombucha",
+        "price": 4.99,
+        "articleType": "drink",
+        "quantity": 70,
+        "description": "Fermented, lightly effervescent, sweetened black or green tea drink.",
+        "image": "../assets/images/restaurant-images/foods/213.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Mineragua",
+        "price": 3.49,
+        "articleType": "drink",
+        "quantity": 90,
+        "description": "The most popular sparkling mineral water from Mexico.",
+        "image": "../assets/images/restaurant-images/foods/214.jpg"
+      }
+    ],
     "isDeleted": false
   },
   {

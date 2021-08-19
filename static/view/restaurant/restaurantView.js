@@ -16,12 +16,18 @@ Vue.component("restaurant-view", {
             "../../assets/icons/instagram-logo.png"
           ],
           cart: undefined,
+          messageDialogData:{
+            title: "",
+            message: "",
+            buttonText: ""
+          },
       }
     },
     components:{
       articleItem: articleItemComponent,
       registerDialog: registerDialogComponent,
-      loginDialog: loginDialogComponent
+      loginDialog: loginDialogComponent,
+      messageDialog: messageDialogComponent 
     },
     methods:{
       changeToDarkLogo(index){
@@ -50,20 +56,33 @@ Vue.component("restaurant-view", {
         this.$refs.registerChild.displaySignUpModal();
       },
       addArticleToCart(article, numberOfItems){
-        if(!this.cart){
-          let articles = [];
-          for(x = 0; x < numberOfItems; x+=1){
-            articles.push(article);
+        if(this.user){
+          if(!this.cart){
+            let articles = [];
+            for(x = 0; x < numberOfItems; x+=1){
+              articles.push(article);
+            }
+            this.cart = {articles: articles, price: (article.price*numberOfItems), buyerId: this.user.username}
+          } else {
+            if(this.cart.articles.length != 0){
+              if(this.cart.articles[0].restaurantId != this.restaurant.id){
+                this.messageDialogData.title = "Can't add item to cart";
+                this.messageDialogData.message = "You already have items from different restaurant in cart. Empty it before ordering from a new restaurant.";
+                this.messageDialogData.buttonText = "Ok";
+                this.$refs.messageDialogChild.displayDialog();
+                return;
+              }
+            }
+            let articles = [];
+            for(x = 0; x < numberOfItems; x+=1){
+              this.cart.articles.push(article);
+            }
+            this.cart.price += (article.price*numberOfItems);
           }
-          this.cart = {articles: articles, price: (article.price*numberOfItems), buyerId: this.user.username}
+          this.saveCartOnServer();
         } else {
-          let articles = [];
-          for(x = 0; x < numberOfItems; x+=1){
-            this.cart.articles.push(article);
-          }
-          this.cart.price += (article.price*numberOfItems);
+          this.displaySignInModal();
         }
-        this.saveCartOnServer();
       },
       saveCartOnServer(){
         let token = window.localStorage.getItem('token');
@@ -159,6 +178,7 @@ Vue.component("restaurant-view", {
     <div id="restaurantView">
       <register-dialog ref="registerChild"></register-dialog>
       <login-dialog ref="loginChild"></login-dialog>
+      <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
       <transition name="fade">
         <div v-if="cart && stickyCart" id="floating-cart-container">
           <div @click="navigateToCartView()" class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
