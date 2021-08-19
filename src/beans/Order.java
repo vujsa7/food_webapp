@@ -11,14 +11,29 @@ public class Order implements IIdentifiable<String> {
 	private OrderStatus orderStatus;
    
 	private ArrayList<Article> articles;
-	private int restaurant;
-	private String buyer;
+	private int restaurantId;
+	private String buyerId;
 	private boolean isDeleted;
 	
 	public Order() {
 		
 	}
 	
+	public Order(String id, Date dateOfOrder, double price, OrderStatus orderStatus, ArrayList<Article> articles,
+			int restaurantId, String buyerId, boolean isDeleted) {
+		super();
+		this.id = id;
+		this.dateOfOrder = dateOfOrder;
+		this.price = price;
+		this.orderStatus = orderStatus;
+		this.articles = articles;
+		this.restaurantId = restaurantId;
+		this.buyerId = buyerId;
+		this.isDeleted = isDeleted;
+	}
+
+
+
 	public Date getDateOfOrder() {
 		return dateOfOrder;
 	}
@@ -52,19 +67,19 @@ public class Order implements IIdentifiable<String> {
 	}
 	
 	public int getRestaurant() {
-		return restaurant;
+		return restaurantId;
 	}
 	
-	public void setRestaurant(int restaurant) {
-		this.restaurant = restaurant;
+	public void setRestaurant(int restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 	
 	public String getBuyer() {
-		return buyer;
+		return buyerId;
 	}
 	
-	public void setBuyer(String buyer) {
-		this.buyer = buyer;
+	public void setBuyer(String buyerId) {
+		this.buyerId = buyerId;
 	}
 
 	@Override

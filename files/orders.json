@@ -1,0 +1,78 @@
+[
+  {
+    "id": "LygkXSWLpJ",
+    "dateOfOrder": "Aug 19, 2021, 7:28:29 PM",
+    "price": 31.679999999999993,
+    "orderStatus": "processing",
+    "articles": [
+      {
+        "restaurantId": 1,
+        "name": "Steak",
+        "price": 12.39,
+        "articleType": "meal",
+        "quantity": 81,
+        "description": "A good steak is juicy, tender, loaded with flavor, and has a minimum amount of fat.",
+        "image": "../assets/images/restaurant-images/foods/001.jpg"
+      },
+      {
+        "restaurantId": 1,
+        "name": "Steak",
+        "price": 12.39,
+        "articleType": "meal",
+        "quantity": 81,
+        "description": "A good steak is juicy, tender, loaded with flavor, and has a minimum amount of fat.",
+        "image": "../assets/images/restaurant-images/foods/001.jpg"
+      },
+      {
+        "restaurantId": 1,
+        "name": "Beef ",
+        "price": 11.39,
+        "articleType": "meal",
+        "quantity": 34,
+        "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
+        "image": "../assets/images/restaurant-images/foods/005.jpg"
+      }
+    ],
+    "restaurantId": 1,
+    "buyerId": "aki",
+    "isDeleted": false
+  },
+  {
+    "id": "h3mb37IV4O",
+    "dateOfOrder": "Aug 19, 2021, 7:45:35 PM",
+    "price": 29.369999999999997,
+    "orderStatus": "processing",
+    "articles": [
+      {
+        "restaurantId": 1,
+        "name": "Kebabs",
+        "price": 9.79,
+        "articleType": "meal",
+        "quantity": 64,
+        "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/003.jpg"
+      },
+      {
+        "restaurantId": 1,
+        "name": "Kebabs",
+        "price": 9.79,
+        "articleType": "meal",
+        "quantity": 64,
+        "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/003.jpg"
+      },
+      {
+        "restaurantId": 1,
+        "name": "Kebabs",
+        "price": 9.79,
+        "articleType": "meal",
+        "quantity": 64,
+        "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/003.jpg"
+      }
+    ],
+    "restaurantId": 1,
+    "buyerId": "aki",
+    "isDeleted": false
+  }
+]

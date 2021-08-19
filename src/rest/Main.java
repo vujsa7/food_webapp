@@ -59,7 +59,7 @@ public class Main {
 		UserController userController = new UserController(userService);
 		RegistrationController registrationController = new RegistrationController(registrationService, userService);
 		LoginController loginController = new LoginController(loginService, userService);
-		OrderController orderController = new OrderController(orderService);
+		OrderController orderController = new OrderController(orderService, userService);
 		CommentController commentController = new CommentController(commentService);
 		RestaurantController restaurantController = new RestaurantController(restaurantService, userService);
 		CartController cartController = new CartController(cartService, userService);

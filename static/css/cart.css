@@ -1,3 +1,9 @@
+#cart-view{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 .shopping-cart-body{
     padding-left: 7.292vw;
     padding-right: 7.292vw;
@@ -97,6 +103,10 @@
     border: 1px solid #a2a2a2;
     border-radius: 9px;
     height: 50px;
+}
+
+.cart-body-container{
+    margin-bottom: 30px;
 }
 
 @media screen and (max-width: 1300px){
@@ -219,11 +229,11 @@
     width: fit-content;
 }
 
-.continue-shopping-container:hover, .continue-shopping:hover{
+.continue-shopping-container:hover, .continue-shopping-bottom-container:hover, .continue-shopping:hover{
     cursor: pointer;
 }
 
 .continue-shopping-bottom-container{
-    align-self: flex-end;
+    align-self: center;
 }
 

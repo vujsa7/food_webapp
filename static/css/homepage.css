@@ -148,14 +148,14 @@ input[type="text"], textarea, [contenteditable]{
     }
 }
 
-#full-logo{
+.full-logo{
     width: 172px;
     position: absolute;
     margin-left: 7.292vw;
-    z-index: -1;
+    z-index: 1;
 }
 
-#foodly-logo{
+.foodly-logo{
     position: absolute;
     margin:auto;
     padding-top: 10px;
@@ -163,7 +163,15 @@ input[type="text"], textarea, [contenteditable]{
     left: 0;
     right: 0;
     text-align: center;
-    z-index: -1;
+    z-index: 1;
+}
+
+.full-logo:hover{
+    cursor: pointer;
+}
+
+.foodly-logo:hover{
+    cursor: pointer;
 }
 
 .homepage-signin-signup-container{
@@ -633,6 +641,7 @@ input[type="text"], textarea, [contenteditable]{
 }
 
 footer{
+    margin-top: auto;
     background-color: #20242b;
 }
 

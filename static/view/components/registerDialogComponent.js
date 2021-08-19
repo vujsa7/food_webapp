@@ -10,6 +10,8 @@ const isSelected = (value) => value != "";
 const usernameRegex = new RegExp('[^a-zA-Z0-9]');
 let isUsernameValid = (value) => !usernameRegex.test(value);
 
+
+
 var registerDialogComponent = {
     data(){
       return{

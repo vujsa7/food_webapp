@@ -6,7 +6,9 @@ import java.util.*;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Order;
+import beans.OrderStatus;
 import dao.OrderDAO;
+import dto.CreateNewOrderDTO;
 
 public class OrderService {
 	private OrderDAO orderDao;
@@ -24,5 +26,11 @@ public class OrderService {
 			}
 		}
 		return restaurantOrders;
+	}
+
+	public void createOrder(CreateNewOrderDTO createNewOrderDTO) throws JsonSyntaxException, IOException {
+		Date date = new Date();
+		Order order = new Order(orderDao.generateId(), date, createNewOrderDTO.getPrice(), OrderStatus.processing, createNewOrderDTO.getArticles(), createNewOrderDTO.getRestaurantId(), createNewOrderDTO.getBuyerId(), false);
+		orderDao.create(order);
 	}
 }

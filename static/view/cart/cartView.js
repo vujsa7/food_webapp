@@ -4,7 +4,16 @@ Vue.component( "cart-view",{
             user: undefined,
             cart: undefined,
             cartSubtotal:  this.cart ? parseFloat(this.cart.price).toFixed(2) : undefined,
-            cartTotal: this.cart ? parseFloat(this.cart.price + 5 - 0.5).toFixed(2) : undefined
+            cartTotal: this.cart ? parseFloat(this.cart.price + 5 - 0.5).toFixed(2) : undefined,
+            selectedNavIndex: 0,
+            socialMediaLogo: [
+              "../../assets/icons/linkedin-logo.png",
+              "../../assets/icons/facebook-logo.png",
+              "../../assets/icons/instagram-logo.png",
+              "../../assets/icons/linkedin-logo.png",
+              "../../assets/icons/facebook-logo.png",
+              "../../assets/icons/instagram-logo.png"
+            ],
         }
     },
     methods:{
@@ -23,22 +32,22 @@ Vue.component( "cart-view",{
                 if(this.cart.price < 0.01)
                     this.cart.price = 0;
                 this.cart.articles.splice(index, 1);
-                this.recalculateOrderInfo();
                 this.saveCartOnServer();
+                this.recalculateOrderInfo();
             }
                 
         },
         addArticle(article){
             this.cart.price += article.price;
             this.cart.articles.push(article);
-            this.recalculateOrderInfo();
             this.saveCartOnServer();
+            this.recalculateOrderInfo();
         },
         removeEntireArticle(article, numberOfItems){
             this.cart.price -= numberOfItems * article.price;
             this.cart.articles = this.cart.articles.filter(function(el){return el.name != article.name});
-            this.recalculateOrderInfo();
             this.saveCartOnServer();
+            this.recalculateOrderInfo();
         },
         recalculateOrderInfo(){
             this.cartSubtotal = parseFloat(this.cart.price).toFixed(2)
@@ -60,7 +69,43 @@ Vue.component( "cart-view",{
                 console.log(error.data);
               });
             }
-          },
+        },
+        navigateHome(){
+            this.$router.push({name: 'homepage'})
+        },
+        continueShopping(){
+            if(this.$route.params.path)
+              this.$router.push({ name: 'restaurant', params: { id: this.$route.params.path }});
+            else
+              this.$router.push({name: 'homepageBuyer'});
+        },
+        changeToDarkLogo(index){
+          if(index == 0 || index == 3)
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
+          else if(index == 1 || index == 4)
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo-dark.png");
+          else
+          Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo-dark.png");
+        },
+        changeToLightLogo(index){
+            if(index == 0 || index == 3)
+            Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo.png");
+            else if(index == 1 || index == 4)
+            Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo.png");
+            else
+            Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
+        },
+        isSelectedNavItem(index){
+          if(index == this.selectedNavIndex)
+            return true;
+          return false;
+        },
+        changeSelectedNavItem(index){
+          this.selectedNavIndex = index;
+        },
+        navigateToCheckout(){
+          this.$router.push({name: 'checkout'})
+        }
     },
     computed: {
         mutatedArticles: function() {
@@ -119,10 +164,10 @@ Vue.component( "cart-view",{
     <div id="cart-view">
         <div class="container-fluid navigation-container pt-3 px-0">
             <div class="container-fluid d-none d-lg-block px-0">
-              <img src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" id="full-logo">
+              <img src="../assets/images/logos/foodly-logos/full-logo.png" @click="navigateHome()" alt="Brand logo" class="full-logo">
             </div>
             <div class="container d-lg-none px-0">
-              <img src="../assets/images/logos/foodly-logos/foodly-logo.png" alt="Brand logo" id="foodly-logo">
+              <img src="../assets/images/logos/foodly-logos/foodly-logo.png" @click="navigateHome()" alt="Brand logo" class="foodly-logo">
             </div>
             <nav class="navbar navbar-expand-lg navbar-light">
               <div class="container-fluid px-0">
@@ -132,14 +177,23 @@ Vue.component( "cart-view",{
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                   <ul class="navbar-nav">
                     <li class="nav-item">
-                      <a class="nav-link active py-0" aria-current="page" href="#">Home</a>
+                      <div class="nav-link-container">
+                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                        <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
+                      </div>
                     </li>
                     <li v-if="user && user.accountType=='buyer'" class="nav-item">
-                        <a class="nav-link py-0" href="#">Orders</a>
+                      <div class="nav-link-container">
+                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                        <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                      </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-0" href="#">About us</a>
-                      </li>
+                      <div class="nav-link-container">
+                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(2)" aria-current="page" href="#">About</a>
+                        <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -162,7 +216,7 @@ Vue.component( "cart-view",{
         </div>
         <div v-if="!cart || cart.articles.length == 0" class="d-flex flex-column justify-content-center align-items-center">
             <img class="empty-cart-img img-fluid" src="../assets/images/empty-cart.jpg">
-            <div class="d-flex flex-row align-items-center mt-3 continue-shopping">
+            <div @click="continueShopping()" class="d-flex flex-row align-items-center mt-3 mb-3 continue-shopping">
                 <img src="../assets/icons/arrow-left.png" class="left-arrow-img me-2">
                 <span class="fw-bold">Continue shopping</span>
             </div>
@@ -178,7 +232,7 @@ Vue.component( "cart-view",{
                         <cartItem :cartArticle="article"></cartItem>
                     </div>
                 </div>
-                <div class="d-flex flex-row align-items-center continue-shopping-container">
+                <div @click="continueShopping()" class="d-flex flex-row align-items-center mb-3 continue-shopping-container">
                   <img src="../assets/icons/arrow-left.png" class="left-arrow-img me-2">
                   <span class="fw-bold">Continue shopping</span>
                 </div>
@@ -228,15 +282,61 @@ Vue.component( "cart-view",{
                     $0.00
                   </div>
                 </div>
-                <button :disabled="cart.articles.length == 0" type="submit" class="btn btn-danger regular-button">Proceed to checkout</button>
+                <button @click="navigateToCheckout()" :disabled="cart.articles.length == 0" type="submit" class="btn btn-danger regular-button">Proceed to checkout</button>
               </div>
 
-              <div class="d-flex flex-row align-items-center mt-3 continue-shopping-bottom-container">
+              <div @click="continueShopping()" class="d-flex flex-row align-items-center mt-3 mb-3 continue-shopping-bottom-container">
                 <img src="../assets/icons/arrow-left.png" class="left-arrow-img me-2">
                 <span class="fw-bold">Continue shopping</span>
               </div>
             </div>
         </div>
+        <footer class="text-white" id="footer">
+          <div class="container p-4 pb-0">
+            <section class="footer-info d-flex flex-row mb-4">
+              <div class="d-flex flex-column text">
+                <div class="basic-title">
+                  Attributors
+                </div>
+                <span class="mb-3 mt-2">
+                  Aleksa Vujisić
+                </span>
+                <span>
+                  Nenad Bečanović
+                </span>
+              </div>
+              <div class="d-flex flex-column">
+                <div class="basic-title">
+                  Field of expertise
+                </div>
+                <span class="mb-3 mt-2">
+                  Frontend
+                </span>
+                <span>
+                  Backend
+                </span>
+              </div>
+              <div class="d-flex flex-column">
+                <div class="basic-title">
+                  Links
+                </div>
+                <div class="d-flex flex-row">
+                  <a class="btn btn-outline-light btn-circle m-1" target="_blank" href="https://www.linkedin.com/in/aleksavujisic/" @mouseover="changeToDarkLogo(0)" @mouseout="changeToLightLogo(0)" role="button"><img v-bind:src="socialMediaLogo[0]" class="link-image"></a>
+                  <a class="btn btn-outline-light btn-circle m-1" target="_blank" href="https://www.facebook.com/aleksa.vujisicc/" @mouseover="changeToDarkLogo(1)" @mouseout="changeToLightLogo(1)" role="button"><img v-bind:src="socialMediaLogo[1]" class="link-image"></a>
+                  <a class="btn btn-outline-light btn-circle m-1" target="_blank" href="https://www.instagram.com/aleksavujisic/" @mouseover="changeToDarkLogo(2)" @mouseout="changeToLightLogo(2)" role="button"><img v-bind:src="socialMediaLogo[2]" class="link-image"></a>
+                </div>
+                <div class="d-flex flex-row">
+                  <a class="btn btn-outline-light btn-circle m-1" target="_blank" href="https://www.linkedin.com/in/nenad-becanovic/" @mouseover="changeToDarkLogo(3)" @mouseout="changeToLightLogo(3)" role="button"><img v-bind:src="socialMediaLogo[3]" class="link-image"></a>
+                  <a class="btn btn-outline-light btn-circle m-1" target="_blank" href="https://www.facebook.com/nenad.becanovic.3" @mouseover="changeToDarkLogo(4)" @mouseout="changeToLightLogo(4)" role="button"><img v-bind:src="socialMediaLogo[4]" class="link-image"></a>
+                  <a class="btn btn-outline-light btn-circle m-1" target="_blank" href="https://www.instagram.com/nenad_becanovic/" @mouseover="changeToDarkLogo(5)" @mouseout="changeToLightLogo(5)" role="button"><img v-bind:src="socialMediaLogo[5]" class="link-image"></a>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="text-center p-3 copyright">
+            © Copyright: Aleksa Vujisić, Nenad Bečanović
+          </div>
+        </footer>
     </div>
     `
 });

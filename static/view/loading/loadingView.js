@@ -30,7 +30,7 @@ Vue.component("loading-view", {
     template:
     `
     <div class="loader-screen d-flex flex-column align-items-center justify-content-center">
-        <img id="full-logo" class="full-logo-splash" src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" >
+        <img class="full-logo full-logo-splash" src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" >
         <div class="loader"></div>
     </div>
     

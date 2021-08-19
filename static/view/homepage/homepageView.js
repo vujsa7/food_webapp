@@ -155,6 +155,9 @@ methods: {
     },
     navigateToCartView(){
       this.$router.push({name: 'cart'})
+    },
+    navigateHome(){
+      this.$router.push({name: 'homepage'})
     }
 },
 created() {
@@ -227,10 +230,10 @@ template: `
     <!--Navigation container-->
     <div class="container-fluid navigation-container pt-3 px-0">
       <div class="container-fluid d-none d-lg-block px-0">
-        <img src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" id="full-logo">
+        <img src="../assets/images/logos/foodly-logos/full-logo.png" @click="navigateHome()" alt="Brand logo" class="full-logo">
       </div>
       <div class="container d-lg-none px-0">
-        <img src="../assets/images/logos/foodly-logos/foodly-logo.png" alt="Brand logo" id="foodly-logo">
+        <img src="../assets/images/logos/foodly-logos/foodly-logo.png" @click="navigateHome()" alt="Brand logo" class="foodly-logo">
       </div>
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid px-0">
@@ -448,9 +451,6 @@ template: `
               <a class="nav-link" href="#" :hidden="displayMode!='search'" @click="showAllRestaurants">Show all restaurants</a>
             </div>
             <restaurants ref="restaurantsChild" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters" :display-mode="displayMode"></restaurants>
-          </div>
-          <div footer-bar>
-
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
 var messageDialogComponent = {
     data(){
       return{
-        isMessageModalDisplayed: false
+        isMessageModalDisplayed: false,
+        callbackFunction: undefined
       }
     },
     props: [
@@ -10,9 +11,16 @@ var messageDialogComponent = {
     methods: {
       hideDialog(){
         this.isMessageModalDisplayed = false;
+        if(this.callbackFunction){
+          this.callbackFunction();
+        }
       },
       displayDialog(){
         this.isMessageModalDisplayed = true;
+      },
+      displayDialogWithCallback(func){
+        this.isMessageModalDisplayed = true;
+        this.callbackFunction = func
       }
     },
     template: `

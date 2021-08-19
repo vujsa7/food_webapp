@@ -5,6 +5,7 @@ Vue.component("restaurant-view", {
           user: undefined,
           comments: [],
           scrolled: 0,
+          selectedNavIndex: 0,
           numberOfItems : 1,
           socialMediaLogo: [
             "../../assets/icons/linkedin-logo.png",
@@ -54,13 +55,13 @@ Vue.component("restaurant-view", {
           for(x = 0; x < numberOfItems; x+=1){
             articles.push(article);
           }
-          this.cart = {articles: articles, price: article.price*numberOfItems, buyerId: this.user.username}
+          this.cart = {articles: articles, price: (article.price*numberOfItems), buyerId: this.user.username}
         } else {
           let articles = [];
           for(x = 0; x < numberOfItems; x+=1){
             this.cart.articles.push(article);
           }
-          this.cart.price += article.price*numberOfItems;
+          this.cart.price += (article.price*numberOfItems);
         }
         this.saveCartOnServer();
       },
@@ -82,8 +83,19 @@ Vue.component("restaurant-view", {
         }
       },
       navigateToCartView(){
-        this.$router.push({name: 'cart'})
-      }
+        this.$router.push({name: 'cart', params: { path: this.restaurant.id }})
+      },
+      navigateHome(){
+        this.$router.push({name: 'homepage'})
+      },
+      isSelectedNavItem(index){
+        if(index == this.selectedNavIndex)
+          return true;
+        return false;
+      },
+      changeSelectedNavItem(index){
+        this.selectedNavIndex = index;
+      },
     },
     created(){
       window.addEventListener('scroll', this.handleScroll);
@@ -159,10 +171,10 @@ Vue.component("restaurant-view", {
       </transition>
       <div class="container-fluid navigation-container pt-3 px-0">
         <div class="container-fluid d-none d-lg-block px-0">
-          <img src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" id="full-logo">
+          <img src="../assets/images/logos/foodly-logos/full-logo.png" @click="navigateHome()" alt="Brand logo" class="full-logo">
         </div>
         <div class="container d-lg-none px-0">
-          <img src="../assets/images/logos/foodly-logos/foodly-logo.png" alt="Brand logo" id="foodly-logo">
+          <img src="../assets/images/logos/foodly-logos/foodly-logo.png" @click="navigateHome()" alt="Brand logo" class="foodly-logo">
         </div>
         <nav class="navbar navbar-expand-lg navbar-light">
           <div class="container-fluid px-0">
@@ -172,13 +184,22 @@ Vue.component("restaurant-view", {
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link active py-0" aria-current="page" href="#">Home</a>
+                  <div class="nav-link-container">
+                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
+                  </div>
                 </li>
                 <li v-if="user && user.accountType=='buyer'" class="nav-item">
-                  <a class="nav-link py-0" href="#">Orders</a>
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                  </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-0" href="#">About us</a>
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)" href="#">About us</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                  </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
                   <a class="nav-link py-0" href="#" @click="displaySignInModal()">Sing in</a>
