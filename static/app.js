@@ -3,6 +3,7 @@ const Homepage = {template: '<homepage-view></homepage-view>'}
 const Restaurant = {template: '<restaurant-view></restaurant-view>'}
 const Cart = {template: '<cart-view></cart-view>'}
 const Checkout = {template: '<checkout-view></checkout-view>'}
+const Orders = {template: '<orders-view></orders-view>'}
 
 const routes = [
     {path: '/', name: 'loading', component: Loading},
@@ -12,6 +13,7 @@ const routes = [
     {path: '/restaurant/:id', name: 'restaurant', component: Restaurant},
     {path: '/cart', name: 'cart', component: Cart},
     {path: '/checkout', name: 'checkout', component: Checkout},
+    {path: '/orders', name: 'orders', component: Orders},
 ]
 
 const router = new VueRouter({

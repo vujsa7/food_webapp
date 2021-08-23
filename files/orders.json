@@ -3,7 +3,7 @@
     "id": "LygkXSWLpJ",
     "dateOfOrder": "Aug 19, 2021, 7:28:29 PM",
     "price": 31.679999999999993,
-    "orderStatus": "processing",
+    "orderStatus": "delivered",
     "articles": [
       {
         "restaurantId": 1,
@@ -35,13 +35,14 @@
     ],
     "restaurantId": 1,
     "buyerId": "aki",
+    "isReviewed": false,
     "isDeleted": false
   },
   {
     "id": "h3mb37IV4O",
     "dateOfOrder": "Aug 19, 2021, 7:45:35 PM",
     "price": 29.369999999999997,
-    "orderStatus": "processing",
+    "orderStatus": "delivered",
     "articles": [
       {
         "restaurantId": 1,
@@ -73,6 +74,169 @@
     ],
     "restaurantId": 1,
     "buyerId": "aki",
+    "isReviewed": false,
+    "isDeleted": false
+  },
+  {
+    "id": "1hrm9ldhNJ",
+    "dateOfOrder": "Aug 22, 2021, 8:19:45 PM",
+    "price": 26.36,
+    "orderStatus": "delivered",
+    "articles": [
+      {
+        "restaurantId": 2,
+        "name": "Chicken",
+        "price": 5.79,
+        "articleType": "meal",
+        "quantity": 150,
+        "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/203.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Chicken",
+        "price": 5.79,
+        "articleType": "meal",
+        "quantity": 150,
+        "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/203.jpg"
+      }
+    ],
+    "restaurantId": 2,
+    "buyerId": "aki",
+    "isReviewed": false,
+    "isDeleted": false
+  },
+  {
+    "id": "HorMVUpQEL",
+    "dateOfOrder": "Aug 22, 2021, 10:29:41 PM",
+    "price": 14.78,
+    "orderStatus": "inPreparation",
+    "articles": [
+      {
+        "restaurantId": 1,
+        "name": "Hamburger",
+        "price": 7.39,
+        "articleType": "meal",
+        "quantity": 40,
+        "description": "Juicy, big, loaded with toppings of your choice.",
+        "image": "../assets/images/restaurant-images/foods/102.jpg"
+      },
+      {
+        "restaurantId": 1,
+        "name": "Hamburger",
+        "price": 7.39,
+        "articleType": "meal",
+        "quantity": 40,
+        "description": "Juicy, big, loaded with toppings of your choice.",
+        "image": "../assets/images/restaurant-images/foods/102.jpg"
+      }
+    ],
+    "restaurantId": 1,
+    "buyerId": "aki",
+    "isReviewed": false,
+    "isDeleted": false
+  },
+  {
+    "id": "STRDbMrtSf",
+    "dateOfOrder": "Aug 22, 2021, 10:30:52 PM",
+    "price": 30.78,
+    "orderStatus": "awaitingDelivery",
+    "articles": [
+      {
+        "restaurantId": 2,
+        "name": "Salmon",
+        "price": 15.39,
+        "articleType": "meal",
+        "quantity": 180,
+        "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
+        "image": "../assets/images/restaurant-images/foods/205.jpg"
+      },
+      {
+        "restaurantId": 2,
+        "name": "Salmon",
+        "price": 15.39,
+        "articleType": "meal",
+        "quantity": 180,
+        "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
+        "image": "../assets/images/restaurant-images/foods/205.jpg"
+      }
+    ],
+    "restaurantId": 2,
+    "buyerId": "aki",
+    "isReviewed": false,
+    "isDeleted": false
+  },
+  {
+    "id": "suoGrqxMlF",
+    "dateOfOrder": "Aug 22, 2021, 11:21:52 PM",
+    "price": 2.49,
+    "orderStatus": "awaitingDelivery",
+    "articles": [
+      {
+        "restaurantId": 1,
+        "name": "Lemonade",
+        "price": 2.49,
+        "articleType": "drink",
+        "quantity": 100,
+        "description": "A beverage of sweetened lemon juice mixed with water.",
+        "image": "../assets/images/restaurant-images/foods/111.jpg"
+      }
+    ],
+    "restaurantId": 1,
+    "buyerId": "aki",
+    "isReviewed": false,
+    "isDeleted": false
+  },
+  {
+    "id": "H3BrRVOXie",
+    "dateOfOrder": "Aug 22, 2021, 11:25:50 PM",
+    "price": 4.99,
+    "orderStatus": "shipping",
+    "articles": [
+      {
+        "restaurantId": 2,
+        "name": "Kombucha",
+        "price": 4.99,
+        "articleType": "drink",
+        "quantity": 70,
+        "description": "Fermented, lightly effervescent, sweetened black or green tea drink.",
+        "image": "../assets/images/restaurant-images/foods/213.jpg"
+      }
+    ],
+    "restaurantId": 2,
+    "buyerId": "aki",
+    "isReviewed": false,
+    "isDeleted": false
+  },
+  {
+    "id": "5Gav08u7B6",
+    "dateOfOrder": "Aug 23, 2021, 4:48:59 PM",
+    "price": 28.78,
+    "orderStatus": "processing",
+    "articles": [
+      {
+        "restaurantId": 3,
+        "name": "Veggie pasta",
+        "price": 14.39,
+        "articleType": "meal",
+        "quantity": 240,
+        "description": "Juicy and delicious pasta from streets of Milan.",
+        "image": "../assets/images/restaurant-images/foods/301.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Veggie pasta",
+        "price": 14.39,
+        "articleType": "meal",
+        "quantity": 240,
+        "description": "Juicy and delicious pasta from streets of Milan.",
+        "image": "../assets/images/restaurant-images/foods/301.jpg"
+      }
+    ],
+    "restaurantId": 3,
+    "buyerId": "aki",
+    "isReviewed": false,
     "isDeleted": false
   }
 ]

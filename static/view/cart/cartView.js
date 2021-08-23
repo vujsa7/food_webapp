@@ -77,6 +77,9 @@ Vue.component( "cart-view",{
         navigateHome(){
             this.$router.push({name: 'homepage'})
         },
+        navigateToOrdersView(){
+          this.$router.push({name: 'orders'})
+        },
         continueShopping(){
             if(this.$route.params.path)
               this.$router.push({ name: 'restaurant', params: { id: this.$route.params.path }});
@@ -182,19 +185,19 @@ Vue.component( "cart-view",{
                   <ul class="navbar-nav">
                     <li class="nav-item">
                       <div class="nav-link-container">
-                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                        <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
                         <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                       </div>
                     </li>
                     <li v-if="user && user.accountType=='buyer'" class="nav-item">
                       <div class="nav-link-container">
-                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
                         <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
                       </div>
                     </li>
                     <li class="nav-item">
                       <div class="nav-link-container">
-                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(2)" aria-current="page" href="#">About</a>
+                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(2)" aria-current="page">About</a>
                         <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
                       </div>
                     </li>

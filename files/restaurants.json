@@ -241,7 +241,89 @@
         }
       }
     },
-    "articles": [],
+    "articles": [
+      {
+      	"restaurantId": 3,
+        "name": "Veggie pasta",
+        "price": 14.39,
+        "articleType": "meal",
+        "quantity": 240,
+        "description": "Juicy and delicious pasta from streets of Milan.",
+        "image": "../assets/images/restaurant-images/foods/301.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Capricciosa",
+        "price": 7.59,
+        "articleType": "meal",
+        "quantity": 220,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/302.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Dine Fine pizza",
+        "price": 6.79,
+        "articleType": "meal",
+        "quantity": 260,
+        "description": "Home made pizza with onions, cheese and bacon.",
+        "image": "../assets/images/restaurant-images/foods/303.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Quattro formaggi",
+        "price": 9.99,
+        "articleType": "meal",
+        "quantity": 210,
+        "description": "4 flavours of cheese in this delicious pasta will make you go wild.",
+        "image": "../assets/images/restaurant-images/foods/304.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Seafood pasta ",
+        "price": 13.39,
+        "articleType": "meal",
+        "quantity": 340,
+        "description": "Try this sea food pasta with oysters and new appetizers from Rome.",
+        "image": "../assets/images/restaurant-images/foods/305.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Esspresso",
+        "price": 3.49,
+        "articleType": "drink",
+        "quantity": 40,
+        "description": "Small, but powerful cup of coffee for fresh mornings",
+        "image": "../assets/images/restaurant-images/foods/311.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Dine Fine wine",
+        "price": 6.29,
+        "articleType": "drink",
+        "quantity": 70,
+        "description": "A beverage older and sweeter than your grandparents.",
+        "image": "../assets/images/restaurant-images/foods/312.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Strawberry juice",
+        "price": 5.49,
+        "articleType": "drink",
+        "quantity": 85,
+        "description": "Strawberries shine in this tall, refreshing, gingery cocktail.",
+        "image": "../assets/images/restaurant-images/foods/313.jpg"
+      },
+      {
+        "restaurantId": 3,
+        "name": "Chocolate coffee",
+        "price": 4.99,
+        "articleType": "drink",
+        "quantity": 110,
+        "description": "Fresh, warm and sweet drink.",
+        "image": "../assets/images/restaurant-images/foods/314.jpg"
+      }
+    ],
     "isDeleted": false
   },
   {

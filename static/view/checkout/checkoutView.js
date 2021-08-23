@@ -109,14 +109,14 @@ Vue.component("checkout-view",{
                         this.messageDialogData.message = "You have successfully created an order. Check it out on order page.";
                         this.messageDialogData.buttonText = "Ok";
                         function navigateToHomePage(){
-                            this.$router.push({name: 'homepageBuyer'});
+                            this.$router.push({name: 'homepage'});
                         }
                         this.$refs.messageDialogChild.displayDialogWithCallback(navigateToHomePage);
                         this.cart.articles = [];
                         this.cart.price = 0;
                         axios
                         .put("http://localhost:8081/rest/updateCart/" + this.user.username, this.cart, {
-                            headers:{
+                            headers: {
                             'Authorization': 'Bearer ' + token 
                             }
                         })
@@ -130,7 +130,6 @@ Vue.component("checkout-view",{
                 })
                 .catch(error => {
                     if(error.response){
-                        // TODO If username and password are wrong
                         console.log(error.response.status)
                     }
                 });
@@ -138,7 +137,10 @@ Vue.component("checkout-view",{
           },
           navigateToCartView(){
               this.$router.push({name: 'cart'});
-          }
+          },
+          navigateToOrdersView(){
+            this.$router.push({name: 'orders'})
+          },
     },
     computed:{
         formatCardNumber(){
@@ -229,7 +231,7 @@ Vue.component("checkout-view",{
                 .then(response => {
                     this.cart = response.data;
                     if(this.cart.articles.length == 0)
-                        this.$router.push({name: 'homepage'});
+                        this.$router.push({name: 'homepageBuyer'});
                     else
                         this.restaurantId = this.cart.articles[0].restaurantId;
                 })
@@ -243,8 +245,8 @@ Vue.component("checkout-view",{
     template:
     `
     <div id="checkout-view">
-    <div v-if="cart && cart.articles.length != 0">
     <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
+    <div v-if="cart && cart.articles.length != 0">
     <div class="container-fluid navigation-container pt-3 px-0">
         <div class="container-fluid d-none d-lg-block px-0">
         <img src="../assets/images/logos/foodly-logos/full-logo.png" @click="navigateHome()" alt="Brand logo" class="full-logo">
@@ -261,19 +263,19 @@ Vue.component("checkout-view",{
             <ul class="navbar-nav">
                 <li class="nav-item">
                 <div class="nav-link-container">
-                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                    <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                 </div>
                 </li>
                 <li v-if="user && user.accountType=='buyer'" class="nav-item">
                 <div class="nav-link-container">
-                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
                 </div>
                 </li>
                 <li class="nav-item">
                 <div class="nav-link-container">
-                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(2)" aria-current="page" href="#">About</a>
+                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(2)" aria-current="page">About</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
                 </div>
                 </li>

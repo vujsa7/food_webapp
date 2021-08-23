@@ -415,6 +415,7 @@ input[type="text"], textarea, [contenteditable]{
 }
 
 .big-filter-sort-container{
+    position: relative;
     padding-top: 30px;
     font-family: 'Rubik', sans-serif;
     min-width: 338px;
@@ -532,10 +533,11 @@ input[type="text"], textarea, [contenteditable]{
 }
 
 .restaurant-body-search-mode{
-    padding-top: 30px;
+    padding-top: 20px;
 }
 
 .restaurant-card{
+    min-width: 47.86vw;
     height: 210px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
     border-radius: 15px;
@@ -546,13 +548,13 @@ input[type="text"], textarea, [contenteditable]{
 .restaurant-img{
     height: 210px;
     min-width: 16.354vw;
-    flex-shrink: 5;
+    max-width: 16.354vw;
     border-radius: 15px 0 0 15px;
     object-fit: cover;
 }
 
 .restaurant-info{
-    width: 100%;
+    min-width: 28.333vw;
     justify-content: center;
     padding-left: 2.604vw;
 }
@@ -564,7 +566,7 @@ input[type="text"], textarea, [contenteditable]{
 
 .restaurant-cuisine-and-rating{
     justify-content: space-between;
-    margin:0;
+    margin: 0;
 }
 
 .restaurant-cuisine{

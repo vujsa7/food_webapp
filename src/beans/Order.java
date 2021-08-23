@@ -13,14 +13,17 @@ public class Order implements IIdentifiable<String> {
 	private ArrayList<Article> articles;
 	private int restaurantId;
 	private String buyerId;
+	
+	private boolean isReviewed;
 	private boolean isDeleted;
+	
 	
 	public Order() {
 		
 	}
 	
 	public Order(String id, Date dateOfOrder, double price, OrderStatus orderStatus, ArrayList<Article> articles,
-			int restaurantId, String buyerId, boolean isDeleted) {
+			int restaurantId, String buyerId, boolean isReviewed, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.dateOfOrder = dateOfOrder;
@@ -29,6 +32,7 @@ public class Order implements IIdentifiable<String> {
 		this.articles = articles;
 		this.restaurantId = restaurantId;
 		this.buyerId = buyerId;
+		this.isReviewed = isReviewed;
 		this.isDeleted = isDeleted;
 	}
 
@@ -114,6 +118,14 @@ public class Order implements IIdentifiable<String> {
 	public boolean isDeleted() {
 		// TODO Auto-generated method stub
 		return this.isDeleted;
+	}
+
+	public boolean isReviewed() {
+		return isReviewed;
+	}
+
+	public void setReviewed(boolean isReviewed) {
+		this.isReviewed = isReviewed;
 	}
    
    

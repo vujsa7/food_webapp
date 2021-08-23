@@ -111,6 +111,9 @@ Vue.component("restaurant-view", {
       navigateHome(){
         this.$router.push({name: 'homepage'})
       },
+      navigateToOrdersView(){
+        this.$router.push({name: 'orders'})
+      },
       isSelectedNavItem(index){
         if(index == this.selectedNavIndex)
           return true;
@@ -209,27 +212,27 @@ Vue.component("restaurant-view", {
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
                 <li v-if="user && user.accountType=='buyer'" class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)" href="#">About us</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
                   </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
-                  <a class="nav-link py-0" href="#" @click="displaySignInModal()">Sing in</a>
+                  <a class="nav-link py-0" @click="displaySignInModal()">Sing in</a>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
-                  <a class="nav-link py-0" href="#" @click="displaySignUpModal()">Sign up</a>
+                  <a class="nav-link py-0" @click="displaySignUpModal()">Sign up</a>
                 </li>
               </ul>
             </div>

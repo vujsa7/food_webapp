@@ -84,7 +84,7 @@ methods: {
     searchRestaurants(e){
         e.preventDefault();
         if(this.searchParameters[2] != "")
-        this.checkedCuisines = [this.searchParameters[2].toLowerCase()];
+          this.checkedCuisines = [this.searchParameters[2].toLowerCase()];
         this.adjustFilterAndSortValues();
         this.displayMode = "search";
         this.$refs.restaurantsChild.searchRestaurants();
@@ -120,6 +120,7 @@ methods: {
     },
     checkOffset(){
         if(!document.getElementById("filter-sort-wrapper")) return
+        if(!document.getElementById("footer")) return
         if(document.getElementById("filter-sort-wrapper").getBoundingClientRect().top + this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight
         >= document.getElementById("footer").offsetTop){
             document.getElementById("filter-sort-wrapper").style.position = 'absolute';
@@ -156,8 +157,8 @@ methods: {
     navigateToCartView(){
       this.$router.push({name: 'cart'})
     },
-    navigateHome(){
-      this.$router.push({name: 'homepage'})
+    navigateToOrdersView(){
+      this.$router.push({name: 'orders'})
     },
     logout(){
       window.localStorage.setItem('token', null);
@@ -171,6 +172,7 @@ mounted(){
   searchWrapper = document.getElementById('search-wrapper');
   this.searchWrapperPosition = findPos(searchWrapper);
   let token = window.localStorage.getItem('token');
+  // console.log(token)
   if(token){
     axios
     .get("http://localhost:8081/rest/accessUserWithJwt", {
@@ -234,10 +236,10 @@ template: `
     <!--Navigation container-->
     <div class="container-fluid navigation-container pt-3 px-0">
       <div class="container-fluid d-none d-lg-block px-0">
-        <img src="../assets/images/logos/foodly-logos/full-logo.png" @click="navigateHome()" alt="Brand logo" class="full-logo">
+        <img src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" class="full-logo">
       </div>
       <div class="container d-lg-none px-0">
-        <img src="../assets/images/logos/foodly-logos/foodly-logo.png" @click="navigateHome()" alt="Brand logo" class="foodly-logo">
+        <img src="../assets/images/logos/foodly-logos/foodly-logo.png" alt="Brand logo" class="foodly-logo">
       </div>
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid px-0">
@@ -248,27 +250,27 @@ template: `
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                    <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
                 <li v-if="user && user.accountType=='buyer'" class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)" href="#">About us</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
                   </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
-                  <a class="nav-link py-0" href="#" @click="displaySignInModal()">Sing in</a>
+                  <a class="nav-link py-0" @click="displaySignInModal()">Sing in</a>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
-                  <a class="nav-link py-0" href="#" @click="displaySignUpModal()">Sign up</a>
+                  <a class="nav-link py-0" @click="displaySignUpModal()">Sign up</a>
                 </li>
               </ul>
           </div>
@@ -370,7 +372,7 @@ template: `
     <div class="d-flex flex-row">
       <div class="shrinking-margin"></div>
       <div class="center-div">
-        <div class="search-body-container d-flex ">
+        <div class="search-body-container d-flex">
           <div id="big-filter-sort-container" class="big-filter-sort-container">
             <div class="d-none d-lg-block filter-sort-wrapper" id="filter-sort-wrapper" v-bind:class="{'filter-sort-wrapper-sticky': stickySearch}">
               <div v-bind:class="{'empty-filter-sort' : stickySearch}"></div>

@@ -2,7 +2,6 @@ var restaurantsComponent = {
     data(){
       return {
         restaurants : [], // restaurants fetched from backend
-        filteredRestaurants: [],
         searchedRestaurants: [],
         displayRestaurants: [],
       }
@@ -36,32 +35,19 @@ var restaurantsComponent = {
         }
       },
       cuisinesToDisplay: function(){
-          if(this.displayMode == "normal")
-            this.displayRestaurants = this.restaurants.filter(this.filterCusines);
-          else // search mode
-            this.displayRestaurants = this.searchedRestaurants.filter(this.filterCusines);
+          if(this.displayMode == "normal"){
+            this.displayRestaurants = this.restaurants.filter(this.filterRestaurants);
+          } 
+          else { // search mode
+            this.displayRestaurants = this.searchedRestaurants.filter(this.filterRestaurants);
+          }
       },
       openRestaurantsToDisplay: function(){
         if(this.displayMode == "normal"){
-          // Show only open restaurants
-          if(this.openRestaurantsToDisplay == true){
-            this.displayRestaurants = this.restaurants.filter(
-              restaurant => restaurant.isOpen == this.openRestaurantsToDisplay
-            );
-          } else {
-            // Show open & closed restaurants
-            this.displayRestaurants = this.restaurants;
-          }
-        } else { // search mode
-          // Show only open restaurants
-          if(this.openRestaurantsToDisplay==true){
-            this.displayRestaurants = this.searchedRestaurants.filter(
-              restaurant => restaurant.isOpen == this.openRestaurantsToDisplay
-            );
-          } else {
-            // Show open & closed restaurants
-            this.displayRestaurants = this.searchedRestaurants;
-          }
+          this.displayRestaurants = this.restaurants.filter(this.filterRestaurants);
+        } 
+        else { // search mode
+          this.displayRestaurants = this.searchedRestaurants.filter(this.filterRestaurants);
         }
       },
       sortRestaurantsBy: function(){
@@ -121,16 +107,36 @@ var restaurantsComponent = {
           }
         return true;
       },
-      // Filter method for returning all restaurants that are certain restaurantType - types to display are in cuisinesToDisplay
-      filterCusines(restaurant) {
-        if(this.cuisinesToDisplay.includes("showAll"))
-          return true;
-        for (var i = 0; i < this.cuisinesToDisplay.length; i++) {
-          if (restaurant.restaurantType.indexOf(this.cuisinesToDisplay[i]) > -1) {
+      filterRestaurants(restaurant){
+        if(this.cuisinesToDisplay.includes("showAll")){ // show all cuisines
+          if(this.openRestaurantsToDisplay == true){ // show open restaurants with any cuisine
+            if(restaurant.isOpen == true)
+              return true;
+            else
+              return false;
+          } else { // show open and closed restaurants with any cuisine
             return true;
           }
+        } else {  
+          if(this.openRestaurantsToDisplay == true){ // show open restaurants
+            if(restaurant.isOpen == true){
+              for (var i = 0; i < this.cuisinesToDisplay.length; i++) { // show open restaurants with the right cuisine
+                if (restaurant.restaurantType.indexOf(this.cuisinesToDisplay[i]) > -1) {
+                  return true;
+                }
+              }
+              return false;
+            } else 
+              return false;
+          } else {
+            for (var i = 0; i < this.cuisinesToDisplay.length; i++) {
+              if (restaurant.restaurantType.indexOf(this.cuisinesToDisplay[i]) > -1) {
+                return true;
+              }
+            }
+            return false;
+          }
         }
-        return false;
       },
       // Compare function that compares restaurants by their open status, returns restaurant that are open first
       compareByOpenRestaurants(r1, r2) {
