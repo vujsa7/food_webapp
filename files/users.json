@@ -61,5 +61,18 @@
     "accountType": "buyer",
     "isDeleted": false,
     "isBlocked": false
+  },
+  {
+    "type": "Manager",
+    "restaurant": 1,
+    "username": "gazda",
+    "password": "123",
+    "name": "Pera",
+    "surname": "Perić",
+    "gender": "male",
+    "dateOfBirth": "Jan 5, 1889, 12:00:00 AM",
+    "accountType": "manager",
+    "isDeleted": false,
+    "isBlocked": false
   }
 ]

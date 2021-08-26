@@ -11,8 +11,6 @@ Vue.component("loading-view", {
     mounted(){
         // window.localStorage.setItem('token', undefined)
         let token = window.localStorage.getItem('token');
-        if(!token)
-            return;
         axios
         .get("http://localhost:8081/rest/accessUserWithJwt", {
             headers:{

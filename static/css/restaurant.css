@@ -99,6 +99,20 @@
     padding-right: 7.292vw;
 }
 
+.manager-restaurant-view-title-container{
+    position: relative;
+    width: 100%;
+    margin-top: 34px;
+    padding-left: 7.292vw;
+    padding-right: 2vw;
+}
+
+.manager-article-price{
+    font-size: 16px;
+    font-weight: 300;
+    color: #a2a2a2
+}
+
 .restaurant-view-restaurant-logo-container{
     min-width: 20px;
 }
@@ -410,4 +424,14 @@
     transform: scale(1.1);
 }
 
+.comment-delete{
+    margin-left: 71vw;
+}
 
+.add-article-input{
+    width:8.5vw;
+}
+
+.article-description-height{
+    height: 6vw;
+}

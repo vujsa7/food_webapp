@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Comment;
@@ -42,5 +43,31 @@ public class CommentService {
 			}
 		}
 		return restaurantComments;
+	}
+
+	public Comment approveComment(int id) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<Comment> allComments = commentDao.getAllNotDeleted();
+		for(Comment c : allComments) {
+			if(c.getID() == id) {
+				c.setIsApproved(true);
+				commentDao.update(c);
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public Comment deleteComment(int id) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<Comment> allComments = commentDao.getAllNotDeleted();
+		for(Comment c : allComments) {
+			if(c.getID() == id) {
+				c.setDeleted(true);
+				commentDao.update(c);
+				return c;
+			}
+		}
+		return null;
 	}
 }

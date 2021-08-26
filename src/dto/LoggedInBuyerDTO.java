@@ -21,7 +21,7 @@ public class LoggedInBuyerDTO {
 		this.surname = surname;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
-		this.accountType = AccountType.buyer;
+		this.accountType = AccountType.manager;
 	}
 
 	public String getName() {

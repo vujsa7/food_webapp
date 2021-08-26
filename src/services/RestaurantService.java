@@ -37,7 +37,6 @@ public class RestaurantService {
 		if(manager == null) {
 			return null;
 		}
-		
 		return restaurantDao.getById(manager.getRestaurant());
 	}
 	

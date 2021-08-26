@@ -32,7 +32,7 @@ var loginDialogComponent = {
                 .then(response => {
                     if(response.status == 200){
                         window.localStorage.setItem('token', response.data);
-                        this.$router.push({name: 'homepageBuyer'});
+                        this.$router.push({name: 'homepageUser'});
                     }
                 })
                 .catch(error => {

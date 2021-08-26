@@ -10,7 +10,7 @@ public class Article{
 	private String description;
 	private String image;
 	
-	public Article(int restaurantId, String name, double price, ArticleType articleType, int quantity, String description, String image) {
+	public Article(int restaurantId, String name, double price, ArticleType articleType, String description) {
 		super();
 		this.restaurantId = restaurantId;
 		this.name = name;
@@ -18,7 +18,6 @@ public class Article{
 		this.articleType = articleType;
 		this.quantity = quantity;
 		this.description = description;
-		this.image = image;
 	}
 
 	public Article() {

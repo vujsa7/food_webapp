@@ -33,5 +33,27 @@ public class CommentController {
 				return "Bad Request";
 			}
 		});
+		
+		put("rest/approveComment/:id", (req,res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(commentService.approveComment(Integer.parseInt(req.params("id")))); 
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.status(400);
+				return "Bad Request";
+			}
+		});
+		
+		put("rest/deleteComment/:id", (req,res) -> {
+			res.type("application/json");
+			try {
+				return gson.toJson(commentService.deleteComment(Integer.parseInt(req.params("id")))); 
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.status(400);
+				return "Bad Request";
+			}
+		});
 	}
 }

@@ -1,5 +1,5 @@
 new Vue({
-    el: '#manager',
+    el: '#managerRestaurant',
     data: {
       restaurant: "",
       comments: [],
@@ -7,7 +7,7 @@ new Vue({
     },
     mounted() {
       	let token = window.localStorage.getItem('token');
-		axios
+		  axios
           .get('/restaurants/getForManager', {}, {headers: {'Authorization': 'Bearer ' + token }})
           .then(response => {
           	this.restaurant = response.data;
@@ -29,8 +29,9 @@ new Vue({
     methods: {
       handleScroll() {
         this.scrolled = window.scrollY
+      }
     },
     created() {
       window.addEventListener('scroll', this.handleScroll)
-    }}
-  })
+      }
+    })

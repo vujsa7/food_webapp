@@ -25,5 +25,14 @@
     "buyerId": "miki",
     "isDeleted": false,
     "isApproved": true
+  },
+  {
+    "id": 4,
+    "details": "Not so good food.",
+    "review": 3,
+    "restaurantId": 1,
+    "buyerId": "miki",
+    "isDeleted": true,
+    "isApproved": false
   }
 ]
