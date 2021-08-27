@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Buyer;
+import beans.Manager;
 import dto.CreateNewOrderDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -12,6 +13,7 @@ import io.jsonwebtoken.io.IOException;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import services.OrderService;
 import services.UserService;
@@ -79,6 +81,59 @@ public class OrderController {
 			}
 			res.status(401);
 			return "Please log in to continue.";
+		});
+		
+		get("rest/restaurantOrders",(req,res)->{
+			res.type("application/json");
+			String auth = req.headers("Authorization");
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    Manager manager = (Manager)userService.getById(claims.getBody().getSubject());
+				    if(manager == null) {
+				    	res.status(404);
+				    	return "Bad request!";
+				    }
+				    res.status(200);
+				    return gson.toJson(orderService.getOrdersForRestaurant(manager.getRestaurant()));
+				} catch(JsonSyntaxException | IOException e) {
+					res.status(500);
+					return "Server error occured.";
+				} catch (Exception e) {
+					res.status(401);
+					return "You must log in to continue.";
+				}
+			}
+			res.status(401);
+			return "Please log in to continue.";
+		});
+		
+		put("rest/markForDelivery/:id",(req,res)->{
+			res.type("application/json");
+			/*String auth = req.headers("Authorization");
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    Buyer buyer = (Buyer)userService.getById(claims.getBody().getSubject());
+				    if(!buyer.getID().equals(req.params("id"))) {
+				    	res.status(401);
+				    	return "Forbidden content!";
+				    }*/
+				    res.status(200);
+				    System.out.println("OK");
+				    return gson.toJson(orderService.markForDelivery(req.params("id")));
+			/*	} catch(JsonSyntaxException | IOException e) {
+					res.status(500);
+					return "Server error occured.";
+				} catch (Exception e) {
+					res.status(401);
+					return "You must log in to continue.";
+				}
+			}
+			res.status(401);
+			return "Please log in to continue.";*/
 		});
 	}
 }

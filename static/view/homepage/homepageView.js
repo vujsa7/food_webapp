@@ -158,7 +158,12 @@ methods: {
       this.$router.push({name: 'cart'})
     },
     navigateToOrdersView(){
-      this.$router.push({name: 'orders'})
+      if(this.user.accountType == "buyer"){
+        this.$router.push({name: 'orders'})
+      }else if(this.user.accountType == "manager"){
+        this.$router.push({name: 'managerOrders'})
+      }
+      
     },
     logout(){
       window.localStorage.setItem('token', null);
@@ -254,7 +259,7 @@ template: `
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
-                <li v-if="user && user.accountType=='buyer'" class="nav-item">
+                <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager')" class="nav-item">
                   <div class="nav-link-container">
                     <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
@@ -286,7 +291,7 @@ template: `
           </div> 
         </div>
         <div v-if="user">
-          <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
+          <div class="d-none d-lg-block">
             <div class="homepage-user-info-container d-flex flex-row-reverse mt-2">
               <div class="dropdown" style="z-index: 100">
                 <a id="imageDropdown" data-bs-toggle="dropdown" aria-expanded="false">

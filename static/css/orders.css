@@ -171,6 +171,11 @@
     margin-right: 18px;
 }
 
+.manager-orders-date-container{
+    width: 39.933%;
+    margin-right: 10px;
+}
+
 .order-search-small-container{
     background-color: #a2a2a2;
     border-radius: 9px;

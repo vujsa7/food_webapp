@@ -52,4 +52,26 @@ public class OrderService {
 		}
 		return userOrders;
 	}
+
+	public Collection<OrderDisplayDTO> getOrdersForRestaurant(int restaurant) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList<Order> allOrders = orderDao.getAllNotDeleted();
+		ArrayList<OrderDisplayDTO> userOrders = new ArrayList<OrderDisplayDTO>();
+		for(Order o : allOrders) {
+			if(o.getRestaurant() == restaurant) {
+				Restaurant res = restaurantDao.getById(restaurant);
+				userOrders.add(new OrderDisplayDTO(o.getID(), o.getDateOfOrder(), o.getPrice(), o.getOrderStatus(), o.getRestaurant(),
+						res.getName(), res.getRestaurantType(), o.getBuyer(), o.isReviewed()));
+			}
+		}
+		return userOrders;
+	}
+
+	public Order markForDelivery(String orderId) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		Order order = orderDao.getById(orderId);
+		order.setOrderStatus(OrderStatus.awaitingDelivery);
+		orderDao.update(order);
+		return order;
+	}
 }
