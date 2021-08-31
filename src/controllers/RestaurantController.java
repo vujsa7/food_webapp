@@ -7,6 +7,7 @@ import static spark.Spark.put;
 import java.security.Key;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import beans.AccountType;
 import beans.Administrator;
@@ -16,12 +17,14 @@ import beans.DeliveryWorker;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dto.LoggedInBuyerDTO;
 import dto.RegisterNewRestaurantDTO;
 import dto.RegisterNewUserDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.IOException;
 import io.jsonwebtoken.security.Keys;
 import services.RestaurantService;
 import services.UserService;
@@ -89,21 +92,26 @@ public class RestaurantController {
 			return "No user logged in.";
 		});
 		
-		get("/restaurants/getAllUsersByRestaurant", (req,res) -> {
+		get("/rest/getAllUsersByRestaurant", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
-			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
-				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
-				    // ako nije bacio izuzetak, onda je OK
-				    return gson.toJson(restaurantService.getUsersFromRestaurant(claims.getBody().getSubject()));
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    User manager = userService.getById(claims.getBody().getSubject());
+				    res.status(200);
+				    return gson.toJson(restaurantService.getUsersFromRestaurant(manager.getID()));
+				} catch(JsonSyntaxException | IOException e) {
+					res.status(500);
+					return "Server error occured.";
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
+					res.status(401);
+					return "You must log in to continue.";
 				}
 			}
-			return "No user logged in.";
+			res.status(401);
+			return "Please log in to continue.";
 		});
 		
 		post("/restaurants/addRestaurant", (req,res) -> {

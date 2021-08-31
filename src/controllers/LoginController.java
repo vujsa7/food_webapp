@@ -55,6 +55,7 @@ public class LoginController {
 				try {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    User user = userService.getById(claims.getBody().getSubject());
+				    System.out.println("RADI");
 				    res.status(200);
 				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getUsername(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth());
 				    System.out.println(loggedInBuyerDTO.getUsername());

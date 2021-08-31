@@ -6,6 +6,7 @@ const Checkout = {template: '<checkout-view></checkout-view>'}
 const Orders = {template: '<orders-view></orders-view>'}
 const ManagerRestaurant = {template: '<manager-restaurant-view></manager-restaurant-view>'}
 const ManagerOrders = {template: '<manager-orders-view></manager-orders-view>'}
+const ManagerCustomers = {template: '<manager-customers-view></manager-customers-view>'}
 
 const routes = [
     {path: '/', name: 'loading', component: Loading},
@@ -17,7 +18,8 @@ const routes = [
     {path: '/checkout', name: 'checkout', component: Checkout},
     {path: '/orders', name: 'orders', component: Orders},
     {path: '/manager-restaurant', name: 'managerRestaurant', component: ManagerRestaurant},
-    {path: '/manager-orders', name: 'managerOrders', component: ManagerOrders}
+    {path: '/manager-orders', name: 'managerOrders', component: ManagerOrders},
+    {path: '/manager-customers', name: 'managerCustomers', component: ManagerCustomers}
 ]
 
 const router = new VueRouter({

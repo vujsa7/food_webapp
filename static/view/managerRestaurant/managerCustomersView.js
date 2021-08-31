@@ -12,8 +12,8 @@ Vue.component("manager-customers-view", {
         searchCustomersPosition: 10000,
         checkedCustomersTypes: ["showAll"],
         sortBy: "usual",
-        sortOrders: ["Desc", "Desc"],
-        sortOrdersIndex: undefined,
+        sortOrders: ["A-Z", "A-Z", "A-Z", "Desc"],
+        sortCustomersIndex: undefined,
         displayMode: "normal",
         socialMediaLogo: [
           "../../assets/icons/linkedin-logo.png",
@@ -23,14 +23,9 @@ Vue.component("manager-customers-view", {
           "../../assets/icons/facebook-logo.png",
           "../../assets/icons/instagram-logo.png"
         ],
-        startingPrice: "",
-        limitPrice: "",
-        startingDate: undefined,
-        limitDate: undefined,
-        datepicker1: undefined,
-        datepicker2: undefined,
-        totalRevenue: 0,
-        totalOrders: 0
+        searchCustomerName: "",
+        searchCustomerSurname: "",
+        searchCustomerUsername: ""
       }
     },
     computed: {
@@ -52,16 +47,6 @@ Vue.component("manager-customers-view", {
       window.addEventListener('scroll', this.handleScroll);
     },
     mounted() {
-      const input1 = document.getElementById('datepicker1');
-      this.datepicker1 = new TheDatepicker.Datepicker(input1);
-      this.datepicker1.options.onSelect(this.updateStartingDate);
-      this.datepicker1.render();
-  
-      const input2 = document.getElementById('datepicker2');
-      this.datepicker2 = new TheDatepicker.Datepicker(input2);
-      this.datepicker2.options.onSelect(this.updateLimitDate);
-      this.datepicker2.render();
-  
       searchOrders = document.getElementById('search-orders');
       this.searchCustomersPosition = findPos(searchOrders) + 22;
   
@@ -78,15 +63,14 @@ Vue.component("manager-customers-view", {
             this.user = response.data;
             // Fetch orders data
             axios
-              .get("http://localhost:8081/rest/restaurantOrders", {
+              .get("http://localhost:8081/rest/getAllUsersByRestaurant", {
                 headers: {
                   'Authorization': 'Bearer ' + token
                 }
               })
               .then(response => {
-                this.orders = response.data;
-                this.displayCustomers = this.orders;
-                this.calculateRevenueAndOrders();
+                this.customers = response.data;
+                this.displayCustomers = this.customers;
               })
               .catch(error => {
                 console.log(response.data);
@@ -161,8 +145,8 @@ Vue.component("manager-customers-view", {
       // Method that is setting checkboxes and radio buttons back to start state
       adjustFilterAndSortValues() {
         this.sortBy = "usual";
-        this.sortOrders = ["Desc", "Desc"];
-        this.sortOrdersIndex = undefined;
+        this.sortOrders = ["A-Z","A-Z", "A-Z", "Desc"];
+        this.sortCustomersIndex = undefined;
         this.checkedCustomersTypes = ["showAll"];
       },
       showAllOrders(e) {
@@ -170,7 +154,7 @@ Vue.component("manager-customers-view", {
         this.displayMode = "normal";
         this.adjustFilterAndSortValues();
       },
-      filterOrderStatuses(val) {
+      filterCustomersTypes(val) {
         if (val == "showAll") {
           this.checkedCustomersTypes = ["showAll"];
         } else {
@@ -184,18 +168,12 @@ Vue.component("manager-customers-view", {
           this.checkedCustomersTypes = ["showAll"]
         }
       },
-      filterOrders(order) {
+      filterCustomers(customer) {
         if (this.checkedCustomersTypes.includes("showAll")) {  // show all order statuses
           return true;
-        } else if (this.checkedCustomersTypes.includes("undelivered")) {
-          if (order.orderStatus.indexOf("processing") > -1 || order.orderStatus.indexOf("inPreparation") > -1 || order.orderStatus.indexOf("awaitingDelivery") > -1
-            || order.orderStatus.indexOf("shipping") > -1 || order.orderStatus.indexOf("canceled") > -1) {
-            return true;
-          }
-          return false;
         } else {
             for (var i = 0; i < this.checkedCustomersTypes.length; i++) {
-              if (order.orderStatus.indexOf(this.checkedCustomersTypes[i]) > -1) {
+              if (customer.buyerType.indexOf(this.checkedCustomersTypes[i]) > -1) {
                 return true;
               }
             }
@@ -203,72 +181,91 @@ Vue.component("manager-customers-view", {
         }
       },
       // Method that is controlling which sortOrder is applied to each row of "Sort by" options
-      sortOrderChanged(e, index) {
+      sortOrderChanged(e, index){
         e.preventDefault();
-        this.$set(this.sortOrders, index, this.sortOrders[index] == "Asc" ? "Desc" : "Asc");
+        if(index === 3){
+          this.$set(this.sortOrders, index, this.sortOrders[index] == "Asc" ? "Desc" : "Asc");    
+        } else {
+          this.$set(this.sortOrders, index, this.sortOrders[index] == "A-Z" ? "Z-A" : "A-Z");
+        }
         this.sortOrdersIndex = index;
-        switch (index) {
+        switch(index){
           case 0:
-            this.sortBy = "price";
+            this.sortBy = "name";
             break;
           case 1:
-            this.sortBy = "date";
+            this.sortBy = "surname";
+            break;
+          case 2:
+            this.sortBy = "username";
+            break;
+          case 3:
+            this.sortBy = "points";
         }
       },
-      compareByIdOrders(r1, r2) {
-        if (r1.id < r2.id) {
-          return -1;
+      compareByNameCustomers(c1, c2){
+        if(this.sortOrders[0] === "A-Z")
+          switcher = -1;
+        else if(this.sortOrders[0] === "Z-A")
+          switcher = 1;
+        if(c1.name < c2.name){
+          return 1*switcher;
         }
-        if (r1.id > r2.id)
-          return 1;
+        if (c1.name > c2.name)
+          return -1*switcher;
         return 0;
       },
-      compareByPriceOrders(r1, r2) {
-        if (this.sortOrders[0] == "Asc")
-          switcher = 1;
-        else if (this.sortOrders[0] === "Desc")
+      compareBySurnameCustomers(c1, c2){
+        if(this.sortOrders[0] === "A-Z")
           switcher = -1;
-        if (r1.price < r2.price) {
-          return -1 * switcher;
+        else if(this.sortOrders[0] === "Z-A")
+          switcher = 1;
+        if(c1.surname < c2.surname){
+          return 1*switcher;
         }
-        if (r1.price > r2.price)
-          return 1 * switcher;
+        if (c1.surname > c2.surname)
+          return -1*switcher;
         return 0;
       },
-      compareByDateOrders(r1, r2) {
-        if (this.sortOrders[1] == "Asc")
-          switcher = 1;
-        else if (this.sortOrders[1] === "Desc")
+      compareByUsernameCustomers(c1, c2){
+        if(this.sortOrders[0] === "A-Z")
           switcher = -1;
-        date1 = Date.parse(r1.dateOfOrder);
-        date2 = Date.parse(r2.dateOfOrder);
-        console.log(date1)
-        console.log(date2)
-        if (date1 < date2) {
-          return -1 * switcher;
+        else if(this.sortOrders[0] === "Z-A")
+          switcher = 1;
+        if(c1.username < c2.username){
+          return 1*switcher;
         }
-        if (date1 > date2)
-          return 1 * switcher;
+        if (c1.username > c2.username)
+          return -1*switcher;
+        return 0;
+      },
+      compareByPointsCustomers(c1, c2){
+        if(this.sortOrders[2] == "Asc")
+          switcher = 1;
+        else if(this.sortOrders[2] === "Desc")
+          switcher = -1;
+        if(c1.points < c2.points){
+          return -1*switcher;
+        }
+        if (c1.points > c2.points)
+          return 1*switcher;
         return 0;
       },
       searchOrders() {
         this.displayMode = "search";
         this.adjustFilterAndSortValues();
-        this.searchedCustomers = this.orders.filter(this.filterOrdersFromSearch);
+        this.searchedCustomers = this.customers.filter(this.filterCustomersFromSearch);
         this.displayCustomers = this.searchedCustomers;
       },
-      filterOrdersFromSearch(order) {
-        if (this.startingPrice != "")
-          if (order.price < parseFloat(this.startingPrice))
+      filterCustomersFromSearch(customer) {
+        if(this.searchCustomerName != "")
+          if(!customer.name.toLowerCase().includes(this.searchCustomerName.toLowerCase()))
             return false;
-        if (this.limitPrice != "")
-          if (order.price > parseFloat(this.limitPrice))
+        if(this.searchCustomerSurname != "")
+          if(!customer.surname.toLowerCase().includes(this.searchCustomerSurname.toLowerCase()))
             return false;
-        if (this.startingDate != undefined)
-          if (Date.parse(order.dateOfOrder) < this.startingDate)
-            return false;
-        if (this.limitDate != undefined)
-          if (Date.parse(order.dateOfOrder) > this.limitDate)
+        if(this.searchCustomerUsername != "")
+          if(!customer.username.toLowerCase().includes(this.searchCustomerUsername.toLowerCase()))
             return false;
         return true;
       },
@@ -277,57 +274,52 @@ Vue.component("manager-customers-view", {
       },
       navigateToOrdersView() {
         this.$router.push({ name: 'orders' })
-      },
-      updateValueStartingPrice(e) {
-        this.startingPrice = e.target.value.replace("$", '');
-      },
-      updateValueLimitPrice(e) {
-        this.limitPrice = e.target.value.replace("$", '');
-      },
-      calculateRevenueAndOrders(){
-        for (var i = 0; i < this.orders.length; i++) {
-          if (this.orders[i].orderStatus == "delivered") {
-            this.totalRevenue += this.orders[i].price;
-            this.totalOrders += 1;
-          }
-        }
-        this.totalRevenue = this.totalRevenue.toFixed(2);
       }
     },
     watch: {
       checkedCustomersTypes: function () {
         if (this.displayMode == "normal") {
-          this.displayCustomers = this.orders.filter(this.filterOrders);
+          this.displayCustomers = this.customers.filter(this.filterCustomers);
         }
         else {  // search mode
-          this.displayCustomers = this.searchedCustomers.filter(this.filterOrders);
+          this.displayCustomers = this.searchedCustomers.filter(this.filterCustomers);
         }
       },
-      sortBy: function () {
-        if (this.sortBy == "usual")
-          this.displayCustomers = this.displayCustomers.sort(this.compareByIdOrders);
-        else if (this.sortBy == "price")
-          this.displayCustomers = this.displayCustomers.sort(this.compareByPriceOrders);
-        else if (this.sortBy == "date")
-          this.displayCustomers = this.displayCustomers.sort(this.compareByDateOrders);
+      sortBy: function(){
+        if(this.sortBy == "usual")
+          this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
+        else if(this.sortBy == "name")
+          this.displayCustomers = this.displayCustomers.sort(this.compareByNameCustomers);
+        else if(this.sortBy == "surname")
+          this.displayCustomers = this.displayCustomers.sort(this.compareBySurnameCustomers);
+        else if(this.sortBy == "username")
+          this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
+        else if(this.sortBy == "points")
+          this.displayCustomers = this.displayCustomers.sort(this.compareByPointsCustomers);
       },
-      sortOrders: function () {
-        switch (this.sortOrdersIndex) {
-          case 0:
-            this.displayCustomers = this.displayCustomers.sort(this.compareByPriceOrders);
+      sortOrders: function(){
+        switch(this.sortCustomersIndex){
+          case 0: 
+          this.displayCustomers = this.displayCustomers.sort(this.compareByNameCustomers);
             break;
           case 1:
-            this.displayCustomers = this.displayCustomers.sort(this.compareByDateOrders);
+            this.displayCustomers = this.displayCustomers.sort(this.compareBySurnameCustomers);
+            break;
+          case 2:
+            this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
+            break;
+          case 3:
+            this.displayCustomers = this.displayCustomers.sort(this.compareByPointsCustomers);
             break;
         }
       }
     },
     components: {
-      order: managerOrderComponent
+      customer: managerCustomerComponent
     },
     template:
       `
-      <div id="orders-view">
+      <div id="manager-customers-view">
       <!--Navigation container-->
       <div class="container-fluid navigation-container pt-3 px-0">
         <div class="container-fluid d-none d-lg-block px-0">
@@ -404,161 +396,67 @@ Vue.component("manager-customers-view", {
         </nav>
       </div>
       <div class="orders-body">
-          <div class="orders-user-info">
-              <div class="orders-graph-container d-none d-xl-block box-shadow">
-                  <img class="img-fluid graph-img" src="../assets/images/graph.png">
-              </div>
-              <div class="orders-details-container d-flex flex-column">
-                  <div class="card1 box-shadow d-flex flex-row align-items-center">
-                      <div class="order-details-red-container ms-5 d-flex justify-content-center align-items-center">
-                          <img src="../assets/icons/calendar.png" class="order-details-img" alt="Calenar image">
-                      </div>
-                      <div class="d-flex flex-column ms-4 me-2 justify-content-center">
-                          <span class="mb-1">Revenue this week</span>
-                          <span class="fw-bold">$4537</span>
-                      </div>
-                  </div>
-                  <div class="card2 box-shadow d-flex flex-row align-items-center">
-                      <div class="order-details-red-container ms-5 d-flex justify-content-center align-items-center">
-                          <img src="../assets/icons/bag.png" class="order-details-img" alt="Bag image">
-                      </div>
-                      <div class="d-flex flex-column ms-4 me-2 justify-content-center">
-                          <span class="mb-1">Orders this week</span>
-                          <span class="fw-bold">445</span>
-                      </div>
-                  </div>
-              </div>
-              <div class="orders-details-container d-flex flex-column">
-                  <div class="card1 box-shadow d-flex flex-row align-items-center">
-                      <div class="order-details-red-container ms-5 d-flex justify-content-center align-items-center">
-                          <img src="../assets/icons/calendar.png" class="order-details-img" alt="Dolar">
-                      </div>
-                      <div class="d-flex flex-column ms-4 me-2 justify-content-center">
-                          <span class="mb-1">Total revenue</span>
-                          <span class="fw-bold">$ {{this.totalRevenue}}</span>
-                      </div>
-                  </div>
-                  <div class="card2 box-shadow d-flex flex-row align-items-center">
-                      <div class="order-details-red-container ms-5 d-flex justify-content-center align-items-center">
-                          <img src="../assets/icons/bag.png" class="order-details-img" alt="Graph">
-                      </div>
-                      <div class="d-flex flex-column ms-4 me-2 justify-content-center">
-                          <span class="mb-1">Total orders</span>
-                          <span class="fw-bold">{{this.totalOrders}}</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="orders-small-graph-container d-xl-none box-shadow">
-              <img class="img-fluid graph-img" src="../assets/images/graph.png">
-          </div>
-  
           <!--Search container-->
           <div class="orders-search-container d-flex flex-column">
-              <span id="search-orders" class="orders-title mb-2">Search orders</span>
+              <span id="search-orders" class="orders-title mb-2">Search customers</span>
               <div v-bind:class="{'absolute-orders-sticky-search' : stickySearch}">
                 <div class="orders-fields-container" v-bind:class="{'orders-sticky-search' : stickySearch}">
                     <div class="orders-fields d-flex flex-row">
-                        <div class="orders-price-container column-prop">
-                            <div class="d-flex flex-row">
-                                <div class="order-search-small-container me-3 d-flex justify-content-center align-items-center">
-                                    <img src="../assets/icons/price.png" class="order-search-small-img" alt="">
-                                </div>
-                                <div class="d-flex flex-column order-expand-column">
-                                    <span>Price</span>
-                                    <div class="d-flex flex-row">
-                                        <input maxlength="6" type="text" :value="formatStartingPrice" @input="updateValueStartingPrice" class="text-line" />
-                                        <span class="gray-line ms-3 me-3">-</span>
-                                        <input maxlength="6" :value="formatLimitPrice" @input="updateValueLimitPrice" type="text" class="text-line" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="manager-orders-date-container column-prop">
-                            <div class="d-flex flex-row">
-                                <div class="order-search-small-container me-3 d-flex justify-content-center align-items-center">
-                                    <img src="../assets/icons/date.png" class="order-search-small-img" alt="">
-                                </div>
-                                <div class="d-flex flex-column order-expand-column">
-                                    <span>Date</span>
-                                    <div class="d-flex flex-row">
-                                        <div><input id="datepicker1" type="text" class="text-line" /></div>
-                                        <span class="gray-line ms-3 me-3">-</span>
-                                        <div><input id="datepicker2" type="text" class="text-line" /></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      <div class="orders-restaurant-container column-prop">
+                          <input type="text" v-model="searchCustomerName" class="form-control" placeholder="Name...">
+                      </div>
+                      <div class="orders-restaurant-container column-prop">
+                          <input type="text" v-model="searchCustomerSurname" class="form-control" placeholder="Surname...">
+                      </div>
+                      <div class="orders-restaurant-container column-prop">
+                          <input type="text" v-model="searchCustomerUsername" class="form-control" placeholder="Username...">
+                      </div>
                     </div>
-                    <button class="btn btn-danger orders-regular-button regular-button" :disabled="(startingPrice == '' || limitPrice == '') && (startingDate == undefined || limitDate == undefined)" @click="searchOrders">Search</button>
+                    <button class="btn btn-danger orders-regular-button regular-button" :disabled="searchCustomerName == '' && searchCustomerSurname == '' && searchCustomerUsername == ''" @click="searchOrders">Search</button>
                 </div>
               </div>
           </div>
           
           <div class="d-flex flex-row">
-              <div class="orders-shrinking-margin"></div>
+              <div class="customers-shrinking-margin"></div>
               <div class="center-container">
                   <div class="search-body-container d-flex">
-                      <div id="orders-big-filter-sort-container" class="orders-big-filter-sort-container">
+                      <div id="orders-big-filter-sort-container" class="customers-big-filter-sort-container">
                         <div class="d-none d-lg-block filter-sort-wrapper" id="filter-sort-wrapper" v-bind:class="{'filter-sort-wrapper-sticky': stickySearch}">
                           <div v-bind:class="{'empty-filter-sort' : stickySearch}"></div>
                           <!-- Filter container -->
-                          <div class="row filter-sort-container">
+                          <div class="row customers-filter-sort-container">
                             <h1 class="basic-title px-0">Order status</h1>
                             <div class="mb-3">
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" :disabled="checkedCustomersTypes[0] == 'showAll'" v-on:change="filterOrderStatuses('showAll')" v-model="checkedCustomersTypes" type="checkbox" value="showAll" id="flexCheckAll">
+                                  <input class="form-check-input m-0" :disabled="checkedCustomersTypes[0] == 'showAll'" v-on:change="filterCustomersTypes('showAll')" v-model="checkedCustomersTypes" type="checkbox" value="showAll" id="flexCheckAll">
                                   <label class="form-check-label" for="flexCheckAll">
                                     Show all
                                   </label>
                                 </div>
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" :disabled="checkedCustomersTypes.includes('delivered')" type="checkbox" v-model="checkedCustomersTypes" v-on:change="filterOrderStatuses()" value="undelivered" id="flexCheckUndelivered">
-                                  <label class="form-check-label" for="flexCheckUndelivered">
-                                    Show undelivered
+                                  <input class="form-check-input m-0" :disabled="checkedCustomersTypes.includes('delivered')" type="checkbox" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="bronze" id="flexCheckBronze">
+                                  <label class="form-check-label" for="flexCheckBronze">
+                                    Bronze
                                   </label>
                                 </div>
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterOrderStatuses()" value="processing" id="flexCheckProcessing">
-                                  <label class="form-check-label" for="flexCheckProcessing">
-                                    Processing
+                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="silver" id="flexCheckSilver">
+                                  <label class="form-check-label" for="flexCheckSilver">
+                                    Silver
                                   </label>
                                 </div>
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterOrderStatuses()" value="inPreparation" id="flexCheckPreparation">
-                                  <label class="form-check-label" for="flexCheckPreparation">
-                                    In preparation
-                                  </label>
-                                </div>
-                                <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterOrderStatuses()" value="awaitingDelivery" id="flexCheckAwaiting">
-                                  <label class="form-check-label" for="flexCheckAwaiting">
-                                    Awaiting delivery
-                                  </label>
-                                </div>
-                                <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterOrderStatuses()" value="shipping" id="flexCheckShipping">
-                                  <label class="form-check-label" for="flexCheckShipping">
-                                    Shipping
-                                  </label>
-                                </div>
-                                <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterOrderStatuses()" value="delivered" id="flexCheckDelivered">
-                                  <label class="form-check-label" for="flexCheckDelivered">
-                                    Delivered
-                                  </label>
-                                </div>
-                                <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterOrderStatuses()" value="canceled" id="flexCheckCanceled">
-                                  <label class="form-check-label" for="flexCheckCanceled">
-                                    Canceled
+                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="gold" id="flexCheckGold">
+                                  <label class="form-check-label" for="flexCheckGold">
+                                    Gold
                                   </label>
                                 </div>
                             </div>
                             
                           </div>
                           <!-- Sort container -->
-                          <div class="row filter-sort-container">
+                          <div class="row customers-filter-sort-container">
                             <span class="basic-title p-0">Sort by</span>
                               <div class="d-flex flex-row ps-0 pe-5">
                               <div class="col-9 p-0 ">
@@ -569,23 +467,35 @@ Vue.component("manager-customers-view", {
                                       </label>
                                   </div>
                                   <div class="form-check">
-                                      <input class="form-check-input m-0" type="radio" name="flexRadioDefault" value="price" v-model="sortBy" id="flexRadioPrice">
-                                      <label class="form-check-label" for="flexRadioPrice">
-                                          Price
-                                      </label>
+                                    <input class="form-check-input m-0" type="radio" name="flexRadioDefault" value="name" v-model="sortBy" id="flexRadioName">
+                                    <label class="form-check-label" for="flexRadioName">
+                                      Name
+                                    </label>
                                   </div>
-                                  <div class="form-check last-form-check">
-                                      <input class="form-check-input m-0" type="radio" name="flexRadioDefault" value="date" v-model="sortBy" id="flexRadioDate">
-                                      <label class="form-check-label" for="flexRadioDate">
-                                          Date
-                                      </label>
+                                  <div class="form-check">
+                                    <input class="form-check-input m-0" type="radio" name="flexRadioDefault" value="surname" v-model="sortBy" id="flexRadioSurname">
+                                    <label class="form-check-label" for="flexRadioSurname">
+                                      Surname
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input m-0" type="radio" name="flexRadioDefault" value="username" v-model="sortBy" id="flexRadioUsername">
+                                    <label class="form-check-label" for="flexRadioUsername">
+                                      Username
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input m-0" type="radio" name="flexRadioDefault" value="points" v-model="sortBy" id="flexRadioPoints">
+                                    <label class="form-check-label" for="flexRadioPoints">
+                                      Points
+                                    </label>
                                   </div>
                               </div>
                               <div class="col-3 p-0 sort-orders">
                                 <div v-for="(sortOrder, index) in sortOrders">
                                   <div class="row sort-order-container">
                                     <div class="col px-0" style="text-align:end;">
-                                      <img @click="sortOrderChanged($event, index)" :src="sortOrder == 'Asc' ? '../assets/icons/ascending.png' : '../assets/icons/descending.png'" class="img-fluid sort-icon">
+                                    <img @click="sortOrderChanged($event, index)" :src="sortOrder == 'Asc' ? '../assets/icons/ascending.png' : (sortOrder =='Desc' ? '../assets/icons/descending.png' : (sortOrder =='Z-A' ? '../assets/icons/ascending.png' : '../assets/icons/descending.png'))" class="img-fluid sort-icon">
                                     </div>
                                     <div class="col p-0">
                                       <a class="nav-link" href="#" @click="sortOrderChanged($event, index)">{{sortOrder}}</a>
@@ -597,18 +507,18 @@ Vue.component("manager-customers-view", {
                           </div>
                         </div>
                       </div>
-                      <div class="d-flex flex-column search-order-cards-container" v-bind:class="{'search-order-cards-container-margin' : stickySearch}">
+                      <div class="d-flex flex-column search-customer-cards-container" v-bind:class="{'search-order-cards-container-margin' : stickySearch}">
                           <div class="d-flex flex-row">
                               <h5 class="order-search-results-header" :hidden="displayMode!='search'">Search results</h5>
                               <a class="nav-link" href="#" :hidden="displayMode!='search'" @click="showAllOrders">Show all orders</a>
                           </div>
-                          <div v-for="order in displayCustomers">
-                              <order :order="order"></order>
+                          <div v-for="customer in displayCustomers">
+                              <customer :customer="customer"></customer>
                           </div>
                       </div>
                   </div>
               </div>
-              <div class="orders-shrinking-margin"></div>
+              <div class="customers-shrinking-margin"></div>
           </div>
       </div>
       <footer class="text-white" id="footer">

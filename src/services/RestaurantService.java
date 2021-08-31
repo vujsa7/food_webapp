@@ -41,15 +41,26 @@ public class RestaurantService {
 	}
 	
 	public Collection<Buyer> getUsersFromRestaurant(String managerUsername) throws JsonSyntaxException, IOException{
-		ArrayList<Order> allOrders = orderDao.getAll();
+		ArrayList<Order> allOrders = orderDao.getAllNotDeleted();
 		Restaurant restaurant = getRestaurantByManager(managerUsername);
 		ArrayList<Buyer> restaurantBuyers = new ArrayList<Buyer>();
 		for(Order o : allOrders) {
-			if(o.getRestaurant() == restaurant.getID()) {
+			if(o.getRestaurant() == restaurant.getID() && !isUserVisited(restaurantBuyers, o.getBuyer())) {
 				restaurantBuyers.add((Buyer) userDao.getById(o.getBuyer()));
 			}
 		}
 		return restaurantBuyers;
+	}
+	
+	private boolean isUserVisited(ArrayList<Buyer> restaurantBuyers, String buyerId) {
+		boolean isVisited = false;
+		for(Buyer b : restaurantBuyers) {
+			if(b.getID().equals(buyerId)) {
+				isVisited = true;
+				break;
+			}
+		}
+		return isVisited;
 	}
 	
 	public Restaurant getById(int restaurantId) throws JsonSyntaxException, IOException {
