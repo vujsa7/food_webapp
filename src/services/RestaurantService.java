@@ -9,6 +9,7 @@ import com.google.gson.JsonSyntaxException;
 
 import beans.*;
 import dao.*;
+import dto.ArticleDTO;
 import dto.RegisterNewRestaurantDTO;
 
 public class RestaurantService {
@@ -99,19 +100,35 @@ public class RestaurantService {
 		return newArticle;
 	}
 	
-	public Article changeArticle(Article changedArticle, Manager manager) throws JsonSyntaxException, IOException {
+	public Article changeArticle(ArticleDTO changedArticle, Manager manager) throws JsonSyntaxException, IOException {
 		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
+		System.out.println("111111");
+		Article editedArticle = null;
 		for(Article a : restaurant.getArticles()) {
-			if(a.getRestaurantId() == changedArticle.getRestaurantId()) {
+			if(a.getName().equals(changedArticle.getName()) && !(changedArticle.getOldName().equals(changedArticle.getName()))) {
+				System.out.println("BACA OVDE");
+				return null;
+			}
+			if(a.getName().equals(changedArticle.getOldName())) {
 				a.setName(changedArticle.getName());
-				a.setImage(changedArticle.getImage());
-				a.setDescription(changedArticle.getDescription());
-				a.setArticleType(changedArticle.getArticleType());
-				a.setPrice(changedArticle.getPrice());
-				a.setQuantity(changedArticle.getQuantity());
+				if (changedArticle.getImage() != null) { 
+					if (!changedArticle.getImage().isEmpty() && changedArticle.getImage().startsWith("data:image")) {
+						String path = "assets/images/restaurant-images/foods/a" + changedArticle.getName() +".jpg";
+						decoder.Base64DecodeAndSave(changedArticle.getImage(), path);
+						path = "./" + "assets/images/restaurant-images/foods/a" + changedArticle.getName() +".jpg";
+						changedArticle.setImage(path);
+					} else {
+						changedArticle.setImage(changedArticle.getImage());
+					}
+				}
+				editedArticle = new Article(changedArticle.getRestaurantId(),changedArticle.getName(),changedArticle.getPrice(),changedArticle.getArticleType(),changedArticle.getQuantity(),changedArticle.getDescription(),changedArticle.getImage());
+				System.out.println("URADIO");
+				System.out.println(editedArticle.getName());
+				restaurant.changeArticle(editedArticle, changedArticle.getOldName());
+				break;
 			}
 		}
 		restaurantDao.update(restaurant);
-		return changedArticle;
+		return editedArticle;
 	}
 }

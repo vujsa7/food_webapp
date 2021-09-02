@@ -30,7 +30,6 @@ Vue.component("manager-restaurant-view", {
       loginDialog: loginDialogComponent,
       messageDialog: messageDialogComponent,
       addArticleDialog: addArticleDialogComponent,
-      editArticleDialog: editArticleDialogComponent
     },
     methods:{
       logout(){

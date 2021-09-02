@@ -9,7 +9,6 @@ var managerRestaurantArticleItemComponent = {
         'article'
     ],
     components:{
-        messageDialog: messageDialogComponent,
         editArticleDialog: editArticleDialogComponent
     },
     methods:{

@@ -3,6 +3,7 @@ var editArticleDialogComponent = {
       return{
         form:{
             articleName: '',
+            oldName: '',
             articleDescription: '',
             articlePrice: undefined,
             articleType: '',
@@ -44,28 +45,31 @@ var editArticleDialogComponent = {
       }
     },
     mounted(){
-        this.articleName = this.article.name;
-        this.articleDescription = this.article.description;
-        this.articlePrice = this.article.price;
-        this.articleType =  this.article.price;
-        this.articleQuantity = this.article.quantity;
-        this.articleImage = this.article.image;
+        this.form.articleName = this.article.name;
+        this.form.oldName = this.article.name;
+        this.form.articleDescription = this.article.description;
+        this.form.articlePrice = this.article.price;
+        this.form.articleType =  this.article.articleType;
+        this.form.articleQuantity = this.article.quantity;
+        this.form.articleImage = this.article.image;
+        this.form.backendImage = this.article.image;
     },
     methods: {
       submitForm(){
         if(!this.$v.form.$invalid){
           var editedArticle = {
             restaurantId: this.article.restaurantId,
+            oldName: this.form.oldName,
             name: this.form.articleName,
             price: this.form.articlePrice,
             articleType: this.form.articleType,
-            articleQuantity: this.form.articleQuantity,
+            quantity: this.form.articleQuantity,
             description: this.form.articleDescription,
             image: this.form.backendImage  
           } 
           let token = window.localStorage.getItem('token');
           axios
-          .post("http://localhost:8081/rest/editArticle",JSON.stringify(editedArticle),{
+          .put("http://localhost:8081/rest/editArticle",JSON.stringify(editedArticle),{
             headers: {
               'Authorization': 'Bearer ' + token
             }
@@ -89,11 +93,11 @@ var editArticleDialogComponent = {
         }  
       },
       displayEditArticleModal(){
-        this.isAddArticleModalDisplayed = true;
+        this.isEditArticleModalDisplayed = true;
       },
       closeDialog(){
-        this.isAddArticleModalDisplayed = false;
-        //this.$parent.reloadRestaurant();
+        this.isEditArticleModalDisplayed = false;
+        this.$parent.reloadRestaurant();
       },
       imageAdded(e){
           const file = e.target.files[0];
@@ -112,7 +116,7 @@ var editArticleDialogComponent = {
       }
     },
     template: `
-    <div class="modal" :class="{ 'display-block' : isAddArticleModalDisplayed }">
+    <div class="modal" :class="{ 'display-block' : isEditArticleModalDisplayed }">
       <div class="modal-content">
         <div class="modal-header d-flex flex-column">
           <div class="d-flex flex-row align-items-center">

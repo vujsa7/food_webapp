@@ -17,6 +17,7 @@ import beans.DeliveryWorker;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dto.ArticleDTO;
 import dto.LoggedInBuyerDTO;
 import dto.RegisterNewRestaurantDTO;
 import dto.RegisterNewUserDTO;
@@ -169,7 +170,6 @@ public class RestaurantController {
 		put("/rest/editArticle", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
-			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
@@ -181,7 +181,8 @@ public class RestaurantController {
 				    	return "";
 				    }
 				    Manager manager = (Manager) loggedInUser;
-				    Article article = restaurantService.changeArticle(gson.fromJson(req.body(), Article.class), manager);
+				    System.out.println("SPARK PROSAO");
+				    Article article = restaurantService.changeArticle(gson.fromJson(req.body(), ArticleDTO.class), manager);
 				    return gson.toJson(article);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

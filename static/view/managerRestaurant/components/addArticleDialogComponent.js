@@ -22,7 +22,7 @@
         'restaurantId'
       ],
       components:{
-        messageDialog: messageDialogComponent 
+        messageDialog: messageDialogComponent
       },
       validations:{
         form:{

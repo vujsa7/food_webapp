@@ -106,6 +106,15 @@ public class Restaurant implements IIdentifiable<Integer>{
 	public void addArticle(Article article) {
 		this.articles.add(article);
 	}
+	
+	public void changeArticle(Article article,String oldName) {
+		for(Article a : this.articles) {
+			if(a.getName().equals(oldName)) {
+				articles.remove(a);
+				articles.add(article);
+			}
+		}
+	}
 
 	@Override
 	public Integer getID() {

@@ -110,6 +110,15 @@
         "quantity": 93,
         "description": "100% pure-squeezed, pasteurized orange juice.",
         "image": "../assets/images/restaurant-images/foods/114.jpg"
+      },
+      {
+        "restaurantId": 1,
+        "name": "stejkkk mmm",
+        "price": 7.78,
+        "articleType": "meal",
+        "quantity": 400,
+        "description": "mmmmm soo goood",
+        "image": "./assets/images/restaurant-images/foods/astejkkk.jpg"
       }
     ],
     "isDeleted": false
