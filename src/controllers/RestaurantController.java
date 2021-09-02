@@ -140,25 +140,23 @@ public class RestaurantController {
 		post("/rest/addArticle", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
-			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
-					System.out.println("KURAC");
-				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
 				    // ako nije bacio izuzetak, onda je OK
 				    User loggedInUser = userService.getById(claims.getBody().getSubject());
 				    if(!loggedInUser.getAccountType().equals(AccountType.manager)) {
-				    	res.status(403);
-				    	return "";
+				    	res.status(401);
+				    	return "Access forbidden";
 				    }
 				    Manager manager = (Manager) loggedInUser;
-				    System.out.println("AAAAAAAAAA");
 				    Article article = restaurantService.addArticle(gson.fromJson(req.body(), Article.class), manager);
 				    if(article == null) {
 						res.status(409);
-						return "";
+						return "Article with given name already exists!";
 					}else {
+						res.status(200);
 						return gson.toJson(article);
 					}
 				} catch (Exception e) {
@@ -168,14 +166,14 @@ public class RestaurantController {
 			return "No user logged in.";
 		});
 		
-		put("/restaurants/updateRestaurant", (req,res) -> {
+		put("/rest/editArticle", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
 			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
-				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
 				    // ako nije bacio izuzetak, onda je OK
 				    User loggedInUser = userService.getById(claims.getBody().getSubject());
 				    if(!loggedInUser.getAccountType().equals(AccountType.manager)) {

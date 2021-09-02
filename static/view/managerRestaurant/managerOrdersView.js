@@ -8,7 +8,7 @@ Vue.component("manager-orders-view", {
       searchedOrders: [],
       displayOrders: [],
       scrolled: 0,
-      selectedNavIndex: 1,
+      selectedNavIndex: 2,
       searchOrdersPosition: 10000,
       checkedOrderStatuses: ["showAll"],
       sortBy: "usual",
@@ -38,7 +38,7 @@ Vue.component("manager-orders-view", {
     stickySearch() {
       return this.scrolled > this.searchOrdersPosition;
     },
-    stickyCart() {
+    stickyDelivery() {
       return this.scrolled > 60;
     },
     formatStartingPrice() {
@@ -275,8 +275,11 @@ Vue.component("manager-orders-view", {
     navigateHome() {
       this.$router.push({ name: 'homepage' })
     },
-    navigateToOrdersView() {
-      this.$router.push({ name: 'orders' })
+    navigateToRestaurantView() {
+      this.$router.push({ name: 'managerRestaurant' })
+    },
+    navigateToCustomersView() {
+      this.$router.push({ name: 'managerCustomers' })
     },
     updateValueStartingPrice(e) {
       this.startingPrice = e.target.value.replace("$", '');
@@ -328,6 +331,18 @@ Vue.component("manager-orders-view", {
   template:
     `
     <div id="orders-view">
+    <transition name="fade">
+    <div v-if="user && stickyDelivery" id="floating-cart-container">
+      <div class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
+        <!--div v-if="cart.articles.length > 0" class="homepage-floating-cart-article-number d-flex justify-content-center align-items-center">
+          {{cart.articles.length}}
+        </div-->
+        <button class="shopping-cart-pic" type="button" data-toggle="modal" data-target="#exampleModal">
+          <img src="../assets/icons/take-away24px.png" alt="delivery-req" class="shopping-cart-pic">
+        </button>
+      </div>
+    </div>
+    </transition>
     <!--Navigation container-->
     <div class="container-fluid navigation-container pt-3 px-0">
       <div class="container-fluid d-none d-lg-block px-0">
@@ -349,16 +364,28 @@ Vue.component("manager-orders-view", {
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
-                <li v-if="user && user.accountType=='buyer'" class="nav-item">
+                <li v-if="user && user.accountType=='manager'" class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link active mt-1 fw-bold py-0" @click="changeSelectedNavItem(1)" aria-current="page">Orders</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToRestaurantView();" aria-current="page">Restaurant</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager')" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(2);" aria-current="page">Orders</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && (user.accountType=='administrator' || user.accountType=='manager')" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(3); navigateToCustomersView();" aria-current="page">Customers</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
-                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
                   </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
@@ -398,8 +425,15 @@ Vue.component("manager-orders-view", {
               <div class="image-cropper mx-2">
                 <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
               </div>
+              <div v-if="user && !stickyDelivery" @click="" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
+                <!--div v-if="cart.articles.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
+                  {{cart.articles.length}}
+                </div-->
+                <img src="../assets/icons/take-away24px.png" alt="delivery-req" class="shopping-cart-pic mx-1">
+              </div
             </div> 
           </div>
+        </div>
         </div>
       </nav>
     </div>
@@ -595,7 +629,7 @@ Vue.component("manager-orders-view", {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div>          
                     </div>
                     <div class="d-flex flex-column search-order-cards-container" v-bind:class="{'search-order-cards-container-margin' : stickySearch}">
                         <div class="d-flex flex-row">

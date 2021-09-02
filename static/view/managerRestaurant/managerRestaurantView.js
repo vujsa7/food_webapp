@@ -5,7 +5,7 @@ Vue.component("manager-restaurant-view", {
           user: undefined,
           comments: [],
           scrolled: 0,
-          selectedNavIndex: 0,
+          selectedNavIndex: 1,
           displayApproved: true,
           numberOfItems: 1,
           socialMediaLogo: [
@@ -29,7 +29,8 @@ Vue.component("manager-restaurant-view", {
       registerDialog: registerDialogComponent,
       loginDialog: loginDialogComponent,
       messageDialog: messageDialogComponent,
-      addArticleDialog: addArticleDialogComponent
+      addArticleDialog: addArticleDialogComponent,
+      editArticleDialog: editArticleDialogComponent
     },
     methods:{
       logout(){
@@ -66,6 +67,16 @@ Vue.component("manager-restaurant-view", {
       },
       navigateHome(){
         this.$router.push({name: 'homepage'})
+      },
+      navigateToOrdersView(){
+        if(this.user.accountType == "buyer"){
+          this.$router.push({name: 'orders'})
+        }else if(this.user.accountType == "manager"){
+          this.$router.push({name: 'managerOrders'})
+        }  
+      },
+      navigateToCustomersView(){
+        this.$router.push({name: 'managerCustomers'})
       },
       isSelectedNavItem(index){
         if(index == this.selectedNavIndex)
@@ -108,6 +119,39 @@ Vue.component("manager-restaurant-view", {
         .catch(error => {
           console.log(response.data);
         })
+      },
+      reloadRestaurant(){
+        let token = window.localStorage.getItem('token');
+        axios
+        .get("http://localhost:8081/rest/accessUserWithJwt", {
+            headers:{
+            'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => {
+            this.user = response.data;
+            axios
+          .get("http://localhost:8081/rest/managerRestaurant/" + this.user.username)
+          .then(response => {
+            this.restaurant = response.data;
+            axios
+            .get("http://localhost:8081/rest/commentsForManager/" + this.restaurant.id)
+            .then(response => {
+                this.comments = response.data;
+                this.restaurantId = this.restaurant.id;
+            })
+            .catch(error => {
+                // Failed to fetch comments
+                this.comments = []
+            })
+          })
+          .catch(error => {
+            console.log(response.data);
+          });
+        })
+        .catch(error => {
+            // TODO session probably expired, jwt invalid
+        })
       }
     },
     created(){
@@ -133,6 +177,7 @@ Vue.component("manager-restaurant-view", {
             .get("http://localhost:8081/rest/commentsForManager/" + this.restaurant.id)
             .then(response => {
                 this.comments = response.data;
+                this.restaurantId = this.restaurant.id;
             })
             .catch(error => {
                 // Failed to fetch comments
@@ -171,20 +216,32 @@ Vue.component("manager-restaurant-view", {
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page" href="#">Home</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(0); navigateHome()" aria-current="page">Home</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
                 <li v-if="user && user.accountType=='manager'" class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page" href="#">Orders</a>
+                    <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(1); navigateToRestaurantView();" aria-current="page">Restaurant</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager')" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2); navigateToOrdersView()" aria-current="page">Orders</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && (user.accountType=='administrator' || user.accountType=='manager')" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(3); navigateToCustomersView()" aria-current="page">Customers</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)" href="#">About us</a>
-                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
                   </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
@@ -267,7 +324,7 @@ Vue.component("manager-restaurant-view", {
           <div class="d-flex">
             <span class="title left">Drinks</span>
             <div v-if="restaurant" class="d-flex right justify-content-end">
-              <button type="button" style="background:white" class="btn btn-light shadow-none @click="displayAddArticleModal()"">
+              <button type="button" style="background:white" class="btn btn-light shadow-none" @click="displayAddArticleModal()">
                   <img src="../assets/icons/plus16px.png"/>
                   <span class=" fw-bold">Add new article</span>
               </button>

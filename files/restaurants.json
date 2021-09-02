@@ -22,7 +22,7 @@
     },
     "articles": [
       {
-      	"restaurantId": 1,
+        "restaurantId": 1,
         "name": "Steak",
         "price": 12.39,
         "articleType": "meal",
@@ -137,7 +137,7 @@
     },
     "articles": [
       {
-      	"restaurantId": 2,
+        "restaurantId": 2,
         "name": "Chicken wings",
         "price": 8.39,
         "articleType": "meal",
@@ -243,7 +243,7 @@
     },
     "articles": [
       {
-      	"restaurantId": 3,
+        "restaurantId": 3,
         "name": "Veggie pasta",
         "price": 14.39,
         "articleType": "meal",

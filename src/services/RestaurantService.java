@@ -16,6 +16,7 @@ public class RestaurantService {
 	private UserDAO userDao;
 	private OrderDAO orderDao;
 	private CommentDAO commentDao;
+	private Base64ToImage decoder = new Base64ToImage();
 	
 	public RestaurantService() {
 		this.restaurantDao = new RestaurantDAO("./files/restaurants.json");
@@ -81,6 +82,16 @@ public class RestaurantService {
 		for(Article a : restaurant.getArticles()) {
 			if(a.getName().equals(newArticle.getName())) {
 				return null;
+			}
+		}
+		if (newArticle.getImage() != null) { 
+			if (!newArticle.getImage().isEmpty() && newArticle.getImage().startsWith("data:image")) {
+				String path = "assets/images/restaurant-images/foods/a" + newArticle.getName() +".jpg";
+				decoder.Base64DecodeAndSave(newArticle.getImage(), path);
+				path = "./" + "assets/images/restaurant-images/foods/a" + newArticle.getName() +".jpg";
+				newArticle.setImage(path);
+			} else {
+				newArticle.setImage(newArticle.getImage());
 			}
 		}
 		restaurant.addArticle(newArticle);

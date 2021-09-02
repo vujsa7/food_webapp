@@ -516,3 +516,23 @@
         width: 0px;
     }
 }
+
+.add-article-button{
+    width: 128px;
+    height: 128px;
+    padding: 0rem !important
+}
+
+.add-article-image{
+    width: 128px;
+    height: 128px;
+}
+
+.article-price{
+    width: 5vw;
+}
+
+.article-quantity{
+    width: 6vw;
+}
+

@@ -14,14 +14,14 @@ public class LoggedInBuyerDTO {
    	private AccountType accountType;
    	
 	public LoggedInBuyerDTO(String username, String name, String surname, Gender gender,
-			Date dateOfBirth) {
+			Date dateOfBirth, AccountType accountType) {
 		super();
 		this.setUsername(username);
 		this.name = name;
 		this.surname = surname;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
-		this.accountType = AccountType.manager;
+		this.accountType = accountType;
 	}
 
 	public String getName() {

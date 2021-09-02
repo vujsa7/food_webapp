@@ -57,7 +57,7 @@ public class LoginController {
 				    User user = userService.getById(claims.getBody().getSubject());
 				    System.out.println("RADI");
 				    res.status(200);
-				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getUsername(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth());
+				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getUsername(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth(), user.getAccountType());
 				    System.out.println(loggedInBuyerDTO.getUsername());
 				    return gson.toJson(loggedInBuyerDTO);
 				}catch (Exception e) {

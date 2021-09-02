@@ -8,7 +8,7 @@ Vue.component("manager-customers-view", {
         searchedCustomers: [],
         displayCustomers: [],
         scrolled: 0,
-        selectedNavIndex: 1,
+        selectedNavIndex: 3,
         searchCustomersPosition: 10000,
         checkedCustomersTypes: ["showAll"],
         sortBy: "usual",
@@ -272,8 +272,15 @@ Vue.component("manager-customers-view", {
       navigateHome() {
         this.$router.push({ name: 'homepage' })
       },
-      navigateToOrdersView() {
-        this.$router.push({ name: 'orders' })
+      navigateToOrdersView(){
+        if(this.user.accountType == "buyer"){
+          this.$router.push({name: 'orders'})
+        }else if(this.user.accountType == "manager"){
+          this.$router.push({name: 'managerOrders'})
+        }  
+      },
+      navigateToRestaurantView(){
+        this.$router.push({name: 'managerRestaurant'})
       }
     },
     watch: {
@@ -341,16 +348,28 @@ Vue.component("manager-customers-view", {
                       <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                     </div>
                   </li>
-                  <li v-if="user && user.accountType=='buyer'" class="nav-item">
+                  <li v-if="user && user.accountType=='manager'" class="nav-item">
                     <div class="nav-link-container">
-                      <a class="nav-link active mt-1 fw-bold py-0" @click="changeSelectedNavItem(1)" aria-current="page">Orders</a>
+                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToRestaurantView();" aria-current="page">Restaurant</a>
                       <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                    </div>
+                  </li>
+                  <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager')" class="nav-item">
+                    <div class="nav-link-container">
+                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2); navigateToOrdersView()" aria-current="page">Orders</a>
+                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                    </div>
+                  </li>
+                  <li v-if="user && (user.accountType=='administrator' || user.accountType=='manager')" class="nav-item">
+                    <div class="nav-link-container">
+                      <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(3)" aria-current="page">Customers</a>
+                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                     </div>
                   </li>
                   <li class="nav-item">
                     <div class="nav-link-container">
-                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
-                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
+                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
                     </div>
                   </li>
                   <li v-if="!user" class="nav-item d-lg-none">

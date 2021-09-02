@@ -163,7 +163,12 @@ methods: {
       }else if(this.user.accountType == "manager"){
         this.$router.push({name: 'managerOrders'})
       }
-      
+    },
+    navigateToRestaurantView(){
+      this.$router.push({name: 'managerRestaurant'})
+    },
+    navigateToCustomersView(){
+      this.$router.push({name: 'managerCustomers'})
     },
     logout(){
       window.localStorage.setItem('token', null);
@@ -187,18 +192,20 @@ mounted(){
     })
     .then(response => {
       this.user = response.data;
-      axios
-      .get("http://localhost:8081/rest/cart/" + this.user.username, {
-          headers:{
-          'Authorization': 'Bearer ' + token
-          }
-      })
-      .then(response => {
-          this.cart = response.data;
-      })
-      .catch(error => {
-          console.log(response.data);
-      });
+      if(this.user.accountType == "buyer"){
+        axios
+        .get("http://localhost:8081/rest/cart/" + this.user.username, {
+            headers:{
+            'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => {
+            this.cart = response.data;
+        })
+        .catch(error => {
+            console.log(response.data);
+        });
+      }
     })
     .catch(error => {
         // TODO session probably expired, jwt invalid
@@ -229,7 +236,6 @@ template: `
       </div>
     </div>
   </transition>
-
   <div id="homepage-content">
     <!--Visible only on xl-->
     <img class="img-fluid d-none d-xl-block" src="../assets/images/hero-image.png" id="hero-image">
@@ -259,16 +265,28 @@ template: `
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
+                <li v-if="user && user.accountType=='manager'" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToRestaurantView();" aria-current="page">Restaurant</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                  </div>
+                </li>
                 <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager')" class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
-                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2); navigateToOrdersView();" aria-current="page">Orders</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && (user.accountType=='administrator' || user.accountType=='manager')" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(3); navigateToCustomersView();" aria-current="page">Customers</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
-                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
                   </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
