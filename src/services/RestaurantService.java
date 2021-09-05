@@ -70,12 +70,13 @@ public class RestaurantService {
 	}
 	
 	public Restaurant registerNewRestaurant(RegisterNewRestaurantDTO newRestaurantDTO) throws JsonSyntaxException, IOException {
-		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, newRestaurantDTO.getLocation(), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), newRestaurantDTO.getCoverImage(), 0.0, new ArrayList<Article>(), false);
+	/*	Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, newRestaurantDTO.getLocation(), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), newRestaurantDTO.getCoverImage(), 0.0, new ArrayList<Article>(), false);
 		restaurant.setID(restaurantDao.generateId());
 		Manager manager = (Manager) userDao.getById(newRestaurantDTO.getManager());
 		manager.setRestaurant(restaurant.getID());
 		userDao.update(manager);
-		return restaurantDao.create(restaurant);
+		return restaurantDao.create(restaurant);*/
+		return null;
 	}
 	
 	public Article addArticle(Article newArticle, Manager manager) throws JsonSyntaxException, IOException {
@@ -102,11 +103,9 @@ public class RestaurantService {
 	
 	public Article changeArticle(ArticleDTO changedArticle, Manager manager) throws JsonSyntaxException, IOException {
 		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
-		System.out.println("111111");
 		Article editedArticle = null;
 		for(Article a : restaurant.getArticles()) {
 			if(a.getName().equals(changedArticle.getName()) && !(changedArticle.getOldName().equals(changedArticle.getName()))) {
-				System.out.println("BACA OVDE");
 				return null;
 			}
 			if(a.getName().equals(changedArticle.getOldName())) {
@@ -122,8 +121,6 @@ public class RestaurantService {
 					}
 				}
 				editedArticle = new Article(changedArticle.getRestaurantId(),changedArticle.getName(),changedArticle.getPrice(),changedArticle.getArticleType(),changedArticle.getQuantity(),changedArticle.getDescription(),changedArticle.getImage());
-				System.out.println("URADIO");
-				System.out.println(editedArticle.getName());
 				restaurant.changeArticle(editedArticle, changedArticle.getOldName());
 				break;
 			}

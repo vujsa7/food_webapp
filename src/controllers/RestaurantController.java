@@ -181,7 +181,6 @@ public class RestaurantController {
 				    	return "";
 				    }
 				    Manager manager = (Manager) loggedInUser;
-				    System.out.println("SPARK PROSAO");
 				    Article article = restaurantService.changeArticle(gson.fromJson(req.body(), ArticleDTO.class), manager);
 				    return gson.toJson(article);
 				} catch (Exception e) {

@@ -8,20 +8,22 @@ public class RegisterNewRestaurantDTO {
    	private String logo;
    	private String bannerImage;
    	private String coverImage;
-   	private double rating;
-   	private Location location;
+   	private String street;
+   	private String streetNumber;
+   	private String city;
    	private String manager;
-   	
-	public RegisterNewRestaurantDTO(String name, RestaurantType restaurantType, String logo, String bannerImage, String coverImage,
-			double rating, Location location, String manager) {
+
+	public RegisterNewRestaurantDTO(String name, RestaurantType restaurantType, String logo, String bannerImage,
+			String coverImage, String street, String streetNumber, String city, String manager) {
 		super();
 		this.name = name;
 		this.restaurantType = restaurantType;
 		this.logo = logo;
 		this.bannerImage = bannerImage;
 		this.coverImage = coverImage;
-		this.rating = rating;
-		this.location = location;
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.city = city;
 		this.manager = manager;
 	}
 
@@ -55,22 +57,6 @@ public class RegisterNewRestaurantDTO {
 
 	public void setBannerImage(String bannerImage) {
 		this.bannerImage = bannerImage;
-	}
-
-	public double getRating() {
-		return rating;
-	}
-
-	public void setRating(double rating) {
-		this.rating = rating;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
 	}
 
 	public String getManager() {
