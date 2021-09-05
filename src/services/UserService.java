@@ -80,6 +80,7 @@ public class UserService {
 		for(User u : allUsers) {
 			if(u.getUsername().equals(username)) {
 				u.setBlocked(true);
+				System.out.println(u.getUsername() + " " + u.isBlocked());
 				userDao.update(u);
 			}
 		}

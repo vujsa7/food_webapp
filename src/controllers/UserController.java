@@ -88,48 +88,16 @@ public class UserController {
 		
 		put("/rest/blockUser/:id", (req, res) -> {
 			res.type("application/json");
-			String auth = req.headers("Authorization");
-			if ((auth != null) && (auth.contains("Bearer "))) {
-				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
-				try {
-				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
-				    // ako nije bacio izuzetak, onda je OK
-				    User loggedInUser = userService.getById(claims.getBody().getSubject());
-				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
-				    	res.status(403);
-				    	return "";
-				    }
-				    userService.blockUser(req.params("id"));
-					res.status(200);
-					return "";
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-			}
-			return "No user logged in.";
+			userService.blockUser(req.params("id"));
+			res.status(200);
+			return "";
 		});	
 		
 		put("/rest/unblockUser/:id", (req, res) -> {
 			res.type("application/json");
-			String auth = req.headers("Authorization");
-			if ((auth != null) && (auth.contains("Bearer "))) {
-				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
-				try {
-				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
-				    // ako nije bacio izuzetak, onda je OK
-				    User loggedInUser = userService.getById(claims.getBody().getSubject());
-				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
-				    	res.status(403);
-				    	return "";
-				    }
-				    userService.unblockUser(req.params("id"));
-					res.status(200);
-					return "";
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-			}
-			return "No user logged in.";
+			userService.unblockUser(req.params("id"));
+			res.status(200);
+			return "";
 		});	
 		
 		get("/user/AvailableManagers", (req,res) -> {

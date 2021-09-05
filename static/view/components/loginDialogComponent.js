@@ -5,6 +5,11 @@ var loginDialogComponent = {
           username: "",
           password: ""
         },
+        messageDialogData:{
+            title: "",
+            message: "",
+            buttonText: ""
+        },
         isSignInModalDisplayed: false
       }
     },
@@ -19,6 +24,9 @@ var loginDialogComponent = {
           minLength: validators.minLength(3)
         }
       }
+    },
+    components:{
+        messageDialog: messageDialogComponent
     },
     methods: {
         submitForm(){
@@ -37,19 +45,18 @@ var loginDialogComponent = {
                 })
                 .catch(error => {
                     if(error.response){
-                        // TODO If username and password are wrong
-                        console.log(error.response.status)
+                        this.showServerResponse(error);
                     }
                 });
             }
         },
         showServerResponse(error){
             if(error.response.status == "401"){
-                this.dialogInfoData.infoTitle = "Username taken";
-                this.dialogInfoData.infoMessage = "User with that username already exists, please try again.";
-                this.dialogInfoData.infoBtn = "Try again";
+                this.messageDialogData.title = "User blocked";
+                this.messageDialogData.message = "Your account is permanently blocked!";
+                this.messageDialogData.buttonText = "Close";
+                this.$refs.messageDialogChild.displayDialog();
             }
-            dialogInfoModal.style.display = "block";
         },
         displaySignInModal(){
             this.isSignInModalDisplayed = true;
@@ -100,6 +107,7 @@ var loginDialogComponent = {
                 </form>
             </div>
         </div>
+        <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
     </div>
     `
 }

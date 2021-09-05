@@ -19,11 +19,7 @@ let administratorCustomerComponent = {
         blockUser(userId){
           let token = window.localStorage.getItem('token');
           axios
-          .put("http://localhost:8081/rest/blockUser/" + userId,{
-            headers: {
-              'Authorization': 'Bearer ' + token
-            }
-          })
+          .put("http://localhost:8081/rest/blockUser/" + userId)
           .then(response => {
             this.$parent.reloadCustomers();
           })
@@ -36,11 +32,7 @@ let administratorCustomerComponent = {
         unblockUser(userId){
           let token = window.localStorage.getItem('token');
           axios
-          .put("http://localhost:8081/rest/unblockUser/" + userId,{
-            headers: {
-              'Authorization': 'Bearer ' + token
-            }
-          })
+          .put("http://localhost:8081/rest/unblockUser/" + userId)
           .then(response => {
             this.$parent.reloadCustomers();
           })

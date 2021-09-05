@@ -50,16 +50,13 @@ public class LoginController {
 		get("rest/accessUserWithJwt", (req, res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
-			System.out.println("TU JE");
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    User user = userService.getById(claims.getBody().getSubject());
-				    System.out.println("RADI");
 				    res.status(200);
 				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getUsername(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth(), user.getAccountType());
-				    System.out.println(loggedInBuyerDTO.getUsername());
 				    return gson.toJson(loggedInBuyerDTO);
 				}catch (Exception e) {
 					res.status(401);
