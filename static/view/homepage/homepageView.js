@@ -39,7 +39,8 @@ Vue.component("homepage-view", {
 components: {
     restaurants: restaurantsComponent,
     registerDialog: registerDialogComponent,
-    loginDialog: loginDialogComponent
+    loginDialog: loginDialogComponent,
+    addRestaurantDialog: addRestaurantDialogComponent
 },
 methods: {
     handleScroll() {
@@ -168,11 +169,21 @@ methods: {
       this.$router.push({name: 'managerRestaurant'})
     },
     navigateToCustomersView(){
-      this.$router.push({name: 'managerCustomers'})
+      if(this.user.accountType == "manager"){
+        this.$router.push({name: 'managerCustomers'})
+      }else if(this.user.accountType == "administrator"){
+        this.$router.push({name: 'administratorCustomers'})
+      }
     },
     logout(){
       window.localStorage.setItem('token', null);
       this.$router.push({name: 'logout'});
+    },
+    displayAddRestaurantModal(){
+      this.$refs.addRestaurantChild.displayAddRestaurantModal();
+    },
+    reloadRestaurants(){
+      
     }
 },
 created() {
@@ -226,6 +237,7 @@ template: `
 
   <register-dialog ref="registerChild"></register-dialog>
   <login-dialog ref="loginChild"></login-dialog>
+  <add-restaurant-dialog ref="addRestaurantChild"></add-restaurant-dialog>
   <transition name="fade">
     <div v-if="cart && stickyCart" id="floating-cart-container">
       <div @click="navigateToCartView()" class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
@@ -484,6 +496,12 @@ template: `
             <div class="d-flex flex-row search-results">
               <h5 class="search-results-header" :hidden="displayMode!='search'">Search results</h5>
               <a class="nav-link" href="#" :hidden="displayMode!='search'" @click="showAllRestaurants">Show all restaurants</a>
+              <div v-if="user && user.accountType=='administrator'" class="d-flex ms-auto p-2 bd-highlight">
+                <button type="button" style="background:white" class="btn btn-light shadow-none" @click="displayAddRestaurantModal()">
+                  <img src="../assets/icons/plus16px.png"/>
+                  <span class="fw-bold">Create new restaurant</span>
+                </button>
+              </div>
             </div>
             <restaurants ref="restaurantsChild" :cuisines-to-display="checkedCuisines" :open-restaurants-to-display="checkedOpenRestaurants" :sort-restaurants-by="sortBy" :sort-orders="sortOrders" :sort-orders-index="sortOrdersIndex" :search-parameters="searchParameters" :display-mode="displayMode"></restaurants>
           </div>

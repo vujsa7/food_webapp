@@ -74,5 +74,31 @@
     "accountType": "manager",
     "isDeleted": false,
     "isBlocked": false
+  },
+  {
+    "type": "Administrator",
+    "username": "admin",
+    "password": "123",
+    "name": "Mika",
+    "surname": "Mikić",
+    "gender": "male",
+    "dateOfBirth": "Nov 5, 3886, 12:00:00 AM",
+    "accountType": "administrator",
+    "isDeleted": false,
+    "isBlocked": false
+  },
+  {
+    "type": "DeliveryWorker",
+    "orders": [],
+    "username": "mare98",
+    "password": "mare98",
+    "name": "Marko",
+    "surname": "Marković",
+    "gender": "male",
+    "dateOfBirth": "May 13, 1998, 10:00:00 PM",
+    "accountType": "deliveryWorker",
+    "isDeleted": false,
+    "isBlocked": false,
+    "image": "./assets/images/restaurant-images/foods/aMarko.jpg"
   }
 ]

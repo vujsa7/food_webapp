@@ -18,6 +18,8 @@ public class LoginService {
 	
 	public User login(LoginDTO loginAttempt) throws JsonSyntaxException, IOException {
 		User user = null;
+		System.out.println(loginAttempt.getUsername());
+		System.out.println(loginAttempt.getPassword());
 		if(loginAttempt.getUsername() != null) {
 			user = userDAO.getById(loginAttempt.getUsername());
 		}

@@ -1,49 +1,315 @@
 
 
-Vue.component("manager-customers-view", {
-    data() {
-      return {
-        user: undefined,
-        customers: undefined,
-        searchedCustomers: [],
-        displayCustomers: [],
-        scrolled: 0,
-        selectedNavIndex: 3,
-        searchCustomersPosition: 10000,
-        checkedCustomersTypes: ["showAll"],
-        sortBy: "usual",
-        sortOrders: ["A-Z", "A-Z", "A-Z", "Desc"],
-        sortCustomersIndex: undefined,
-        displayMode: "normal",
-        socialMediaLogo: [
-          "../../assets/icons/linkedin-logo.png",
-          "../../assets/icons/facebook-logo.png",
-          "../../assets/icons/instagram-logo.png",
-          "../../assets/icons/linkedin-logo.png",
-          "../../assets/icons/facebook-logo.png",
-          "../../assets/icons/instagram-logo.png"
-        ],
-        searchCustomerName: "",
-        searchCustomerSurname: "",
-        searchCustomerUsername: ""
+Vue.component("administrator-customers-view", {
+  data() {
+    return {
+      user: undefined,
+      customers: undefined,
+      searchedCustomers: [],
+      displayCustomers: [],
+      scrolled: 0,
+      selectedNavIndex: 3,
+      searchCustomersPosition: 10000,
+      checkedCustomersTypes: ["showAll"],
+      checkedAccountRoles: ["showAll"],
+      sortBy: "usual",
+      sortOrders: ["A-Z", "A-Z", "A-Z", "Desc"],
+      sortCustomersIndex: undefined,
+      displayMode: "normal",
+      socialMediaLogo: [
+        "../../assets/icons/linkedin-logo.png",
+        "../../assets/icons/facebook-logo.png",
+        "../../assets/icons/instagram-logo.png",
+        "../../assets/icons/linkedin-logo.png",
+        "../../assets/icons/facebook-logo.png",
+        "../../assets/icons/instagram-logo.png"
+      ],
+      searchCustomerName: "",
+      searchCustomerSurname: "",
+      searchCustomerUsername: ""
+    }
+  },
+  computed: {
+    // Method that returns true if window is scrolled past through certain amounts of pixels - in order to stick search menu to top
+    stickySearch() {
+      return this.scrolled > this.searchCustomersPosition;
+    },
+    stickyCart() {
+      return this.scrolled > 60;
+    }
+  },
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  mounted() {
+    searchOrders = document.getElementById('search-orders');
+    this.searchCustomersPosition = findPos(searchOrders) + 22;
+
+    let token = window.localStorage.getItem('token');
+    if (token) {
+      // Fetch user data
+      axios
+        .get("http://localhost:8081/rest/accessUserWithJwt", {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then(response => {
+          this.user = response.data;
+          // Fetch orders data
+          axios
+            .get("http://localhost:8081/rest/getAll", {
+              headers: {
+                'Authorization': 'Bearer ' + token
+              }
+            })
+            .then(response => {
+              this.customers = response.data;
+              this.displayCustomers = this.customers;
+            })
+            .catch(error => {
+              console.log(response.data);
+            });
+        })
+        .catch(error => {
+          // TODO session probably expired, jwt invalid
+        })
+    }
+  },
+  methods: {
+    handleScroll() {
+      this.scrolled = window.scrollY;
+      this.checkOffset();
+    },
+    checkOffset() {
+      if (!document.getElementById("filter-sort-wrapper")) return
+      if (!document.getElementById("footer")) return
+      if (document.getElementById("filter-sort-wrapper").getBoundingClientRect().top + this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight
+        >= document.getElementById("footer").offsetTop) {
+        document.getElementById("filter-sort-wrapper").style.position = 'absolute';
+        document.getElementById("filter-sort-wrapper").style.top = 'auto';
+        document.getElementById("filter-sort-wrapper").style.bottom = '0px';
+      }
+      // restore if location is above footer and when if should not stick
+      if (this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 <= document.getElementById("footer").offsetTop) {
+        document.getElementById("filter-sort-wrapper").style.position = 'static';
+      }
+      // restore to sticky when scrolling above
+      if ((this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 <= document.getElementById("footer").offsetTop) && this.stickySearch) {
+        document.getElementById("filter-sort-wrapper").style.position = 'fixed';
+        document.getElementById("filter-sort-wrapper").style.top = '120px';
+        document.getElementById("filter-sort-wrapper").style.bottom = 'auto';
       }
     },
-    computed: {
-      // Method that returns true if window is scrolled past through certain amounts of pixels - in order to stick search menu to top
-      stickySearch() {
-        return this.scrolled > this.searchCustomersPosition;
-      },
-      stickyCart() {
-        return this.scrolled > 60;
+    isSelectedNavItem(index) {
+      if (index == this.selectedNavIndex)
+        return true;
+      return false;
+    },
+    changeSelectedNavItem(index) {
+      this.selectedNavIndex = index;
+    },
+    changeToDarkLogo(index) {
+      if (index == 0 || index == 3)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
+      else if (index == 1 || index == 4)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo-dark.png");
+      else
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo-dark.png");
+    },
+    changeToLightLogo(index) {
+      if (index == 0 || index == 3)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo.png");
+      else if (index == 1 || index == 4)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo.png");
+      else
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
+    },
+    // Method that is setting checkboxes and radio buttons back to start state
+    adjustFilterAndSortValues() {
+      this.sortBy = "usual";
+      this.sortOrders = ["A-Z", "A-Z", "A-Z", "Desc"];
+      this.sortCustomersIndex = undefined;
+      this.checkedCustomersTypes = ["showAll"];
+      this.checkedAccountRoles = ["showAll"];
+    },
+    showAllOrders(e) {
+      e.preventDefault();
+      this.displayMode = "normal";
+      this.adjustFilterAndSortValues();
+    },
+    filterCustomersTypes(val) {
+      if (val == "showAll") {
+        this.checkedCustomersTypes = ["showAll"];
+      } else {
+        for (var i = 0; i < this.checkedCustomersTypes.length; i++) {
+          if (this.checkedCustomersTypes[i] === "showAll") {
+            this.checkedCustomersTypes.splice(i, 1);
+          }
+        }
+      }
+      if (this.checkedCustomersTypes.length == 0) {
+        this.checkedCustomersTypes = ["showAll"]
       }
     },
-    created() {
-      window.addEventListener('scroll', this.handleScroll);
+    filterCustomersRoles(val) {
+      if (val == "showAll") {
+        this.checkedAccountRoles = ["showAll"];
+      } else {
+        for (var i = 0; i < this.checkedAccountRoles.length; i++) {
+          if (this.checkedAccountRoles[i] === "showAll") {
+            this.checkedAccountRoles.splice(i, 1);
+          }
+        }
+      }
+      if (this.checkedAccountRoles.length == 0) {
+        this.checkedAccountRoles = ["showAll"]
+      }
     },
-    mounted() {
-      searchOrders = document.getElementById('search-orders');
-      this.searchCustomersPosition = findPos(searchOrders) + 22;
-  
+    filterCustomers(customer) {
+      if (this.checkedAccountRoles.includes("showAll")) {  // show all order statuses
+        if (this.checkedCustomersTypes.includes("showAll")) {
+          return true;
+        } else {
+          if (customer.accountType == 'buyer') {
+            for (var i = 0; i < this.checkedCustomersTypes.length; i++) {
+              if (customer.buyerType.indexOf(this.checkedCustomersTypes[i]) > -1) {
+                return true;
+              }
+            }
+            return false;
+          } else {
+            return true;
+          }
+        }
+      } else {
+        for (var i = 0; i < this.checkedAccountRoles.length; i++) {
+          if (customer.accountType.indexOf(this.checkedAccountRoles[i]) > -1) {
+            if (customer.accountType == 'buyer') {
+              if (this.checkedCustomersTypes.includes("showAll")) {
+                return true;
+              } else {
+                for (var i = 0; i < this.checkedCustomersTypes.length; i++) {
+                  if (customer.buyerType.indexOf(this.checkedCustomersTypes[i]) > -1) {
+                    return true;
+                  }
+                }
+                return false;
+              }
+            } else {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+    },
+    // Method that is controlling which sortOrder is applied to each row of "Sort by" options
+    sortOrderChanged(e, index) {
+      e.preventDefault();
+      if (index === 3) {
+        this.$set(this.sortOrders, index, this.sortOrders[index] == "Asc" ? "Desc" : "Asc");
+      } else {
+        this.$set(this.sortOrders, index, this.sortOrders[index] == "A-Z" ? "Z-A" : "A-Z");
+      }
+      this.sortOrdersIndex = index;
+      switch (index) {
+        case 0:
+          this.sortBy = "name";
+          break;
+        case 1:
+          this.sortBy = "surname";
+          break;
+        case 2:
+          this.sortBy = "username";
+          break;
+        case 3:
+          this.sortBy = "points";
+      }
+    },
+    compareByNameCustomers(c1, c2) {
+      if (this.sortOrders[0] === "A-Z")
+        switcher = -1;
+      else if (this.sortOrders[0] === "Z-A")
+        switcher = 1;
+      if (c1.name < c2.name) {
+        return 1 * switcher;
+      }
+      if (c1.name > c2.name)
+        return -1 * switcher;
+      return 0;
+    },
+    compareBySurnameCustomers(c1, c2) {
+      if (this.sortOrders[0] === "A-Z")
+        switcher = -1;
+      else if (this.sortOrders[0] === "Z-A")
+        switcher = 1;
+      if (c1.surname < c2.surname) {
+        return 1 * switcher;
+      }
+      if (c1.surname > c2.surname)
+        return -1 * switcher;
+      return 0;
+    },
+    compareByUsernameCustomers(c1, c2) {
+      if (this.sortOrders[0] === "A-Z")
+        switcher = -1;
+      else if (this.sortOrders[0] === "Z-A")
+        switcher = 1;
+      if (c1.username < c2.username) {
+        return 1 * switcher;
+      }
+      if (c1.username > c2.username)
+        return -1 * switcher;
+      return 0;
+    },
+    compareByPointsCustomers(c1, c2) {
+      if (this.sortOrders[2] == "Asc")
+        switcher = 1;
+      else if (this.sortOrders[2] === "Desc")
+        switcher = -1;
+      if (c1.points < c2.points) {
+        return -1 * switcher;
+      }
+      if (c1.points > c2.points)
+        return 1 * switcher;
+      return 0;
+    },
+    searchOrders() {
+      this.displayMode = "search";
+      this.adjustFilterAndSortValues();
+      this.searchedCustomers = this.customers.filter(this.filterCustomersFromSearch);
+      this.displayCustomers = this.searchedCustomers;
+    },
+    filterCustomersFromSearch(customer) {
+      if (this.searchCustomerName != "")
+        if (!customer.name.toLowerCase().includes(this.searchCustomerName.toLowerCase()))
+          return false;
+      if (this.searchCustomerSurname != "")
+        if (!customer.surname.toLowerCase().includes(this.searchCustomerSurname.toLowerCase()))
+          return false;
+      if (this.searchCustomerUsername != "")
+        if (!customer.username.toLowerCase().includes(this.searchCustomerUsername.toLowerCase()))
+          return false;
+      return true;
+    },
+    navigateHome() {
+      this.$router.push({ name: 'homepage' })
+    },
+    navigateToOrdersView() {
+      if (this.user.accountType == "buyer") {
+        this.$router.push({ name: 'orders' })
+      } else if (this.user.accountType == "manager") {
+        this.$router.push({ name: 'managerOrders' })
+      }
+    },
+    navigateToRestaurantView() {
+      this.$router.push({ name: 'managerRestaurant' })
+    },
+    displayAddUserModal() {
+      this.$refs.addUserChild.displayAddUserModal();
+    },
+    reloadCustomers() {
       let token = window.localStorage.getItem('token');
       if (token) {
         // Fetch user data
@@ -57,7 +323,7 @@ Vue.component("manager-customers-view", {
             this.user = response.data;
             // Fetch orders data
             axios
-              .get("http://localhost:8081/rest/getAllUsersByRestaurant", {
+              .get("http://localhost:8081/rest/getAll", {
                 headers: {
                   'Authorization': 'Bearer ' + token
                 }
@@ -74,241 +340,62 @@ Vue.component("manager-customers-view", {
             // TODO session probably expired, jwt invalid
           })
       }
-    },
-    methods: {
-      handleScroll() {
-        this.scrolled = window.scrollY;
-        this.checkOffset();
-      },
-      checkOffset() {
-        if (!document.getElementById("filter-sort-wrapper")) return
-        if (!document.getElementById("footer")) return
-        if (document.getElementById("filter-sort-wrapper").getBoundingClientRect().top + this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight
-          >= document.getElementById("footer").offsetTop) {
-          document.getElementById("filter-sort-wrapper").style.position = 'absolute';
-          document.getElementById("filter-sort-wrapper").style.top = 'auto';
-          document.getElementById("filter-sort-wrapper").style.bottom = '0px';
-        }
-        // restore if location is above footer and when if should not stick
-        if (this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 <= document.getElementById("footer").offsetTop) {
-          document.getElementById("filter-sort-wrapper").style.position = 'static';
-        }
-        // restore to sticky when scrolling above
-        if ((this.scrolled + document.getElementById("filter-sort-wrapper").offsetHeight + 130 <= document.getElementById("footer").offsetTop) && this.stickySearch) {
-          document.getElementById("filter-sort-wrapper").style.position = 'fixed';
-          document.getElementById("filter-sort-wrapper").style.top = '120px';
-          document.getElementById("filter-sort-wrapper").style.bottom = 'auto';
-        }
-      },
-      isSelectedNavItem(index) {
-        if (index == this.selectedNavIndex)
-          return true;
-        return false;
-      },
-      changeSelectedNavItem(index) {
-        this.selectedNavIndex = index;
-      },
-      changeToDarkLogo(index) {
-        if (index == 0 || index == 3)
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
-        else if (index == 1 || index == 4)
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo-dark.png");
-        else
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo-dark.png");
-      },
-      changeToLightLogo(index) {
-        if (index == 0 || index == 3)
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo.png");
-        else if (index == 1 || index == 4)
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo.png");
-        else
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
-      },
-      // Method that is setting checkboxes and radio buttons back to start state
-      adjustFilterAndSortValues() {
-        this.sortBy = "usual";
-        this.sortOrders = ["A-Z","A-Z", "A-Z", "Desc"];
-        this.sortCustomersIndex = undefined;
-        this.checkedCustomersTypes = ["showAll"];
-      },
-      showAllOrders(e) {
-        e.preventDefault();
-        this.displayMode = "normal";
-        this.adjustFilterAndSortValues();
-      },
-      filterCustomersTypes(val) {
-        if (val == "showAll") {
-          this.checkedCustomersTypes = ["showAll"];
-        } else {
-          for (var i = 0; i < this.checkedCustomersTypes.length; i++) {
-            if (this.checkedCustomersTypes[i] === "showAll") {
-              this.checkedCustomersTypes.splice(i, 1);
-            }
-          }
-        }
-        if (this.checkedCustomersTypes.length == 0) {
-          this.checkedCustomersTypes = ["showAll"]
-        }
-      },
-      filterCustomers(customer) {
-        if (this.checkedCustomersTypes.includes("showAll")) {  // show all order statuses
-          return true;
-        } else {
-            for (var i = 0; i < this.checkedCustomersTypes.length; i++) {
-              if (customer.buyerType.indexOf(this.checkedCustomersTypes[i]) > -1) {
-                return true;
-              }
-            }
-            return false;
-        }
-      },
-      // Method that is controlling which sortOrder is applied to each row of "Sort by" options
-      sortOrderChanged(e, index){
-        e.preventDefault();
-        if(index === 3){
-          this.$set(this.sortOrders, index, this.sortOrders[index] == "Asc" ? "Desc" : "Asc");    
-        } else {
-          this.$set(this.sortOrders, index, this.sortOrders[index] == "A-Z" ? "Z-A" : "A-Z");
-        }
-        this.sortOrdersIndex = index;
-        switch(index){
-          case 0:
-            this.sortBy = "name";
-            break;
-          case 1:
-            this.sortBy = "surname";
-            break;
-          case 2:
-            this.sortBy = "username";
-            break;
-          case 3:
-            this.sortBy = "points";
-        }
-      },
-      compareByNameCustomers(c1, c2){
-        if(this.sortOrders[0] === "A-Z")
-          switcher = -1;
-        else if(this.sortOrders[0] === "Z-A")
-          switcher = 1;
-        if(c1.name < c2.name){
-          return 1*switcher;
-        }
-        if (c1.name > c2.name)
-          return -1*switcher;
-        return 0;
-      },
-      compareBySurnameCustomers(c1, c2){
-        if(this.sortOrders[0] === "A-Z")
-          switcher = -1;
-        else if(this.sortOrders[0] === "Z-A")
-          switcher = 1;
-        if(c1.surname < c2.surname){
-          return 1*switcher;
-        }
-        if (c1.surname > c2.surname)
-          return -1*switcher;
-        return 0;
-      },
-      compareByUsernameCustomers(c1, c2){
-        if(this.sortOrders[0] === "A-Z")
-          switcher = -1;
-        else if(this.sortOrders[0] === "Z-A")
-          switcher = 1;
-        if(c1.username < c2.username){
-          return 1*switcher;
-        }
-        if (c1.username > c2.username)
-          return -1*switcher;
-        return 0;
-      },
-      compareByPointsCustomers(c1, c2){
-        if(this.sortOrders[2] == "Asc")
-          switcher = 1;
-        else if(this.sortOrders[2] === "Desc")
-          switcher = -1;
-        if(c1.points < c2.points){
-          return -1*switcher;
-        }
-        if (c1.points > c2.points)
-          return 1*switcher;
-        return 0;
-      },
-      searchOrders() {
-        this.displayMode = "search";
-        this.adjustFilterAndSortValues();
-        this.searchedCustomers = this.customers.filter(this.filterCustomersFromSearch);
-        this.displayCustomers = this.searchedCustomers;
-      },
-      filterCustomersFromSearch(customer) {
-        if(this.searchCustomerName != "")
-          if(!customer.name.toLowerCase().includes(this.searchCustomerName.toLowerCase()))
-            return false;
-        if(this.searchCustomerSurname != "")
-          if(!customer.surname.toLowerCase().includes(this.searchCustomerSurname.toLowerCase()))
-            return false;
-        if(this.searchCustomerUsername != "")
-          if(!customer.username.toLowerCase().includes(this.searchCustomerUsername.toLowerCase()))
-            return false;
-        return true;
-      },
-      navigateHome() {
-        this.$router.push({ name: 'homepage' })
-      },
-      navigateToOrdersView(){
-        if(this.user.accountType == "buyer"){
-          this.$router.push({name: 'orders'})
-        }else if(this.user.accountType == "manager"){
-          this.$router.push({name: 'managerOrders'})
-        }  
-      },
-      navigateToRestaurantView(){
-        this.$router.push({name: 'managerRestaurant'})
+    }
+  },
+  watch: {
+    checkedCustomersTypes: function () {
+      if (this.displayMode == "normal") {
+        this.displayCustomers = this.customers.filter(this.filterCustomers);
+      }
+      else {  // search mode
+        this.displayCustomers = this.searchedCustomers.filter(this.filterCustomers);
       }
     },
-    watch: {
-      checkedCustomersTypes: function () {
-        if (this.displayMode == "normal") {
-          this.displayCustomers = this.customers.filter(this.filterCustomers);
-        }
-        else {  // search mode
-          this.displayCustomers = this.searchedCustomers.filter(this.filterCustomers);
-        }
-      },
-      sortBy: function(){
-        if(this.sortBy == "usual")
-          this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
-        else if(this.sortBy == "name")
+    checkedAccountRoles: function () {
+      if (this.displayMode == "normal") {
+        this.displayCustomers = this.customers.filter(this.filterCustomers);
+      }
+      else {  // search mode
+        this.displayCustomers = this.searchedCustomers.filter(this.filterCustomers);
+      }
+    },
+    sortBy: function () {
+      if (this.sortBy == "usual")
+        this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
+      else if (this.sortBy == "name")
+        this.displayCustomers = this.displayCustomers.sort(this.compareByNameCustomers);
+      else if (this.sortBy == "surname")
+        this.displayCustomers = this.displayCustomers.sort(this.compareBySurnameCustomers);
+      else if (this.sortBy == "username")
+        this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
+      else if (this.sortBy == "points")
+        this.displayCustomers = this.displayCustomers.sort(this.compareByPointsCustomers);
+    },
+    sortOrders: function () {
+      switch (this.sortCustomersIndex) {
+        case 0:
           this.displayCustomers = this.displayCustomers.sort(this.compareByNameCustomers);
-        else if(this.sortBy == "surname")
+          break;
+        case 1:
           this.displayCustomers = this.displayCustomers.sort(this.compareBySurnameCustomers);
-        else if(this.sortBy == "username")
+          break;
+        case 2:
           this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
-        else if(this.sortBy == "points")
+          break;
+        case 3:
           this.displayCustomers = this.displayCustomers.sort(this.compareByPointsCustomers);
-      },
-      sortOrders: function(){
-        switch(this.sortCustomersIndex){
-          case 0: 
-          this.displayCustomers = this.displayCustomers.sort(this.compareByNameCustomers);
-            break;
-          case 1:
-            this.displayCustomers = this.displayCustomers.sort(this.compareBySurnameCustomers);
-            break;
-          case 2:
-            this.displayCustomers = this.displayCustomers.sort(this.compareByUsernameCustomers);
-            break;
-          case 3:
-            this.displayCustomers = this.displayCustomers.sort(this.compareByPointsCustomers);
-            break;
-        }
+          break;
       }
-    },
-    components: {
-      customer: managerCustomerComponent
-    },
-    template:
-      `
-      <div id="manager-customers-view">
+    }
+  },
+  components: {
+    customer: administratorCustomerComponent,
+    addUserDialog: createWorkerDialogComponent
+  },
+  template:
+    `
+      <div id="administrator-customers-view">
+      <add-user-dialog ref="addUserChild"></add-user-dialog>
       <!--Navigation container-->
       <div class="container-fluid navigation-container pt-3 px-0">
         <div class="container-fluid d-none d-lg-block px-0">
@@ -427,28 +514,61 @@ Vue.component("manager-customers-view", {
                           <div v-bind:class="{'empty-filter-sort' : stickySearch}"></div>
                           <!-- Filter container -->
                           <div class="row customers-filter-sort-container">
-                            <h1 class="basic-title px-0">Order status</h1>
+                            <h1 class="basic-title px-0">Account role</h1>
                             <div class="mb-3">
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" :disabled="checkedCustomersTypes[0] == 'showAll'" v-on:change="filterCustomersTypes('showAll')" v-model="checkedCustomersTypes" type="checkbox" value="showAll" id="flexCheckAll">
+                                  <input class="form-check-input m-0" :disabled="checkedAccountRoles[0] == 'showAll'" v-on:change="filterCustomersRoles('showAll')" v-model="checkedAccountRoles" type="checkbox" value="showAll" id="flexCheckAll">
                                   <label class="form-check-label" for="flexCheckAll">
                                     Show all
                                   </label>
                                 </div>
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" :disabled="checkedCustomersTypes.includes('delivered')" type="checkbox" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="bronze" id="flexCheckBronze">
+                                  <input class="form-check-input m-0" :disabled="checkedAccountRoles.includes('delivered')" type="checkbox" v-model="checkedAccountRoles" v-on:change="filterCustomersRoles()" value="buyer" id="flexCheckBuyer">
+                                  <label class="form-check-label" for="flexCheckBuyer">
+                                    Buyers
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedAccountRoles.includes('undelivered')" v-model="checkedAccountRoles" v-on:change="filterCustomersRoles()" value="manager" id="flexCheckManager">
+                                  <label class="form-check-label" for="flexCheckManager">
+                                    Managers
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedAccountRoles.includes('undelivered')" v-model="checkedAccountRoles" v-on:change="filterCustomersRoles()" value="delivery" id="flexCheckDelivery">
+                                  <label class="form-check-label" for="flexCheckDelivery">
+                                    Delivery
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedAccountRoles.includes('undelivered')" v-model="checkedAccountRoles" v-on:change="filterCustomersRoles()" value="administrator" id="flexCheckAdministrators">
+                                  <label class="form-check-label" for="flexCheckAdministrators">
+                                    Administrators
+                                  </label>
+                                </div>
+                            </div>
+                            <h1 class="basic-title px-0">Order status</h1>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                  <input class="form-check-input m-0" :disabled="checkedCustomersTypes[0] == 'showAll' || (!checkedAccountRoles.includes('buyer') && !checkedAccountRoles.includes('showAll'))" v-on:change="filterCustomersTypes('showAll')" v-model="checkedCustomersTypes" type="checkbox" value="showAll" id="flexCheckAll">
+                                  <label class="form-check-label" for="flexCheckAll">
+                                    Show all
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input m-0" :disabled="!checkedAccountRoles.includes('buyer') && !checkedAccountRoles.includes('showAll')" type="checkbox" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="bronze" id="flexCheckBronze">
                                   <label class="form-check-label" for="flexCheckBronze">
                                     Bronze
                                   </label>
                                 </div>
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="silver" id="flexCheckSilver">
+                                  <input class="form-check-input m-0" type="checkbox" :disabled="!checkedAccountRoles.includes('buyer') && !checkedAccountRoles.includes('showAll')" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="silver" id="flexCheckSilver">
                                   <label class="form-check-label" for="flexCheckSilver">
                                     Silver
                                   </label>
                                 </div>
                                 <div class="form-check">
-                                  <input class="form-check-input m-0" type="checkbox" :disabled="checkedCustomersTypes.includes('undelivered')" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="gold" id="flexCheckGold">
+                                  <input class="form-check-input m-0" type="checkbox" :disabled="!checkedAccountRoles.includes('buyer') && !checkedAccountRoles.includes('showAll')" v-model="checkedCustomersTypes" v-on:change="filterCustomersTypes()" value="gold" id="flexCheckGold">
                                   <label class="form-check-label" for="flexCheckGold">
                                     Gold
                                   </label>
@@ -512,9 +632,15 @@ Vue.component("manager-customers-view", {
                           <div class="d-flex flex-row">
                               <h5 class="order-search-results-header" :hidden="displayMode!='search'">Search results</h5>
                               <a class="nav-link" href="#" :hidden="displayMode!='search'" @click="showAllOrders">Show all orders</a>
+                              <div v-if="user && user.accountType=='administrator'" class="d-flex ms-auto p-2 bd-highlight">
+                                <button type="button" style="background:white" class="btn btn-light shadow-none" @click="displayAddUserModal()">
+                                <img src="../assets/icons/plus16px.png"/>
+                                <span class="fw-bold">Create new user</span>
+                                </button>
+                              </div>
                           </div>
                           <div v-for="customer in displayCustomers">
-                              <customer :customer="customer"></customer>
+                              <customer :user="customer"></customer>
                           </div>
                       </div>
                   </div>
@@ -570,4 +696,4 @@ Vue.component("manager-customers-view", {
       </footer>
   </div>
       `
-  });
+});

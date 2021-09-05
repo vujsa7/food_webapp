@@ -11,9 +11,10 @@ public class RegisterNewUserDTO {
    	private String surname;
    	private Gender gender;
    	private Date dateOfBirth;
+   	private String image;
    	
 	public RegisterNewUserDTO(String username, String password, String name, String surname, Gender gender,
-			Date dateOfBirth) {
+			Date dateOfBirth,String image) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -21,6 +22,7 @@ public class RegisterNewUserDTO {
 		this.surname = surname;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
+		this.image = image;
 	}
 
 	public String getUsername() {
@@ -69,5 +71,13 @@ public class RegisterNewUserDTO {
 
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+	
+	public String getImage() {
+		return this.image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

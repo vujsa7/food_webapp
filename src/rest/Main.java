@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.Date;
 
 import beans.AccountType;
+import beans.Administrator;
 import beans.Article;
 import beans.ArticleType;
 import beans.Comment;
@@ -70,12 +71,11 @@ public class Main {
 		CommentController commentController = new CommentController(commentService);
 		RestaurantController restaurantController = new RestaurantController(restaurantService, userService);
 		CartController cartController = new CartController(cartService, userService);
-	/*	
-		Manager m = new Manager("gazda", "123", "Pera", "Perić", Gender.male, new Date(1988,12,5),AccountType.manager, false, false);
-		m.setRestaurant(1);
+		
+	/*	Administrator m = new Administrator("admin", "123", "Mika", "Mikić", Gender.male, new Date(1986,10,5),AccountType.administrator, false, false);
 		UserDAO userDao = new UserDAO("./files/users.json");
-		userDao.create(m);
-	*/	
+		userDao.create(m);*/
+		
 //		Article a1 = new Article(0, "Steak", 12.39, ArticleType.meal, 81, "A good steak is juicy, tender, loaded with flavor, and has a minimum amount of fat.", "../assets/images/restaurant-images/foods/001.jpg");	
 //		Article a2 = new Article(1, "Hamburger", 7.39, ArticleType.meal, 40, "Juicy, big, loaded with toppings of your choice.", "../assets/images/restaurant-images/foods/002.jpg");	
 //		Article a3 = new Article(2, "Kebabs", 9.79, ArticleType.meal, 64, "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.", "../assets/images/restaurant-images/foods/003.jpg");

@@ -25,7 +25,9 @@ var registerDialogComponent = {
           monthOfBirth: "",
           dayOfBirth: "",
           username: "",
-          password: ""
+          password: "",
+          image: "",
+          backendImage: ""
         },
         messageDialogData:{
           title: "",
@@ -117,6 +119,21 @@ var registerDialogComponent = {
       displaySignInModal(){
         this.isSignUpModalDisplayed = false;
         this.$parent.displaySignInModal();
+      },
+      imageAdded(e) {
+        const file = e.target.files[0];
+        this.createBase64Image(file);
+        this.form.image = URL.createObjectURL(file);
+      },
+      createBase64Image(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          let img = e.target.result;
+          //img.replace("data:image\/(png|jpg|jpeg);base64", "");
+          console.log(img);
+          this.form.backendImage = img;
+        }
+        reader.readAsDataURL(file);
       }
     },
     template: `

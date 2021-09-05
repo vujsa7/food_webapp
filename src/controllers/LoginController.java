@@ -50,6 +50,7 @@ public class LoginController {
 		get("rest/accessUserWithJwt", (req, res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
+			System.out.println("TU JE");
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {

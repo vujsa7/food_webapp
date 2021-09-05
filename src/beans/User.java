@@ -14,12 +14,13 @@ public abstract class User implements IIdentifiable<String>{
    	private AccountType accountType;
    	private boolean isDeleted;
    	private boolean isBlocked;
+   	private String image;
    	private String jwtToken;
    
    	public User() {}
    	
 	public User(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
-			AccountType accountType, boolean isDeleted, boolean isBlocked) {
+			AccountType accountType, boolean isDeleted, boolean isBlocked, String image) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -30,6 +31,7 @@ public abstract class User implements IIdentifiable<String>{
 		this.accountType = accountType;
 		this.isDeleted = isDeleted;
 		this.isBlocked = isBlocked;
+		this.image = image;
 	}
 
 	public String getUsername() {
@@ -112,5 +114,13 @@ public abstract class User implements IIdentifiable<String>{
 	@Override
 	public void setDeleted(boolean deleted) {
 		this.isDeleted = deleted;
+	}
+	
+	public String getImage() {
+		return image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

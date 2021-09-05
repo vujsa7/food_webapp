@@ -16,8 +16,8 @@ public class Buyer extends User {
    	}
    	
    	public Buyer(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
-			AccountType accountType, boolean isDeleted, boolean isBlocked, int points, BuyerType buyerType, int discount) {
-		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);
+			AccountType accountType, boolean isDeleted, boolean isBlocked, int points, BuyerType buyerType, int discount,String image) {
+		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked,image);
 		this.points = points;
 		this.buyerType = buyerType;
 		this.discount = discount;

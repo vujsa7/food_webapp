@@ -9,8 +9,8 @@ public class Administrator extends User{
 	}
 	
 	public Administrator(String username, String password, String name, String surname, Gender gender, Date dateOfBirth,
-			AccountType accountType, boolean isDeleted, boolean isBlocked) {
-		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked);
+			AccountType accountType, boolean isDeleted, boolean isBlocked,String image) {
+		super(username, password, name, surname, gender, dateOfBirth, accountType, isDeleted, isBlocked,image);
 		// TODO Auto-generated constructor stub
 	}
 	

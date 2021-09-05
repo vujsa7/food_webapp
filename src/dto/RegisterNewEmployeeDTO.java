@@ -2,10 +2,11 @@ package dto;
 
 import java.util.Date;
 
+import beans.AccountType;
 import beans.Gender;
 import beans.Restaurant;
 
-public class RegisterNewManagerDTO {
+public class RegisterNewEmployeeDTO {
 	
 	private String username;
    	private String password;
@@ -13,10 +14,11 @@ public class RegisterNewManagerDTO {
    	private String surname;
    	private Gender gender;
    	private Date dateOfBirth;
-   	private Restaurant restaurant;
-   	
-	public RegisterNewManagerDTO(String username, String password, String name, String surname, Gender gender,
-			Date dateOfBirth, Restaurant restaurant) {
+   	private AccountType accountType;
+   	private String image;
+
+	public RegisterNewEmployeeDTO(String username, String password, String name, String surname, Gender gender,
+			Date dateOfBirth, AccountType accountType,String image) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -24,7 +26,8 @@ public class RegisterNewManagerDTO {
 		this.surname = surname;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
-		this.restaurant = restaurant;
+		this.accountType = accountType;
+		this.image = image;
 	}
 
 	public String getUsername() {
@@ -75,11 +78,19 @@ public class RegisterNewManagerDTO {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
+	public AccountType getAccountType() {
+		return this.accountType;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+	
+	public String getImage() {
+		return this.image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

@@ -1,0 +1,27 @@
+.red-link{
+    color: #FE0435;
+}
+
+.red-link:hover{
+    color: #FE0435;
+}
+
+.red-link:visited{
+    color: #FE0435;
+}
+
+.user-card{
+    height: 213px;
+    padding-right: 0vw;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+@media screen and (max-width: 768px) {
+    .user-card{
+        height: 285px;
+        padding-right: 0vw;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

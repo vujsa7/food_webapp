@@ -13,7 +13,7 @@ var restaurantsComponent = {
       'sortOrders',
       'sortOrdersIndex',
       'searchParameters',
-      'displayMode',
+      'displayMode'
     ],
     mounted(){
       // Get all restaurants from server
