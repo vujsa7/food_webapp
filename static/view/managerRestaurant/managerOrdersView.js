@@ -194,12 +194,12 @@ Vue.component("manager-orders-view", {
         }
         return false;
       } else {
-          for (var i = 0; i < this.checkedOrderStatuses.length; i++) {
-            if (order.orderStatus.indexOf(this.checkedOrderStatuses[i]) > -1) {
-              return true;
-            }
+        for (var i = 0; i < this.checkedOrderStatuses.length; i++) {
+          if (order.orderStatus.indexOf(this.checkedOrderStatuses[i]) > -1) {
+            return true;
           }
-          return false;
+        }
+        return false;
       }
     },
     // Method that is controlling which sortOrder is applied to each row of "Sort by" options
@@ -287,7 +287,9 @@ Vue.component("manager-orders-view", {
     updateValueLimitPrice(e) {
       this.limitPrice = e.target.value.replace("$", '');
     },
-    calculateRevenueAndOrders(){
+    calculateRevenueAndOrders() {
+      this.totalOrders = 0;
+      this.totalRevenue = 0;
       for (var i = 0; i < this.orders.length; i++) {
         if (this.orders[i].orderStatus == "delivered") {
           this.totalRevenue += this.orders[i].price;
@@ -295,6 +297,23 @@ Vue.component("manager-orders-view", {
         }
       }
       this.totalRevenue = this.totalRevenue.toFixed(2);
+    },
+    reloadOrders() {
+      token = window.localStorage.getItem('token');
+      axios
+        .get("http://localhost:8081/rest/restaurantOrders", {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then(response => {
+          this.orders = response.data;
+          this.displayOrders = this.orders;
+          this.calculateRevenueAndOrders();
+        })
+        .catch(error => {
+          
+        });
     }
   },
   watch: {

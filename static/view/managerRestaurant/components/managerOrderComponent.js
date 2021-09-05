@@ -12,11 +12,14 @@ let managerOrderComponent = {
             axios
             .put("http://localhost:8081/rest/markForDelivery/" + id)
             .then(response => {
-                order.orderStatus = "awaitingDelivery";
+                this.reloadOrders();
             })
             .catch(error => {
-                console.log(response.data);
+                
             })
+        },
+        reloadOrders(){
+            this.$parent.reloadOrders();
         }
     },
     template:

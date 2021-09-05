@@ -100,8 +100,9 @@ public class UserController {
 			return "";
 		});	
 		
-		get("/user/AvailableManagers", (req,res) -> {
+		get("/rest/availableManagers", (req,res) -> {
 			res.type("application/json");
+			System.out.println("RADI MANAGER");
 			return gson.toJson(userService.getAvailableManagers());
 		});
 	}

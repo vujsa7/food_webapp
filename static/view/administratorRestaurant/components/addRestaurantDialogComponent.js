@@ -25,7 +25,8 @@ var addRestaurantDialogComponent = {
       }
     },
     components:{
-      messageDialog: messageDialogComponent
+      messageDialog: messageDialogComponent,
+      addUserDialog: createWorkerDialogComponent
     },
     validations:{
       form:{
@@ -48,6 +49,16 @@ var addRestaurantDialogComponent = {
           isSelected
         }
       }
+    },
+    mounted(){
+      axios
+      .get("http://localhost:8081/rest/availableManagers")
+      .then(response => {
+        this.availableManagers = response.data;
+      })
+      .catch(function(error){
+        console.log(error);
+      })
     },
     methods: {
       submitForm(){
@@ -139,6 +150,12 @@ var addRestaurantDialogComponent = {
               this.form.backendCoverImage = img;
           }
           reader.readAsDataURL(file);
+      },
+      createManager(){
+        this.$refs.addUserChild.displayAddUserModal();
+      },
+      setManager(managerId){
+        this.form.manager = managerId;
       }
     },
     template: `
@@ -226,6 +243,7 @@ var addRestaurantDialogComponent = {
                   <div v-if="$v.form.restaurantManager.$dirty">
                     <span class="error-message" v-if="$v.form.restaurantManager.$invalid">Manager is required.</span>
                   </div>
+                  <a v-if="availableManagers && !availableManagers.length" class="red-link ms-3" v-on:click="createManager()">Create manager</a>
                 </div>
                 </div>
               </div>
@@ -235,6 +253,7 @@ var addRestaurantDialogComponent = {
         </div>
       </div>
       <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
+      <add-user-dialog ref="addUserChild"></add-user-dialog>
     </div>
     `
   }

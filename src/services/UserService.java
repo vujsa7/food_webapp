@@ -61,14 +61,14 @@ public class UserService {
 		return (DeliveryWorker) userDao.update(deliveryWorker);
 	}
 	
-	public Collection<Manager> getAvailableManagers() throws JsonSyntaxException, IOException{
+	public Collection<AvailableManagersDTO> getAvailableManagers() throws JsonSyntaxException, IOException{
 		ArrayList<User> allUsers = userDao.getAllNotDeleted();
-		ArrayList<Manager> availableManagers = new ArrayList<Manager>();
+		ArrayList<AvailableManagersDTO> availableManagers = new ArrayList<AvailableManagersDTO>();
 		for(User u : allUsers) {
 			if(u.getAccountType().equals(AccountType.manager)) {
 				Manager m = (Manager) u;
 				if(m.getRestaurant() == -1) {
-					availableManagers.add(m);
+					availableManagers.add(new AvailableManagersDTO(m.getID(),m.getName(),m.getSurname()));
 				}
 			}
 		}
