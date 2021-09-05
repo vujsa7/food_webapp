@@ -74,4 +74,24 @@ public class UserService {
 		}
 		return availableManagers;
 	} 
+	
+	public void blockUser(String username) throws JsonSyntaxException, IOException {
+		ArrayList<User> allUsers = userDao.getAllNotDeleted();
+		for(User u : allUsers) {
+			if(u.getUsername().equals(username)) {
+				u.setBlocked(true);
+				userDao.update(u);
+			}
+		}
+	}
+	
+	public void unblockUser(String username) throws JsonSyntaxException, IOException {
+		ArrayList<User> allUsers = userDao.getAllNotDeleted();
+		for(User u : allUsers) {
+			if(u.getUsername().equals(username)) {
+				u.setBlocked(false);
+				userDao.update(u);
+			}
+		}
+	}
 }

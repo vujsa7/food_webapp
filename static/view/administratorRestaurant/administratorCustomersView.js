@@ -8,7 +8,7 @@ Vue.component("administrator-customers-view", {
       searchedCustomers: [],
       displayCustomers: [],
       scrolled: 0,
-      selectedNavIndex: 3,
+      selectedNavIndex: 1,
       searchCustomersPosition: 10000,
       checkedCustomersTypes: ["showAll"],
       checkedAccountRoles: ["showAll"],
@@ -296,13 +296,6 @@ Vue.component("administrator-customers-view", {
     navigateHome() {
       this.$router.push({ name: 'homepage' })
     },
-    navigateToOrdersView() {
-      if (this.user.accountType == "buyer") {
-        this.$router.push({ name: 'orders' })
-      } else if (this.user.accountType == "manager") {
-        this.$router.push({ name: 'managerOrders' })
-      }
-    },
     navigateToRestaurantView() {
       this.$router.push({ name: 'managerRestaurant' })
     },
@@ -417,28 +410,16 @@ Vue.component("administrator-customers-view", {
                       <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                     </div>
                   </li>
-                  <li v-if="user && user.accountType=='manager'" class="nav-item">
+                  <li v-if="user && user.accountType=='administrator'" class="nav-item">
                     <div class="nav-link-container">
-                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToRestaurantView();" aria-current="page">Restaurant</a>
+                      <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page">Users</a>
                       <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
-                    </div>
-                  </li>
-                  <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager')" class="nav-item">
-                    <div class="nav-link-container">
-                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2); navigateToOrdersView()" aria-current="page">Orders</a>
-                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
-                    </div>
-                  </li>
-                  <li v-if="user && (user.accountType=='administrator' || user.accountType=='manager')" class="nav-item">
-                    <div class="nav-link-container">
-                      <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(3)" aria-current="page">Customers</a>
-                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                     </div>
                   </li>
                   <li class="nav-item">
                     <div class="nav-link-container">
-                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
-                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
+                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
+                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
                     </div>
                   </li>
                   <li v-if="!user" class="nav-item d-lg-none">
@@ -450,18 +431,8 @@ Vue.component("administrator-customers-view", {
                 </ul>
             </div>
           </div>
-          <div v-if="!user" class="d-none d-lg-block">
-            <div class="homepage-signin-signup-container mt-2">
-              <div>
-                <a @click="displaySignInModal()" class="nav-link">Sign in</a>
-              </div>
-              <div>
-                <button type="button" @click="displaySignUpModal()" class="btn btn-danger regular-button">Sign up</button>
-              </div>
-            </div> 
-          </div>
           <div v-if="user">
-            <div v-if="user.accountType == 'manager'" class="d-none d-lg-block">
+            <div v-if="user.accountType == 'administrator'" class="d-none d-lg-block">
               <div class="user-info-container d-flex flex-row-reverse mt-2">
                 <div class="dropdown" style="z-index: 100">
                   <a id="imageDropdown" data-bs-toggle="dropdown" aria-expanded="false">

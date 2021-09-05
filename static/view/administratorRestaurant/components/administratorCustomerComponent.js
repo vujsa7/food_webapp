@@ -19,7 +19,7 @@ let administratorCustomerComponent = {
         blockUser(userId){
           let token = window.localStorage.getItem('token');
           axios
-          .post("http://localhost:8081/rest/blockUser/" + userId,{
+          .put("http://localhost:8081/rest/blockUser/" + userId,{
             headers: {
               'Authorization': 'Bearer ' + token
             }
@@ -36,7 +36,7 @@ let administratorCustomerComponent = {
         unblockUser(userId){
           let token = window.localStorage.getItem('token');
           axios
-          .post("http://localhost:8081/rest/unblockUser/" + userId,{
+          .put("http://localhost:8081/rest/unblockUser/" + userId,{
             headers: {
               'Authorization': 'Bearer ' + token
             }
