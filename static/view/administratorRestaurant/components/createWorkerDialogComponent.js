@@ -113,12 +113,15 @@ var createWorkerDialogComponent = {
         this.$refs.messageDialogChild.displayDialog();
       }
     },
-    displayAddUserModal() {
+    displayAddUserModal(val) {
+      if(val == "manager"){
+        this.form.accountType = "manager";
+      }
       this.isAddUserModalDisplayed = true;
     },
     closeDialog() {
       this.isAddUserModalDisplayed = false;
-      this.$parent.reloadCustomers();
+      this.$parent.reload();
     },
     imageAdded(e) {
       const file = e.target.files[0];

@@ -299,10 +299,14 @@ Vue.component("administrator-customers-view", {
     navigateToRestaurantView() {
       this.$router.push({ name: 'managerRestaurant' })
     },
-    displayAddUserModal() {
-      this.$refs.addUserChild.displayAddUserModal();
+    logout(){
+      window.localStorage.setItem('token', null);
+      this.$router.push({name: 'logout'});
     },
-    reloadCustomers() {
+    displayAddUserModal() {
+      this.$refs.addUserChild.displayAddUserModal("any");
+    },
+    reload() {
       let token = window.localStorage.getItem('token');
       if (token) {
         // Fetch user data

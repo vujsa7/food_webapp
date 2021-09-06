@@ -254,6 +254,10 @@ Vue.component("manager-customers-view", {
       navigateHome() {
         this.$router.push({ name: 'homepage' })
       },
+      logout(){
+        window.localStorage.setItem('token', null);
+        this.$router.push({name: 'logout'});
+      },
       navigateToOrdersView(){
         if(this.user.accountType == "buyer"){
           this.$router.push({name: 'orders'})

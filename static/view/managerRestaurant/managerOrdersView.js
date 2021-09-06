@@ -275,6 +275,10 @@ Vue.component("manager-orders-view", {
     navigateHome() {
       this.$router.push({ name: 'homepage' })
     },
+    logout(){
+      window.localStorage.setItem('token', null);
+      this.$router.push({name: 'logout'});
+    },
     navigateToRestaurantView() {
       this.$router.push({ name: 'managerRestaurant' })
     },

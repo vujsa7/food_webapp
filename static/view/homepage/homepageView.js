@@ -183,7 +183,7 @@ methods: {
       this.$refs.addRestaurantChild.displayAddRestaurantModal();
     },
     reloadRestaurants(){
-      
+      this.$refs.restaurantsChild.reloadRestaurants();
     }
 },
 created() {

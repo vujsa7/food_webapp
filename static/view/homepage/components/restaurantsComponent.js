@@ -191,6 +191,18 @@ var restaurantsComponent = {
       },
       navigateToRestaurantView(id, restaurant){
         this.$router.push({ name: 'restaurant', params: { id: id }});
+      },
+      reloadRestaurants(){
+        axios
+      .get("http://localhost:8081/rest/restaurants")
+      .then(response => {
+        this.restaurants = response.data;
+        this.restaurants = this.restaurants.sort(this.compareByOpenRestaurants);
+        this.displayRestaurants = this.restaurants;
+      })
+      .catch(function(error){
+        console.log(error);
+      })
       }
     },
     computed:{

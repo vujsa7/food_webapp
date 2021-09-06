@@ -82,6 +82,10 @@ Vue.component("manager-restaurant-view", {
           return true;
         return false;
       },
+      logout(){
+        window.localStorage.setItem('token', null);
+        this.$router.push({name: 'logout'});
+      },
       changeSelectedNavItem(index){
         this.selectedNavIndex = index;
       },
