@@ -18,7 +18,20 @@ public class UserService {
 	}
 	
 	public Collection<User> getAll() throws JsonSyntaxException, IOException{
-		return userDao.getAll();
+		return userDao.getAllNotDeleted();
+	}
+	
+	public Collection<Buyer> getSuspicious() throws JsonSyntaxException, IOException{
+		ArrayList<Buyer> suspiciousCustomers = new ArrayList<Buyer>();
+		for(User u : userDao.getAllNotDeleted()) {
+			if(u.getAccountType().equals(AccountType.buyer)) {
+				Buyer buyer = (Buyer)u;
+				if(buyer.getSuspiciousCheck().isCustomerSuspicious() && !buyer.isBlocked()) {
+					suspiciousCustomers.add(buyer);
+				}
+			}
+		}
+		return suspiciousCustomers;
 	}
 	
 	public User getById(String userId) throws JsonSyntaxException, IOException {

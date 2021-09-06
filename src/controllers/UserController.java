@@ -45,6 +45,29 @@ public class UserController {
 			return "No user logged in.";
 		});
 		
+		get("/rest/getSuspicious", (req,res) -> {
+			res.type("application/json");
+			String auth = req.headers("Authorization");
+//			System.out.println("Authorization: " + auth);
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    // ako nije bacio izuzetak, onda je OK
+				    User loggedInUser = userService.getById(claims.getBody().getSubject());
+				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
+				    	res.status(403);
+				    	return "";
+				    }
+				return gson.toJson(userService.getSuspicious());
+				}catch (Exception e) {
+					e.printStackTrace();
+					return "";
+				}
+			}
+			return "No user logged in.";
+		});
+		
 		get("/user/:id", (req, res) -> {
 			res.type("application/json");
 			try {

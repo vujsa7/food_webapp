@@ -10,6 +10,10 @@
       "articles": [],
       "buyerId": "aki"
     },
+    "suspiciousCheck": {
+      "cancelledOrders": 0,
+      "isCustomerSuspicious": false
+    },
     "username": "aki",
     "password": "car",
     "name": "Aleksa",
@@ -31,6 +35,10 @@
       "articles": [],
       "buyerId": "gordon"
     },
+    "suspiciousCheck": {
+      "cancelledOrders": 0,
+      "isCustomerSuspicious": true
+    },
     "username": "gordon",
     "password": "ramsey",
     "name": "Gordon",
@@ -51,6 +59,10 @@
       "price": 0.0,
       "articles": [],
       "buyerId": "miki"
+    },
+    "suspiciousCheck": {
+      "cancelledOrders": 0,
+      "isCustomerSuspicious": true
     },
     "username": "miki",
     "password": "123",

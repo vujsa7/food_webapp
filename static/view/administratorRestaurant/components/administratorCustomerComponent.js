@@ -63,8 +63,8 @@ let administratorCustomerComponent = {
                     Name & surname
                 </span>
                 <span class="me-2 ms-3">{{user.name}} {{user.surname}}</span>
-                <a v-if="!user.isBlocked" class="red-link ms-3" v-on:click="blockUser(user.username)">Block user</a>
-                <a v-if="user.isBlocked" class="red-link ms-3" v-on:click="unblockUser(user.username)">Unblock user</a>
+                <a v-if="!user.isBlocked && !(user.accountType=='administrator')" class="red-link ms-3" v-on:click="blockUser(user.username)">Block user</a>
+                <a v-if="user.isBlocked && !(user.accountType=='administrator')" class="red-link ms-3" v-on:click="unblockUser(user.username)">Unblock user</a>
             </div>
             <div class="d-flex order-two flex-column justify-content-center">
                 <span class="basic-title mb-1">

@@ -10,10 +10,13 @@ import beans.AccountType;
 import beans.Administrator;
 import beans.Article;
 import beans.ArticleType;
+import beans.Buyer;
 import beans.Comment;
 import beans.Gender;
 import beans.Manager;
 import beans.Restaurant;
+import beans.SuspiciousCheck;
+import beans.User;
 import controllers.CartController;
 import controllers.CommentController;
 import controllers.LoginController;
@@ -71,7 +74,6 @@ public class Main {
 		CommentController commentController = new CommentController(commentService);
 		RestaurantController restaurantController = new RestaurantController(restaurantService, userService);
 		CartController cartController = new CartController(cartService, userService);
-		
 	/*	Administrator m = new Administrator("admin", "123", "Mika", "Mikić", Gender.male, new Date(1986,10,5),AccountType.administrator, false, false);
 		UserDAO userDao = new UserDAO("./files/users.json");
 		userDao.create(m);*/

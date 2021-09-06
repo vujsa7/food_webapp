@@ -34,7 +34,7 @@ Vue.component("administrator-customers-view", {
     stickySearch() {
       return this.scrolled > this.searchCustomersPosition;
     },
-    stickyCart() {
+    stickySuspiciousCustomers() {
       return this.scrolled > 60;
     }
   },
@@ -299,44 +299,32 @@ Vue.component("administrator-customers-view", {
     navigateToRestaurantView() {
       this.$router.push({ name: 'managerRestaurant' })
     },
-    logout(){
+    logout() {
       window.localStorage.setItem('token', null);
-      this.$router.push({name: 'logout'});
+      this.$router.push({ name: 'logout' });
     },
     displayAddUserModal() {
       this.$refs.addUserChild.displayAddUserModal("any");
     },
     reload() {
       let token = window.localStorage.getItem('token');
-      if (token) {
-        // Fetch user data
-        axios
-          .get("http://localhost:8081/rest/accessUserWithJwt", {
-            headers: {
-              'Authorization': 'Bearer ' + token
-            }
-          })
-          .then(response => {
-            this.user = response.data;
-            // Fetch orders data
-            axios
-              .get("http://localhost:8081/rest/getAll", {
-                headers: {
-                  'Authorization': 'Bearer ' + token
-                }
-              })
-              .then(response => {
-                this.customers = response.data;
-                this.displayCustomers = this.customers;
-              })
-              .catch(error => {
-                console.log(response.data);
-              });
-          })
-          .catch(error => {
-            // TODO session probably expired, jwt invalid
-          })
-      }
+      // Fetch orders data
+      axios
+        .get("http://localhost:8081/rest/getAll", {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then(response => {
+          this.customers = response.data;
+          this.displayCustomers = this.customers;
+        })
+        .catch(error => {
+          console.log(response.data);
+        });
+    },
+    showSuspiciousUsers() {
+      this.$refs.suspiciousCustomersChild.displaySuspiciousCustomersModal();
     }
   },
   watch: {
@@ -387,12 +375,24 @@ Vue.component("administrator-customers-view", {
   },
   components: {
     customer: administratorCustomerComponent,
-    addUserDialog: createWorkerDialogComponent
+    addUserDialog: createWorkerDialogComponent,
+    suspiciousCustomersDialog: suspiciousCustomersDialogComponent
   },
   template:
     `
       <div id="administrator-customers-view">
       <add-user-dialog ref="addUserChild"></add-user-dialog>
+      <suspicious-customers-dialog ref="suspiciousCustomersChild"></suspicious-customers-dialog>
+      <transition name="fade">
+      <div v-if="user && stickySuspiciousCustomers" id="floating-cart-container">
+        <div @click="showSuspiciousUsers()" title="Show suspicious customers" class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
+          <!--div v-if="cart.articles.length > 0" class="homepage-floating-cart-article-number d-flex justify-content-center align-items-center">
+            {{cart.articles.length}}
+          </div-->
+          <img src="../assets/icons/suspicious.png" alt="delivery-req" class="shopping-cart-pic">
+        </div>
+      </div>
+      </transition>
       <!--Navigation container-->
       <div class="container-fluid navigation-container pt-3 px-0">
         <div class="container-fluid d-none d-lg-block px-0">
@@ -416,7 +416,7 @@ Vue.component("administrator-customers-view", {
                   </li>
                   <li v-if="user && user.accountType=='administrator'" class="nav-item">
                     <div class="nav-link-container">
-                      <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page">Users</a>
+                      <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(1)" aria-current="page">Customers</a>
                       <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
                     </div>
                   </li>
@@ -452,6 +452,12 @@ Vue.component("administrator-customers-view", {
                 </span>
                 <div class="image-cropper mx-2">
                   <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+                </div>
+                <div v-if="user && !stickySuspiciousCustomers" @click="showSuspiciousUsers()" title="Show suspicious customers" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
+                  <!--div v-if="cart.articles.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
+                    {{cart.articles.length}}
+                  </div-->
+                  <img src="../assets/icons/suspicious.png" alt="delivery-req" class="shopping-cart-pic mx-1">
                 </div>
               </div> 
             </div>

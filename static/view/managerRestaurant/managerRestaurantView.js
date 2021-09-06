@@ -405,8 +405,7 @@ Vue.component("manager-restaurant-view", {
                   <button type="button" class="btn btn-danger justify-end" @click="deleteComment(comment.id)">
                     <img src="../assets/icons/delete.png"/>
                     <span>Delete</span>
-                  </button>
-                  
+                  </button>  
                 </div>
             </div>
           </template>

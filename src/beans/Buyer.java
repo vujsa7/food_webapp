@@ -10,6 +10,7 @@ public class Buyer extends User {
 	private int discount; 
 	private ArrayList<Order> orders;
    	private Cart cart;
+   	private SuspiciousCheck suspiciousCheck;
    	
    	public Buyer() {
    		super();
@@ -86,6 +87,12 @@ public class Buyer extends User {
 		}
 		return isEqual;
 	}
-
-   
+	
+	public SuspiciousCheck getSuspiciousCheck() {
+		return this.suspiciousCheck;
+	}
+	
+	public void setSuspiciousCheck(SuspiciousCheck suspiciousCheck) {
+		this.suspiciousCheck = suspiciousCheck;
+	}
 }

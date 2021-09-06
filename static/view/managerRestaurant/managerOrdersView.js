@@ -30,7 +30,8 @@ Vue.component("manager-orders-view", {
       datepicker1: undefined,
       datepicker2: undefined,
       totalRevenue: 0,
-      totalOrders: 0
+      totalOrders: 0,
+      awaitingDelivery: undefined
     }
   },
   computed: {
@@ -299,6 +300,9 @@ Vue.component("manager-orders-view", {
           this.totalRevenue += this.orders[i].price;
           this.totalOrders += 1;
         }
+        if(this.orders[i].orderStatus == "awaitingDelivery"){
+          this.awaitingDelivery.push(this.orders[i]);
+        }
       }
       this.totalRevenue = this.totalRevenue.toFixed(2);
     },
@@ -318,6 +322,9 @@ Vue.component("manager-orders-view", {
         .catch(error => {
           
         });
+    },
+    openWaitingDeliveryOrders(){
+      this.$refs.deliveryChild.displayDeliveryModal();
     }
   },
   watch: {
@@ -349,20 +356,20 @@ Vue.component("manager-orders-view", {
     }
   },
   components: {
-    order: managerOrderComponent
+    order: managerOrderComponent,
+    deliveryRequestsDialog: deliveryRequestsDialogComponent
   },
   template:
     `
     <div id="orders-view">
+    <delivery-requests-dialog ref="deliveryChild" :awaitingDelivery="awaitingDelivery"></delivery-requests-dialog>
     <transition name="fade">
     <div v-if="user && stickyDelivery" id="floating-cart-container">
-      <div class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
-        <!--div v-if="cart.articles.length > 0" class="homepage-floating-cart-article-number d-flex justify-content-center align-items-center">
-          {{cart.articles.length}}
+      <div @click="openWaitingDeliveryOrders()" title="Delivery requests" class="floating-cart-container d-flex align-items-center justify-content-center mb-1">
+        <!--div v-if="awaitingDelivery && awaitingDelivery.length > 0" class="homepage-floating-cart-article-number d-flex justify-content-center align-items-center">
+          {{awaitingDelivery.length}}
         </div-->
-        <button class="shopping-cart-pic" type="button" data-toggle="modal" data-target="#exampleModal">
-          <img src="../assets/icons/take-away24px.png" alt="delivery-req" class="shopping-cart-pic">
-        </button>
+        <img src="../assets/icons/take-away24px.png" alt="delivery-req" class="shopping-cart-pic">
       </div>
     </div>
     </transition>
@@ -448,15 +455,14 @@ Vue.component("manager-orders-view", {
               <div class="image-cropper mx-2">
                 <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
               </div>
-              <div v-if="user && !stickyDelivery" @click="" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
-                <!--div v-if="cart.articles.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
-                  {{cart.articles.length}}
+              <div v-if="user && !stickyDelivery" @click="openWaitingDeliveryOrders()" title="Delivery requests" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
+                <!--div v-if="awaitingDelivery && awaitingDelivery.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
+                  {{awaitingDelivery.length}}
                 </div-->
                 <img src="../assets/icons/take-away24px.png" alt="delivery-req" class="shopping-cart-pic mx-1">
-              </div
+              </div>
             </div> 
           </div>
-        </div>
         </div>
       </nav>
     </div>
