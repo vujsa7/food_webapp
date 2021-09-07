@@ -37,7 +37,7 @@
     },
     "suspiciousCheck": {
       "cancelledOrders": 0,
-      "isCustomerSuspicious": true
+      "isCustomerSuspicious": false
     },
     "username": "gordon",
     "password": "ramsey",
@@ -62,7 +62,7 @@
     },
     "suspiciousCheck": {
       "cancelledOrders": 0,
-      "isCustomerSuspicious": true
+      "isCustomerSuspicious": false
     },
     "username": "miki",
     "password": "123",

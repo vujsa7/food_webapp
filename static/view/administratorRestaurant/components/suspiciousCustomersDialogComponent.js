@@ -75,7 +75,7 @@ var suspiciousCustomersDialogComponent = {
         }
     },
     template: `
-        <div class="modal" :class="{ 'display-block' : isSuspiciousCustomersDisplayed }">
+    <div class="modal" :class="{ 'display-block' : isSuspiciousCustomersDisplayed }">
           <div class="modal-content">
             <div class="modal-header d-flex flex-column">
               <div class="d-flex flex-row align-items-center">
@@ -84,23 +84,45 @@ var suspiciousCustomersDialogComponent = {
               </div>
             </div>
             <div class="modal-body">
-            <div v-for="customer in suspiciousCustomers" :key="customer.username" class="review-card d-flex flex-column">
-                <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
-                <div class="d-flex left align-items-center">
-                  <div class="image-cropper mx-2">
-                    <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
-                  </div>
-                  <h5 class="review-card-title m-0">{{customer.username}}</h5>
+                <div v-for="customer in suspiciousCustomers" :key="customer.username" class="border-bottom-4 d-flex flex-row">
+                    <div class="d-flex flex-column justify-content-center">
+                        <span class="basic-title mb-1 nowrap">
+                            Name & surname
+                        </span>
+                        <span class="me-2">{{customer.name}} {{customer.surname}}</span>
+                    </div>
+                    <div class="d-flex order-two flex-column justify-content-center">
+                        <span class="basic-title mb-1">
+                            Username
+                        </span>
+                        <span class="me-2">{{customer.username}}</span>
+                    </div>
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="d-flex me-3 justify-content-center align-items-center">
+                            <img v-if="customer.buyerType == 'golden'" src="../assets/icons/gold-icon.png" class="order-details-img">
+                            <img v-if="customer.buyerType == 'silver'" src="../assets/icons/silver-icon.png" class="order-details-img">
+                            <img v-if="customer.buyerType == 'bronze'" src="../assets/icons/bronze-icon.png" class="order-details-img">
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <span class="basic-title mb-1">
+                                Status
+                            </span>
+                            <span v-if="customer.buyerType == 'golden'">Golden buyer</span>
+                            <span v-if="customer.buyerType == 'silver'">Silver buyer</span>
+                            <span v-if="customer.buyerType == 'bronze'">Bronze buyer</span>
+                        </div>
+                    </div>
+                    <div class="d-flex order-two flex-column justify-content-center">
+                        <span class="basic-title mb-1">
+                            Monthly cancellations
+                        </span>
+                        <span class="me-2">{{customer.suspiciousCheck.cancelledOrders}}</span>
+                    </div>
+                    <button type="button" class="btn btn-danger justify-end align-items-center" @click="blockCustomer(customer.username)">
+                        <img src="../assets/icons/delete.png"/>
+                        <span>Block</span>
+                    </button>
                 </div>
-                </div>
-                <p class="review-card-comment m-0">{{customer.suspiciousCheck.cancelledOrders}}</p>
-                <div class="d-flex flex-row-reverse">
-                  <button type="button" class="btn btn-danger justify-end" @click="blockCustomer(customer.username)">
-                    <img src="../assets/icons/delete.png"/>
-                    <span>Delete</span>
-                  </button>  
-                </div>
-            </div>
             </div>
           </div>
           <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>

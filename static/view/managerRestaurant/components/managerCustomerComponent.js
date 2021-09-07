@@ -41,7 +41,6 @@ let managerCustomerComponent = {
                     <span v-if="customer.buyerType == 'bronze'">Bronze buyer</span>
                 </div>
             </div>
-            </div>
         </div>
     </div>
     `
