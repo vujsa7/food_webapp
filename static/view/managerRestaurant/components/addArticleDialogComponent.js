@@ -123,7 +123,7 @@
                   <input type="file" style="display:none;border:none;" @change="imageAdded" id="file" name="file"/>
                 </div>          
                 <div class="d-flex right justify-end">
-                  <div class="mb-1">
+                  <div class="mb-1 mt-3">
                     <label class="form-control-label">Article Name</label>
                     <input v-model="form.articleName" @blur="$v.form.articleName.$touch()" type="text" :class="{'field-invalid': $v.form.articleName.$dirty, 'field-valid': (!$v.form.articleName.$invalid && form.name != '')}" class="form-control"/>
                     <div v-if="$v.form.articleName.$dirty">
@@ -148,7 +148,7 @@
                       </div>
                       <div class="mb-3">
                           <label class="form-control-label ">Quantity(g/ml)</label>
-                          <input v-model="form.articleQuantity" @blur="$v.form.articleQuantity.$touch()" type="number" min="0" placeholder="$" :class="{'field-invalid': $v.form.articleQuantity.$dirty, 'field-valid': (!$v.form.articleQuantity.$invalid && form.articleQuantity != '')}" class="form-control article-quantity" />
+                          <input v-model="form.articleQuantity" @blur="$v.form.articleQuantity.$touch()" type="number" min="0" :class="{'field-invalid': $v.form.articleQuantity.$dirty, 'field-valid': (!$v.form.articleQuantity.$invalid && form.articleQuantity != '')}" class="form-control article-quantity" />
                           <div v-if="$v.form.articleQuantity.$dirty">
                             <span class="error-message" v-if="$v.form.articleQuantity.$invalid">Quantity of article is required.</span>
                           </div>

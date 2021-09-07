@@ -295,15 +295,16 @@
 
 .restaurant-map-container{
     margin-top: 12px;
-    
-}
-
-.restaurant-map-container img{
     border-radius: 15px;
     object-fit: cover;
     min-height: 312px;
     width: 100%;
 }
+
+.map {
+    width: 100%;
+    height:400px;
+  }
 
 .restaurant-view-star-icon{
     height: 20px;

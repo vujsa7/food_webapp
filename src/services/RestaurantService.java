@@ -88,9 +88,9 @@ public class RestaurantService {
 		}
 		if (newArticle.getImage() != null) { 
 			if (!newArticle.getImage().isEmpty() && newArticle.getImage().startsWith("data:image")) {
-				String path = "assets/images/restaurant-images/foods/a" + newArticle.getName() +".jpg";
+				String path = "assets/images/restaurant-images/foods/a" + newArticle.getName() + newArticle.getRestaurantId() +".jpg";
 				decoder.Base64DecodeAndSave(newArticle.getImage(), path);
-				path = "./" + "assets/images/restaurant-images/foods/a" + newArticle.getName() +".jpg";
+				path = "./" + "assets/images/restaurant-images/foods/a" + newArticle.getName() + newArticle.getRestaurantId() +".jpg";
 				newArticle.setImage(path);
 			} else {
 				newArticle.setImage(newArticle.getImage());
@@ -112,9 +112,9 @@ public class RestaurantService {
 				a.setName(changedArticle.getName());
 				if (changedArticle.getImage() != null) { 
 					if (!changedArticle.getImage().isEmpty() && changedArticle.getImage().startsWith("data:image")) {
-						String path = "assets/images/restaurant-images/foods/a" + changedArticle.getName() +".jpg";
+						String path = "assets/images/restaurant-images/foods/a" + changedArticle.getName() + restaurant.getID() +".jpg";
 						decoder.Base64DecodeAndSave(changedArticle.getImage(), path);
-						path = "./" + "assets/images/restaurant-images/foods/a" + changedArticle.getName() +".jpg";
+						path = "./" + "assets/images/restaurant-images/foods/a" + changedArticle.getName() + restaurant.getID() +".jpg";
 						changedArticle.setImage(path);
 					} else {
 						changedArticle.setImage(changedArticle.getImage());
