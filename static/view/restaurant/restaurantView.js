@@ -327,7 +327,7 @@ Vue.component("restaurant-view", {
             </div>
           </div>
           <div class="restaurant-map-container">
-            <map-view-component></map-view-component>
+            <map-view-component :restaurant="restaurant"></map-view-component>
           </div>
         </div>
 

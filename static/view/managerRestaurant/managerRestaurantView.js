@@ -30,6 +30,7 @@ Vue.component("manager-restaurant-view", {
       loginDialog: loginDialogComponent,
       messageDialog: messageDialogComponent,
       addArticleDialog: addArticleDialogComponent,
+      mapViewComponent: mapViewComponent
     },
     methods:{
       logout(){
@@ -355,7 +356,7 @@ Vue.component("manager-restaurant-view", {
             </div>
           </div>
           <div class="restaurant-map-container">
-            <img class="img-fluid" src="../assets/images/location.jpg" alt="Map location">
+            <map-view-component :restaurant="restaurant"></map-view-component>
           </div>
         </div>
 

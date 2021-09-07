@@ -71,7 +71,7 @@ public class RestaurantService {
 	
 	public Restaurant registerNewRestaurant(RegisterNewRestaurantDTO newRestaurantDTO) throws JsonSyntaxException, IOException {
 		Address address = new Address(newRestaurantDTO.getStreet(), newRestaurantDTO.getStreetNumber(), new City(newRestaurantDTO.getCity(), newRestaurantDTO.getCityPostalCode())); 
-		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, new Location("0","0",address), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), newRestaurantDTO.getCoverImage(), 0.0, new ArrayList<Article>(), false);
+		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, new Location(0,0,address), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), newRestaurantDTO.getCoverImage(), 0.0, new ArrayList<Article>(), false);
 		restaurant.setID(restaurantDao.generateId());
 		Manager manager = (Manager) userDao.getById(newRestaurantDTO.getManager());
 		manager.setRestaurant(restaurant.getID());

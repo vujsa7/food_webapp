@@ -9,8 +9,8 @@
     "coverImage": "../assets/images/restaurant-images/covers/grill5.jpg",
     "rating": 5.0,
     "location": {
-      "longitude": "414114",
-      "latitude": "444324",
+      "longitude": 19.851034904208003,
+      "latitude": 45.25167402417134,
       "address": {
         "street": "Maksima Gorkog",
         "number": "55",
@@ -133,8 +133,8 @@
     "coverImage": "../assets/images/restaurant-images/covers/los-pollos-hermanos.jpg",
     "rating": 4.0,
     "location": {
-      "longitude": "111333",
-      "latitude": "412111",
+      "longitude": 20.481664940457883,
+      "latitude": 44.77400864025768,
       "address": {
         "street": "Niksicka",
         "number": "46A",
@@ -239,8 +239,8 @@
     "coverImage": "../assets/images/restaurant-images/covers/dine-fine.jpg",
     "rating": 3.0,
     "location": {
-      "longitude": "113213",
-      "latitude": "433311",
+      "longitude": 20.90728768714186,
+      "latitude": 44.01286328603701,
       "address": {
         "street": "Skerliceva",
         "number": "17",
@@ -345,8 +345,8 @@
     "coverImage": "../assets/images/restaurant-images/covers/the-bacon-diet.jpg",
     "rating": 0.0,
     "location": {
-      "longitude": "166623",
-      "latitude": "415321",
+      "longitude": 19.83454891163457,
+      "latitude": 45.257309454312065,
       "address": {
         "street": "Bulevar Oslobodjenja",
         "number": "65B",
@@ -369,11 +369,11 @@
     "coverImage": "../assets/images/restaurant-images/covers/mcdonalds.jpg",
     "rating": 0.0,
     "location": {
-      "longitude": "166113",
-      "latitude": "433321",
+      "longitude": 19.83145803892596,
+      "latitude": 45.265186157826,
       "address": {
-        "street": "Laze Kostica",
-        "number": "2",
+        "street": "Bulevar Jaše Tomića",
+        "number": "bb",
         "city": {
           "name": "Novi Sad",
           "postalCode": "21000"
@@ -393,11 +393,11 @@
     "coverImage": "../assets/images/restaurant-images/covers/burger-king.jpg",
     "rating": 0.0,
     "location": {
-      "longitude": "444156",
-      "latitude": "515322",
+      "longitude": 20.457694870620564,
+      "latitude": 44.817105327487106,
       "address": {
-        "street": "Knez Mihajlova",
-        "number": "33A",
+        "street": "Kneza Mihaila",
+        "number": "29",
         "city": {
           "name": "Belgrade",
           "postalCode": "113000"
