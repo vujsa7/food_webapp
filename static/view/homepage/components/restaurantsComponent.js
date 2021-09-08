@@ -227,7 +227,8 @@ var restaurantsComponent = {
               <p class="restaurant-cuisine">{{restaurant.restaurantType.charAt(0).toUpperCase() + restaurant.restaurantType.substring(1)}}</p>
               <div class="d-flex flex-row me-3">
                 <img class="location-pin-img" src="../assets/icons/star.png">
-                <span class="fw-bold rating-text mx-2">{{restaurant.rating}}</span>
+                <span v-if="restaurant.rating != 0" class="fw-bold rating-text mx-2">{{parseFloat(restaurant.rating).toFixed(2)}}</span>
+                <span v-if="restaurant.rating == 0" class="fw-bold rating-text mx-2">Not rated</span>
               </div>
             </div>
             <div class="d-flex flex-row me-3">

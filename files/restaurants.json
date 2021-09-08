@@ -228,7 +228,7 @@
     "logo": "../assets/images/logos/restaurant-logos/dine-fine.png",
     "bannerImage": "../assets/images/restaurant-images/banners/dine-fine.jpg",
     "coverImage": "../assets/images/restaurant-images/covers/dine-fine.jpg",
-    "rating": 3.0,
+    "rating": 0.0,
     "location": {
       "longitude": 20.90728768714186,
       "latitude": 44.01286328603701,
