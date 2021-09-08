@@ -7,13 +7,9 @@ import dto.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 import static spark.Spark.get;
 import static spark.Spark.put;
-
-import java.security.Key;
 
 import services.UserService;
 
@@ -24,8 +20,8 @@ public class UserController {
 		
 		get("/rest/getAll", (req,res) -> {
 			res.type("application/json");
+
 			String auth = req.headers("Authorization");
-//			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
@@ -48,7 +44,6 @@ public class UserController {
 		get("/rest/getSuspicious", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
-//			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
@@ -82,7 +77,6 @@ public class UserController {
 			res.type("application/json");
 			UpdateUserDTO updatedProfile = gson.fromJson(req.body(), UpdateUserDTO.class);
 			String auth = req.headers("Authorization");
-			System.out.println("Authorization: " + auth);
 			if ((auth != null) && (auth.contains("Bearer "))) {
 				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
 				try {
@@ -125,7 +119,6 @@ public class UserController {
 		
 		get("/rest/availableManagers", (req,res) -> {
 			res.type("application/json");
-			System.out.println("RADI MANAGER");
 			return gson.toJson(userService.getAvailableManagers());
 		});
 	}

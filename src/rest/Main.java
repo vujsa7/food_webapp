@@ -4,19 +4,7 @@ import static spark.Spark.port;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
-import java.util.Date;
 
-import beans.AccountType;
-import beans.Administrator;
-import beans.Article;
-import beans.ArticleType;
-import beans.Buyer;
-import beans.Comment;
-import beans.Gender;
-import beans.Manager;
-import beans.Restaurant;
-import beans.SuspiciousCheck;
-import beans.User;
 import controllers.CartController;
 import controllers.CommentController;
 import controllers.LoginController;
@@ -24,22 +12,16 @@ import controllers.OrderController;
 import controllers.RegistrationController;
 import controllers.RestaurantController;
 import controllers.UserController;
-import dao.CommentDAO;
-import dao.RestaurantDAO;
-import dao.UserDAO;
 import services.*;
-import static spark.Spark.options;
-import static spark.Spark.before;
 
 public class Main {
-	
-	private static final Date Date = null;
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception {
 		port(8081);
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
+		
 		/*
 		options("/*", (request, response) -> {
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -71,7 +53,7 @@ public class Main {
 		RegistrationController registrationController = new RegistrationController(registrationService, userService);
 		LoginController loginController = new LoginController(loginService, userService);
 		OrderController orderController = new OrderController(orderService, userService);
-		CommentController commentController = new CommentController(commentService);
+		CommentController commentController = new CommentController(commentService, userService, orderService);
 		RestaurantController restaurantController = new RestaurantController(restaurantService, userService);
 		CartController cartController = new CartController(cartService, userService);
 	/*	Administrator m = new Administrator("admin", "123", "Mika", "Mikić", Gender.male, new Date(1986,10,5),AccountType.administrator, false, false);

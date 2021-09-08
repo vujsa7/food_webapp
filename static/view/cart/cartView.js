@@ -3,8 +3,10 @@ Vue.component( "cart-view",{
         return {
             user: undefined,
             cart: undefined,
+            buyerType: undefined,
+            discount: 0,
             cartSubtotal:  this.cart ? parseFloat(this.cart.price).toFixed(2) : undefined,
-            cartTotal: this.cart ? parseFloat(this.cart.price + 5 - 0.5).toFixed(2) : undefined,
+            cartTotal: this.cart ? parseFloat(this.cart.price + 5 - this.cart.price / 100 * this.discount).toFixed(2) : undefined,
             selectedNavIndex: 0,
             socialMediaLogo: [
               "../../assets/icons/linkedin-logo.png",
@@ -39,7 +41,6 @@ Vue.component( "cart-view",{
                 this.saveCartOnServer();
                 this.recalculateOrderInfo();
             }
-                
         },
         addArticle(article){
             this.cart.price += article.price;
@@ -55,9 +56,11 @@ Vue.component( "cart-view",{
         },
         recalculateOrderInfo(){
             this.cartSubtotal = parseFloat(this.cart.price).toFixed(2)
-            this.cartTotal = parseFloat(this.cart.price + 5 - 0.5).toFixed(2)
+            this.cartTotal = parseFloat(this.cart.price + 5 - this.cart.price * this.discount / 100).toFixed(2)
         },
         saveCartOnServer(){
+            if(this.cart.price < 0.1)
+              this.cart.price = 0
             let token = window.localStorage.getItem('token');
             if(token){
               axios
@@ -84,7 +87,7 @@ Vue.component( "cart-view",{
             if(this.$route.params.path)
               this.$router.push({ name: 'restaurant', params: { id: this.$route.params.path }});
             else
-              this.$router.push({name: 'homepageBuyer'});
+              this.$router.push({name: 'homepage'});
         },
         changeToDarkLogo(index){
           if(index == 0 || index == 3)
@@ -152,7 +155,19 @@ Vue.component( "cart-view",{
                 .then(response => {
                     this.cart = response.data;
                     this.numberOfItemsInCart = this.cart.articles.length;
-                    this.recalculateOrderInfo();
+                    axios
+                    .get("http://localhost:8081/rest/discount/" + this.user.username, {
+                        headers:{
+                        'Authorization': 'Bearer ' + token
+                        }
+                    })
+                    .then(response => {
+                        this.discount = response.data;
+                        this.recalculateOrderInfo();
+                    })
+                    .catch(error => {
+                        console.log(response.data);
+                    });
                 })
                 .catch(error => {
                     console.log(response.data);
@@ -278,7 +293,7 @@ Vue.component( "cart-view",{
                     Discount:
                   </div>
                   <div v-if="cart.articles.length > 0" class="right text-end">
-                    -$0.5
+                    -&#36;{{cart.price * discount / 100}}
                   </div>
                   <div v-if="cart.articles.length == 0" class="right text-end">
                     $0.00

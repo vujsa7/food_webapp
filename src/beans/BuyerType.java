@@ -3,11 +3,11 @@ package beans;
 import com.google.gson.annotations.SerializedName;
 
 public enum BuyerType {
-	@SerializedName("golden")
+	@SerializedName("Golden buyer")
    golden,
-   @SerializedName("silver")
+   @SerializedName("Silver buyer")
    silver,
-   @SerializedName("bronze")
+   @SerializedName("Bronze buyer")
    bronze;
 
 }

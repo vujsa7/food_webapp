@@ -153,7 +153,7 @@ var createWorkerDialogComponent = {
               <div class="d-flex flex-row">
                 <div class="d-flex left justify-end">
                     <div>
-                      <button type="button" id="loadFileXml" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('image').click();">
+                      <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('image').click();">
                         <img v-if="this.form.image" :src="this.form.image" class= "add-article-image" alt = "Profile picture">
                         <img v-if="!this.form.image" src="../assets/icons/add128px.png" alt = "Add Image">
                       </button>

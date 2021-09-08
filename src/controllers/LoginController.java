@@ -8,6 +8,7 @@ import java.util.Date;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import beans.User;
 import dto.LoggedInBuyerDTO;
@@ -23,7 +24,7 @@ import services.UserService;
 public class LoginController {
 	
 	static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-	private Gson gson = new Gson();
+	private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 	
 	public LoginController(LoginService loginService, UserService userService) {
 		

@@ -31,7 +31,21 @@ Vue.component("orders-view",{
             startingDate: undefined,
             limitDate: undefined,
             datepicker1: undefined,
-            datepicker2: undefined
+            datepicker2: undefined,
+            optionDialogData: {
+              title: "",
+              message: "",
+              buttonText1: "",
+              buttonText2: ""
+            },
+            messageDialogData: {
+              title: "",
+              message: "",
+              buttonText: "",
+            },
+            cancelOrderId: undefined,
+            orderStats: undefined,
+            reviewOrder: undefined,
         }
     },
     computed: {
@@ -77,6 +91,19 @@ Vue.component("orders-view",{
             })
             .then(response => {
                 this.user = response.data;
+                // Fetch buyer type
+                axios
+                .get("http://localhost:8081/rest/orderStats/" + this.user.username, {
+                    headers:{
+                    'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then(response => {
+                    this.orderStats = response.data;
+                })
+                .catch(error => {
+                    console.log(response.data);
+                });
                 // Fetch cart data
                 axios
                 .get("http://localhost:8081/rest/cart/" + this.user.username, {
@@ -111,6 +138,10 @@ Vue.component("orders-view",{
         }
     },
     methods:{
+        logout(){
+          window.localStorage.setItem('token', null);
+          this.$router.push({name: 'logout'});
+        },
         handleScroll() {
             this.scrolled = window.scrollY;
             this.checkOffset();
@@ -375,6 +406,58 @@ Vue.component("orders-view",{
         updateValueLimitPrice(e){
           this.limitPrice = e.target.value.replace("$",'');
         },
+        cancelOrderFunc(){
+          if(this.cancelOrderId){
+            let order = this.orders.find(element => element.id === this.cancelOrderId);
+            let token = window.localStorage.getItem('token');
+            axios
+            .put("http://localhost:8081/rest/cancelOrder/" + this.cancelOrderId, order, {
+              headers:{
+              'Authorization': 'Bearer ' + token
+              }
+            })
+            .then(response => {
+                if(response.status == 200){
+                  this.$refs.optionDialogChild.hideDialog();
+                  order.orderStatus = "canceled";
+                  this.orderStats.points -= Math.round((order.price / 1000) * 133 * 4); 
+                }
+            })
+            .catch(error => {
+                if(error.response){
+                  order.orderStatus = "processing";
+                  this.$refs.optionDialogChild.hideDialog();
+                  this.showServerResponse(error);
+                }
+            });
+          }
+        },
+        hiddenOptionDialog(){
+          this.cancelOrderId = undefined;
+        },
+        displayCancelOrderDialog(id){
+          this.cancelOrderId = id;
+          this.optionDialogData.title = "Cancel order";
+          this.optionDialogData.message = "Are you sure you want to cancel this order?";
+          this.optionDialogData.buttonText1 = "No";
+          this.optionDialogData.buttonText2 = "Yes";
+          this.$refs.optionDialogChild.displayDialog();
+        },
+        displayReviewOrderDialog(order){
+          this.reviewOrder = order;
+          this.$refs.reviewOrderDialogChild.displayDialog();
+        },
+        showServerResponse(error){
+          if(error.response.status == "401"){
+              this.messageDialogData.title = "Unable to perform action";
+              this.messageDialogData.message = error.response.data;
+              this.messageDialogData.buttonText = "Close";
+              this.$refs.messageDialogChild.displayDialog();
+          }
+        },
+        commentCreated(){
+          this.orders.find(element => element.id === this.reviewOrder.id).isReviewed = true;
+        }
     },
     watch:{
       checkedCuisines: function(){
@@ -418,7 +501,10 @@ Vue.component("orders-view",{
       }
     },
     components:{
-        order: orderComponent
+        order: orderComponent,
+        optionDialog : optionDialogComponent,
+        messageDialog: messageDialogComponent,
+        reviewOrderDialog: reviewOrderDialogComponent,
     },
     template:
     `
@@ -433,6 +519,9 @@ Vue.component("orders-view",{
         </div>
         </div>
     </transition>
+    <option-dialog @callback="cancelOrderFunc" @hidden="hiddenOptionDialog" ref="optionDialogChild" :message="optionDialogData"></option-dialog>
+    <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
+    <review-order-dialog ref="reviewOrderDialogChild" @createdComment="commentCreated" :order="reviewOrder"></review-order-dialog>
     <!--Navigation container-->
     <div class="container-fluid navigation-container pt-3 px-0">
       <div class="container-fluid d-none d-lg-block px-0">
@@ -519,9 +608,9 @@ Vue.component("orders-view",{
             <div class="buyer-type-container d-flex flex-column align-items-center box-shadow">
                 <img src="../assets/icons/bronze-icon.png" class="buyer-badge">
                 <span class="mb-1">Points</span>
-                <span class="fw-bold">755</span>
+                <span v-if="orderStats" class="fw-bold">{{orderStats.points}}</span>
                 <span class="buyer-type-span mb-1">Type</span>
-                <span class="fw-bold">Bronze buyer</span>
+                <span v-if="orderStats"  class="fw-bold">{{orderStats.buyerType}}</span>
                 <img src="../assets/icons/bronze-gradient.png" class="buyer-gradient">
             </div>
             <div class="orders-graph-container d-none d-xl-block box-shadow">
@@ -534,7 +623,7 @@ Vue.component("orders-view",{
                     </div>
                     <div class="d-flex flex-column ms-4 me-2 justify-content-center">
                         <span class="mb-1">Orders this week</span>
-                        <span class="fw-bold">5</span>
+                        <span v-if="orderStats"  class="fw-bold">{{orderStats.ordersThisWeek}}</span>
                     </div>
                 </div>
                 <div class="card2 box-shadow d-flex flex-row align-items-center">
@@ -543,7 +632,7 @@ Vue.component("orders-view",{
                     </div>
                     <div class="d-flex flex-column ms-4 me-2 justify-content-center">
                         <span class="mb-1">Total orders</span>
-                        <span class="fw-bold">34</span>
+                        <span v-if="orderStats"  class="fw-bold">{{orderStats.totalOrders}}</span>
                     </div>
                 </div>
             </div>

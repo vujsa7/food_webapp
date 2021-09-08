@@ -116,7 +116,7 @@
             <form action="http://localhost:8081/rest/addArticle" method="post" @submit.prevent="submitForm()" autocomplete="off">
               <div class="d-flex row">
                 <div class="d-flex left justify-end custom-file">
-                  <button type="button" id="loadFileXml" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('file').click();">
+                  <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('file').click();">
                     <img v-if="this.form.articleImage" :src="this.form.articleImage" class= "add-article-image" alt = "Profile Image">
                     <img v-if="!this.form.articleImage" src="../assets/icons/add128px.png" alt = "Add Image">
                   </button>

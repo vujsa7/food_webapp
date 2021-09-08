@@ -1,9 +1,14 @@
 package dao;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -33,7 +38,7 @@ public class GenericDAOImpl<T extends IIdentifiable<ID>, ID> implements GenericD
 		try {
 			 Files.createFile(Paths.get(path));
 		} catch (FileAlreadyExistsException ex) {
-			 JsonReader reader = new JsonReader(new FileReader(path));
+			 JsonReader reader = new JsonReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
 			 allEntities = gs.fromJson(reader, classType);
 		}
 		if (allEntities == null) 
@@ -112,8 +117,9 @@ public class GenericDAOImpl<T extends IIdentifiable<ID>, ID> implements GenericD
 	}
 
 	@Override
-	public void saveAll(ArrayList<T> entities) throws FileNotFoundException {
-		PrintWriter writer = new PrintWriter(path);
+	public void saveAll(ArrayList<T> entities) throws FileNotFoundException, UnsupportedEncodingException {
+		OutputStream os = new FileOutputStream(path);
+		PrintWriter writer = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
 		String allEntities = gs.toJson(entities, classType);
 		writer.println(allEntities);
 		writer.close();

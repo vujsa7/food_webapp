@@ -213,7 +213,7 @@ Vue.component("restaurant-view", {
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
+                    <a class="nav-link active fw-bold mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
@@ -335,7 +335,7 @@ Vue.component("restaurant-view", {
           <div v-if="restaurant" class="d-flex align-items-center">
             <span class="title fw-bold">Restaurant reviews</span>
             <img class="restaurant-view-star-icon ms-3 mb-1 me-2" src="../assets/icons/star.png" alt="Star icon">
-            <span class="fw-bold restaurant-view-rating-text">{{restaurant.rating}}</span>
+            <span class="fw-bold restaurant-view-rating-text">{{parseFloat(restaurant.rating).toFixed(2)}}</span>
           </div>
           <div class="restaurant-view-reviews">
 

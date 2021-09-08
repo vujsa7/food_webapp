@@ -34,5 +34,14 @@
     "buyerId": "miki",
     "isDeleted": true,
     "isApproved": false
+  },
+  {
+    "id": 5,
+    "details": "The food was so delicious. My family and I loved it!",
+    "review": 5,
+    "restaurantId": 3,
+    "buyerId": "aki",
+    "isDeleted": false,
+    "isApproved": false
   }
 ]

@@ -16,7 +16,7 @@ public class LoggedInBuyerDTO {
 	public LoggedInBuyerDTO(String username, String name, String surname, Gender gender,
 			Date dateOfBirth, AccountType accountType) {
 		super();
-		this.setUsername(username);
+		this.username = username;
 		this.name = name;
 		this.surname = surname;
 		this.gender = gender;

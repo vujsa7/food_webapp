@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Comment;
 import beans.User;
 import dao.CommentDAO;
 import dto.CommentDTO;
+import dto.CreateNewCommentDTO;
 
 public class CommentService {
 	private CommentDAO commentDao;
@@ -69,5 +69,10 @@ public class CommentService {
 			}
 		}
 		return null;
+	}
+
+	public void createCommentCandidate(CreateNewCommentDTO createNewCommentDTO) throws JsonSyntaxException, IOException {
+		Comment candidate = new Comment(commentDao.generateId(), createNewCommentDTO.getDetails(), createNewCommentDTO.getReview(), createNewCommentDTO.getRestaurantId(), createNewCommentDTO.getBuyerId(), false, false);
+		commentDao.save(candidate);
 	}
 }

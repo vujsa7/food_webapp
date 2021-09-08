@@ -15,7 +15,6 @@ let cartItemComponent = {
         subtractArticle(){
             if(this.numberOfItems-1 == 0){
                 this.removeItemFromCart();
-                this.$parent.removeArticle(this.cartArticle.article.name);
             } else {
                 this.numberOfItems -= 1;
                 this.$parent.removeArticle(this.cartArticle.article.name);

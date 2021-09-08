@@ -20,6 +20,7 @@ Vue.component("checkout-view",{
         return {
             user: undefined,
             cart: undefined,
+            discount: undefined,
             restaurantId: undefined,
             selectedNavIndex: 0,
             socialMediaLogo: [
@@ -91,7 +92,7 @@ Vue.component("checkout-view",{
           submitForm(){
               if(!this.isMakeOrderBtnDisabled){
                 var order = {
-                    "price": this.cart.price,
+                    "price": this.cart.price + 5 - this.discount / 100 * this.cart.price,
                     "articles": this.cart.articles,
                     "restaurantId" : this.restaurantId,
                     "buyerId" : this.cart.buyerId,
@@ -151,9 +152,9 @@ Vue.component("checkout-view",{
         },
         isMakeOrderBtnDisabled(){
             if(this.paymentMethodRadio == "card"){
-                return this.$v.form.$invalid;
+                return this.$v.form.$invalid && this.cart && this.discount;
             } else {
-                return this.$v.form.street.$invalid || this.$v.form.streetNumber.$invalid || this.$v.form.city.$invalid || this.$v.form.postalCode.$invalid || this.$v.form.phoneNumber.$invalid || this.$v.form.note.$invalid;
+                return (this.$v.form.street.$invalid || this.$v.form.streetNumber.$invalid || this.$v.form.city.$invalid || this.$v.form.postalCode.$invalid || this.$v.form.phoneNumber.$invalid || this.$v.form.note.$invalid) && this.cart && this.discount;
             }
         }
     },
@@ -231,9 +232,23 @@ Vue.component("checkout-view",{
                 .then(response => {
                     this.cart = response.data;
                     if(this.cart.articles.length == 0)
-                        this.$router.push({name: 'homepageBuyer'});
-                    else
+                        this.$router.push({name: 'homepage'});
+                    else{
                         this.restaurantId = this.cart.articles[0].restaurantId;
+                        axios
+                        .get("http://localhost:8081/rest/discount/" + this.user.username, {
+                            headers:{
+                            'Authorization': 'Bearer ' + token
+                            }
+                        })
+                        .then(response => {
+                            this.discount = response.data;
+                        })
+                        .catch(error => {
+                            console.log(response.data);
+                        });
+                    }
+                   
                 })
             })
             .catch(error => {
@@ -246,7 +261,7 @@ Vue.component("checkout-view",{
     `
     <div id="checkout-view">
     <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
-    <div v-if="cart && cart.articles.length != 0">
+    <div v-if="cart">
     <div class="container-fluid navigation-container pt-3 px-0">
         <div class="container-fluid d-none d-lg-block px-0">
         <img src="../assets/images/logos/foodly-logos/full-logo.png" @click="navigateHome()" alt="Brand logo" class="full-logo">

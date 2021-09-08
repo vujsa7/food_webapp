@@ -184,19 +184,19 @@ var addRestaurantDialogComponent = {
             <div class="d-flex row">
               <div class="d-flex left justify-end">
                 <div>
-                  <button type="button" id="loadFileXml" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('logoImage').click();">
+                  <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('logoImage').click();">
                     <img v-if="this.form.logoImage" :src="this.form.logoImage" class= "add-article-image" alt = "Logo Image">
                     <img v-if="!this.form.logoImage" src="../assets/icons/add128px.png" alt = "Add Image">
                   </button>
                   <input type="file" style="display:none;border:none;" @change="logoImageAdded" id="logoImage" name="logoImage"/>
                   <label>Logo image</label>
-                  <button type="button" id="loadFileXml" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('bannerImage').click();">
+                  <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('bannerImage').click();">
                     <img v-if="this.form.bannerImage" :src="this.form.bannerImage" class= "add-article-image" alt = "Banner Image">
                     <img v-if="!this.form.bannerImage" src="../assets/icons/add128px.png" alt = "Add Image">
                   </button>
                   <input type="file" style="display:none;border:none;" @change="bannerImageAdded" id="bannerImage" name="bannerImage"/>
                   <label>Banner image</label>
-                  <button type="button" id="loadFileXml" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('coverImage').click();">
+                  <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('coverImage').click();">
                     <img v-if="this.form.coverImage" :src="this.form.coverImage" class= "add-article-image" alt = "Cover Image">
                     <img v-if="!this.form.coverImage" src="../assets/icons/add128px.png" alt = "Add Image">
                   </button>

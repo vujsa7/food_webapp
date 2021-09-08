@@ -1,13 +1,32 @@
 [
   {
     "type": "Buyer",
-    "points": 0,
-    "buyerType": "bronze",
+    "points": 39,
+    "buyerType": "Bronze buyer",
     "discount": 0,
     "orders": [],
     "cart": {
-      "price": 0.0,
-      "articles": [],
+      "price": 14.78,
+      "articles": [
+        {
+          "restaurantId": 1,
+          "name": "Hamburger",
+          "price": 7.39,
+          "articleType": "meal",
+          "quantity": 40,
+          "description": "Juicy, big, loaded with toppings of your choice.",
+          "image": "../assets/images/restaurant-images/foods/102.jpg"
+        },
+        {
+          "restaurantId": 1,
+          "name": "Hamburger",
+          "price": 7.39,
+          "articleType": "meal",
+          "quantity": 40,
+          "description": "Juicy, big, loaded with toppings of your choice.",
+          "image": "../assets/images/restaurant-images/foods/102.jpg"
+        }
+      ],
       "buyerId": "aki"
     },
     "suspiciousCheck": {
@@ -17,7 +36,7 @@
     "username": "aki",
     "password": "car",
     "name": "Aleksa",
-    "surname": "Vujisic",
+    "surname": "Vujisić",
     "gender": "male",
     "dateOfBirth": "Sep 16, 1999, 10:00:00 PM",
     "accountType": "buyer",
@@ -27,7 +46,7 @@
   {
     "type": "Buyer",
     "points": 0,
-    "buyerType": "bronze",
+    "buyerType": "Bronze buyer",
     "discount": 0,
     "orders": [],
     "cart": {
@@ -52,7 +71,7 @@
   {
     "type": "Buyer",
     "points": 0,
-    "buyerType": "bronze",
+    "buyerType": "Bronze buyer",
     "discount": 0,
     "orders": [],
     "cart": {
@@ -67,7 +86,7 @@
     "username": "miki",
     "password": "123",
     "name": "Mihajlo",
-    "surname": "Vujisic",
+    "surname": "Vujisić",
     "gender": "male",
     "dateOfBirth": "Mar 29, 2001, 10:00:00 PM",
     "accountType": "buyer",

@@ -323,6 +323,18 @@
     color: #4091FF;
 }
 
+.red-link{
+    color: #FE0435;
+}
+
+.red-link:hover{
+    color: #FE0435;
+}
+
+.red-link:visited{
+    color: #FE0435;
+}
+
 .order-card-top-column{
     margin-bottom: 30px;
 }
@@ -422,4 +434,62 @@
     font-weight: bold;
     color:#181e27;
     margin-bottom: 20px;
+}
+
+.modal-padding{
+    padding: 30px 50px;
+}
+
+.rate-header-text{
+    font-size: 20px;
+}
+
+.rate-modal-content{
+    width: 780px;
+}
+
+.gray-button{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: Bold;
+    width: 150px;
+    height: 50px;
+    border-radius: 9px;
+    border-width: 0;
+    background-color: #a2a2a2;
+}
+
+.option-regular-button{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: Bold;
+    width: 150px;
+    height: 50px;
+    border-radius: 9px;
+    border-width: 0;
+    background-color: #FE0435;
+}
+
+.checked {
+    color: #FEC107;
+}
+
+.fa-star:before {
+    font-size: 30px;
+}
+
+.first-star{
+    padding: 12px 5px 12px 0px;
+}
+
+.star{
+    padding: 12px 5px;
+}
+
+.star:hover{
+    cursor: pointer;
+}
+
+.first-star:hover{
+    cursor: pointer;
 }

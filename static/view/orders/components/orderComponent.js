@@ -1,12 +1,15 @@
 let orderComponent = {
-    data(){
-        return{
-            //date: this.order.dateOfOrder.match(/[^,]+,[^,]+/g)
-        }
-    },
     props:[
         'order'
     ],
+    methods:{
+        displayCancelOrderDialog(){
+            this.$parent.displayCancelOrderDialog(this.order.id);
+        },
+        displayReviewOrderDialog(){
+            this.$parent.displayReviewOrderDialog(this.order);
+        }
+    },
     template:
     `
     <div class="order-cards-container" v-if="order">
@@ -23,7 +26,8 @@ let orderComponent = {
                 </span>
                 <div class="d-flex flex-row">
                     <span class="me-2">{{order.id}}</span>
-                    <a v-if="!order.isReviewed && order.orderStatus == 'delivered'" class="blue-link">Rate</a>
+                    <a v-if="!order.isReviewed && order.orderStatus == 'delivered'" @click="displayReviewOrderDialog" class="blue-link">Rate</a>
+                    <a v-if="order.orderStatus == 'processing'" @click="displayCancelOrderDialog" class="red-link">Cancel</a>
                 </div>
             </div>
             <div class="d-flex order-three flex-row align-items-center">

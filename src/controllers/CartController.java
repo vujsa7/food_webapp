@@ -2,8 +2,6 @@ package controllers;
 
 import static spark.Spark.put;
 
-import java.security.Key;
-
 import static spark.Spark.get;
 
 import com.google.gson.Gson;

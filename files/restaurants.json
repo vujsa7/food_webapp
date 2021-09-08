@@ -7,7 +7,7 @@
     "logo": "../assets/images/logos/restaurant-logos/grill5.png",
     "bannerImage": "../assets/images/restaurant-images/banners/grill5.jpg",
     "coverImage": "../assets/images/restaurant-images/covers/grill5.jpg",
-    "rating": 5.0,
+    "rating": 4.6666666666666,
     "location": {
       "longitude": 19.851034904208003,
       "latitude": 45.25167402417134,
@@ -110,15 +110,6 @@
         "quantity": 93,
         "description": "100% pure-squeezed, pasteurized orange juice.",
         "image": "../assets/images/restaurant-images/foods/114.jpg"
-      },
-      {
-        "restaurantId": 1,
-        "name": "stejkkk mmm",
-        "price": 7.78,
-        "articleType": "meal",
-        "quantity": 400,
-        "description": "mmmmm soo goood",
-        "image": "./assets/images/restaurant-images/foods/astejkkk.jpg"
       }
     ],
     "isDeleted": false
@@ -131,7 +122,7 @@
     "logo": "../assets/images/logos/restaurant-logos/los-pollos-hermanos.png",
     "bannerImage": "../assets/images/restaurant-images/banners/los-pollos-hermanos.jpg",
     "coverImage": "../assets/images/restaurant-images/covers/los-pollos-hermanos.jpg",
-    "rating": 4.0,
+    "rating": 0.0,
     "location": {
       "longitude": 20.481664940457883,
       "latitude": 44.77400864025768,

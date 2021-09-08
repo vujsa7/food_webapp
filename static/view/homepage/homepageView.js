@@ -193,7 +193,6 @@ mounted(){
   searchWrapper = document.getElementById('search-wrapper');
   this.searchWrapperPosition = findPos(searchWrapper);
   let token = window.localStorage.getItem('token');
-  // console.log(token)
   if(token){
     axios
     .get("http://localhost:8081/rest/accessUserWithJwt", {

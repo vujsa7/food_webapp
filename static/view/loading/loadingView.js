@@ -18,7 +18,7 @@ Vue.component("loading-view", {
             }
         })
         .then(response => {
-            this.$router.push({ name: 'homepageBuyer'})
+            this.$router.push({ name: 'homepage'})
         })
         .catch(error => {
             window.localStorage.setItem('token', null);
