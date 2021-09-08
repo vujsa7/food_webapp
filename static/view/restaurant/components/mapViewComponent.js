@@ -1,31 +1,7 @@
-/*const data = {
-    type: "Feature",
-    properties: {
-        name: "Coors Field",
-        amenity: "Baseball Stadium",
-        popupContent: "This is where the Rockies play!"
-    },
-    geometry: {
-        type: "Point",
-        coordinates: [19.851034904208003, 45.25167402417134]
-    }
-  };*/
-
 var mapViewComponent = {
     data() {
         return {
-        /*    mapData: {
-                type: "Feature",
-                properties: {
-                    name: "Coors Field",
-                    amenity: "Baseball Stadium",
-                    popupContent: "This is where the Rockies play!"
-                },
-                geometry: {
-                    type: "Point",
-                    coordinates: [19.851034904208003, 45.25167402417134]
-                }
-            }*/
+            
         }
     },
     props:[
@@ -33,15 +9,16 @@ var mapViewComponent = {
     ],
     mounted() {
         const data = {
-            type: "Feature",
-            properties: {
-                name: "Coors Field",
-                amenity: "Baseball Stadium",
-                popupContent: "This is where the Rockies play!"
+            "type": "Feature",
+            "properties": {
+                "fill":"#000000",
+                "stroke-width":"3",
+                "fill-opacity":0.6,
+                "title": "Restoran"
             },
-            geometry: {
-                type: "Point",
-                coordinates: [this.restaurant.location.longitude, this.restaurant.location.latitude]
+            "geometry": {
+                "type": "Point",
+                "coordinates": [this.restaurant.location.longitude, this.restaurant.location.latitude]
             }
           }
 
@@ -71,8 +48,8 @@ var mapViewComponent = {
 
             // the map view will initially show the whole world
             view: new ol.View({
-                zoom: 0,
-                center: [0, 0],
+                zoom: 13,
+                center: ol.proj.fromLonLat([this.restaurant.location.longitude, this.restaurant.location.latitude]),
                 constrainResolution: true
             }),
         })
