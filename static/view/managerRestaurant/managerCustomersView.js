@@ -352,12 +352,6 @@ Vue.component("manager-customers-view", {
                       <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                     </div>
                   </li>
-                  <li class="nav-item">
-                    <div class="nav-link-container">
-                      <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
-                      <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
-                    </div>
-                  </li>
                   <li v-if="!user" class="nav-item d-lg-none">
                     <a class="nav-link py-0" @click="displaySignInModal()">Sing in</a>
                   </li>

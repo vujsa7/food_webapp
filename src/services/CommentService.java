@@ -7,16 +7,20 @@ import java.util.Collection;
 import com.google.gson.JsonSyntaxException;
 
 import beans.Comment;
+import beans.Restaurant;
 import beans.User;
 import dao.CommentDAO;
+import dao.RestaurantDAO;
 import dto.CommentDTO;
 import dto.CreateNewCommentDTO;
 
 public class CommentService {
 	private CommentDAO commentDao;
+	private RestaurantDAO restaurantDao;
 	
 	public CommentService() {
 		this.commentDao = new CommentDAO("./files/comments.json");
+		this.restaurantDao = new RestaurantDAO("./files/restaurants.json");
 	}
 	
 	public Collection<CommentDTO> getNotDeletedApprovedCommentsByRestaurant(int restaurantId) throws JsonSyntaxException, IOException{
@@ -45,17 +49,25 @@ public class CommentService {
 		return restaurantComments;
 	}
 
-	public Comment approveComment(int id) throws JsonSyntaxException, IOException {
+	public void approveComment(int id) throws JsonSyntaxException, IOException {
 		// TODO Auto-generated method stub
 		ArrayList<Comment> allComments = commentDao.getAllNotDeleted();
+		int restaurantId = commentDao.getById(id).getRestaurantId();
+		Restaurant restaurant = restaurantDao.getById(restaurantId);
+		double rating = 0;
+		int numberOfRatings = 0;
 		for(Comment c : allComments) {
 			if(c.getID() == id) {
 				c.setIsApproved(true);
 				commentDao.update(c);
-				return c;
+			}
+			if(c.getRestaurantId() == restaurant.getID() && c.getIsApproved()) {
+				rating += c.getReview();
+				numberOfRatings++;
 			}
 		}
-		return null;
+		restaurant.setRating(rating/numberOfRatings);
+		restaurantDao.update(restaurant);
 	}
 	
 	public Comment deleteComment(int id) throws JsonSyntaxException, IOException {

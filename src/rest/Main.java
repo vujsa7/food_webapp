@@ -21,8 +21,8 @@ public class Main {
 		port(8081);
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
+	/*	
 		
-		/*
 		options("/*", (request, response) -> {
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
 			if (accessControlRequestHeaders != null) {
@@ -38,8 +38,8 @@ public class Main {
 		before((request, response) -> {
 			response.header("Access-Control-Allow-Origin", "*");
 		});
-	
-		*/
+	*/
+		
 		UserService userService = new UserService();
 		RegistrationService registrationService = new RegistrationService();
 		LoginService loginService = new LoginService();

@@ -17,17 +17,26 @@ public class UserService {
 		this.userDao = new UserDAO("./files/users.json");;
 	}
 	
-	public Collection<User> getAll() throws JsonSyntaxException, IOException{
-		return userDao.getAllNotDeleted();
+	public Collection<AllUsersDTO> getAll() throws JsonSyntaxException, IOException{
+		ArrayList<AllUsersDTO> allUsers = new ArrayList<AllUsersDTO>();
+		for(User u : userDao.getAllNotDeleted()) {
+			if(u.getAccountType().equals(AccountType.buyer)) {
+				Buyer b = (Buyer)u;
+				allUsers.add(new AllUsersDTO(b.getID(), b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType()));
+			}else {
+				allUsers.add(new AllUsersDTO(u.getID(), u.getName(),u.getSurname(),u.getAccountType(),null));
+			}
+		}
+		return allUsers;
 	}
 	
-	public Collection<Buyer> getSuspicious() throws JsonSyntaxException, IOException{
-		ArrayList<Buyer> suspiciousCustomers = new ArrayList<Buyer>();
+	public Collection<SuspiciousBuyersDTO> getSuspicious() throws JsonSyntaxException, IOException{
+		ArrayList<SuspiciousBuyersDTO> suspiciousCustomers = new ArrayList<SuspiciousBuyersDTO>();
 		for(User u : userDao.getAllNotDeleted()) {
 			if(u.getAccountType().equals(AccountType.buyer)) {
 				Buyer buyer = (Buyer)u;
 				if(buyer.getSuspiciousCheck().isCustomerSuspicious() && !buyer.isBlocked()) {
-					suspiciousCustomers.add(buyer);
+					suspiciousCustomers.add(new SuspiciousBuyersDTO(buyer.getID(),buyer.getName(),buyer.getSurname(),buyer.getBuyerType(),buyer.getSuspiciousCheck()));
 				}
 			}
 		}

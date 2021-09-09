@@ -25,3 +25,13 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+.suspicious-customers-body{
+    padding: 0px !important;
+}
+
+.suspicious-customers-style{
+    border-bottom:solid !important;
+    border-bottom-color: gainsboro !important;
+    padding-bottom: 1rem;
+}

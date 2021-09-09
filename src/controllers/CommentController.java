@@ -49,7 +49,9 @@ public class CommentController {
 		put("rest/approveComment/:id", (req,res) -> {
 			res.type("application/json");
 			try {
-				return gson.toJson(commentService.approveComment(Integer.parseInt(req.params("id")))); 
+				res.status(200);
+				commentService.approveComment(Integer.parseInt(req.params("id")));
+				return "Comment approved"; 
 			} catch (Exception e) {
 				e.printStackTrace();
 				res.status(400);

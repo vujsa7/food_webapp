@@ -94,14 +94,15 @@ Vue.component("manager-restaurant-view", {
         axios
         .put("http://localhost:8081/rest/approveComment/" + id)
           .then(response => {
-            axios
+           /* axios
             .get("http://localhost:8081/rest/commentsForManager/" + this.restaurant.id)
             .then(response => {
               this.comments = response.data;
             })
             .catch(error => {
               this.comments = []
-            })
+            })*/
+            this.reloadRestaurant();
           })
           .catch(error => {
             console.log(response.data);
@@ -242,12 +243,6 @@ Vue.component("manager-restaurant-view", {
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                   </div>
                 </li>
-                <li class="nav-item">
-                  <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
-                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
-                  </div>
-                </li>
                 <li v-if="!user" class="nav-item d-lg-none">
                   <a class="nav-link py-0" href="#" @click="displaySignInModal()">Sing in</a>
                 </li>
@@ -365,7 +360,7 @@ Vue.component("manager-restaurant-view", {
             <div v-if="restaurant" class="d-flex left align-items-center">
               <span class="title fw-bold">Restaurant reviews</span>
               <img class="restaurant-view-star-icon ms-3 mb-1 me-2" src="../assets/icons/star.png" alt="Star icon">
-              <span class="fw-bold restaurant-view-rating-text">{{restaurant.rating}}</span>
+              <span class="fw-bold restaurant-view-rating-text" >{{parseFloat(restaurant.rating).toFixed(2)}}</span>
             </div>
             <div v-if="restaurant" class="d-flex right justify-content-end">
               <button type="button" v-on:click="displayApproved = !displayApproved" style="background:white" class="btn btn-light shadow-none">

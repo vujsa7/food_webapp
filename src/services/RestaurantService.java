@@ -9,6 +9,7 @@ import com.google.gson.JsonSyntaxException;
 
 import beans.*;
 import dao.*;
+import dto.AllUsersDTO;
 import dto.ArticleDTO;
 import dto.RegisterNewRestaurantDTO;
 
@@ -42,22 +43,23 @@ public class RestaurantService {
 		return restaurantDao.getById(manager.getRestaurant());
 	}
 	
-	public Collection<Buyer> getUsersFromRestaurant(String managerUsername) throws JsonSyntaxException, IOException{
+	public Collection<AllUsersDTO> getUsersFromRestaurant(String managerUsername) throws JsonSyntaxException, IOException{
 		ArrayList<Order> allOrders = orderDao.getAllNotDeleted();
 		Restaurant restaurant = getRestaurantByManager(managerUsername);
-		ArrayList<Buyer> restaurantBuyers = new ArrayList<Buyer>();
+		ArrayList<AllUsersDTO> restaurantBuyers = new ArrayList<AllUsersDTO>();
 		for(Order o : allOrders) {
 			if(o.getRestaurant() == restaurant.getID() && !isUserVisited(restaurantBuyers, o.getBuyer())) {
-				restaurantBuyers.add((Buyer) userDao.getById(o.getBuyer()));
+				Buyer b = (Buyer)userDao.getById(o.getBuyer());
+				restaurantBuyers.add(new AllUsersDTO(b.getID(),b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType()));
 			}
 		}
 		return restaurantBuyers;
 	}
 	
-	private boolean isUserVisited(ArrayList<Buyer> restaurantBuyers, String buyerId) {
+	private boolean isUserVisited(ArrayList<AllUsersDTO> restaurantBuyers, String buyerId) {
 		boolean isVisited = false;
-		for(Buyer b : restaurantBuyers) {
-			if(b.getID().equals(buyerId)) {
+		for(AllUsersDTO b : restaurantBuyers) {
+			if(b.getUsername().equals(buyerId)) {
 				isVisited = true;
 				break;
 			}

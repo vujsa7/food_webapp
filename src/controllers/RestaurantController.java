@@ -74,22 +74,6 @@ public class RestaurantController {
 			
 		});
 		
-		get("/restaurants/getForManager", (req,res) -> {
-			res.type("application/json");
-			String auth = req.headers("Authorization");
-			if ((auth != null) && (auth.contains("Bearer "))) {
-				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
-				try {
-				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
-				    // ako nije bacio izuzetak, onda je ok
-				    return gson.toJson(restaurantService.getRestaurantByManager(claims.getBody().getSubject()));
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-			}
-			return "No user logged in.";
-		});
-		
 		get("/rest/getAllUsersByRestaurant", (req,res) -> {
 			res.type("application/json");
 			String auth = req.headers("Authorization");
@@ -98,6 +82,10 @@ public class RestaurantController {
 				try {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
 				    User manager = userService.getById(claims.getBody().getSubject());
+				    if(!manager.getAccountType().equals(AccountType.manager)) {
+				    	res.status(403);
+				    	return "";
+				    }
 				    res.status(200);
 				    return gson.toJson(restaurantService.getUsersFromRestaurant(manager.getID()));
 				} catch(JsonSyntaxException | IOException e) {
