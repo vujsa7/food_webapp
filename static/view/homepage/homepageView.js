@@ -22,7 +22,7 @@ Vue.component("homepage-view", {
         checkedCuisines: ["showAll"],
         checkedOpenRestaurants: undefined,
         sortBy: "usual",
-        sortOrders: ["A-Z", "Desc", "Desc"],
+        sortOrders: ["A-Z", "A-Z", "Desc"],
         sortOrdersIndex : undefined,
         displayMode: "normal",
         searchWrapperPosition: 10000,
@@ -65,7 +65,7 @@ methods: {
     // Method that is controlling which sortOrder is applied to each row of "Sort by" options
     sortOrderChanged(e, index){
         e.preventDefault();
-        if(index === 0){
+        if(index === 0 || index === 1){
         this.$set(this.sortOrders, index, this.sortOrders[index] == "A-Z" ? "Z-A" : "A-Z");
         } else {
         this.$set(this.sortOrders, index, this.sortOrders[index] == "Asc" ? "Desc" : "Asc");
@@ -94,7 +94,7 @@ methods: {
     adjustFilterAndSortValues(){
         this.checkedOpenRestaurants = undefined;
         this.sortBy = "usual";
-        this.sortOrders = ["A-Z", "Desc", "Desc"];
+        this.sortOrders = ["A-Z", "A-Z", "Desc"];
         this.sortOrdersIndex = undefined;
     },
     showAllRestaurants(e){

@@ -171,6 +171,33 @@ var restaurantsComponent = {
       // Compare function that compares restaurants by their locations
       compareByLocationRestaurants(r1, r2){
         // TODO : implement comparison and sorting based on nearest location
+        if(this.sortOrders[1] === "A-Z")
+          switcher = -1;
+        else if(this.sortOrders[1] === "Z-A")
+          switcher = 1;
+        if(r1.location.address.city.name < r2.location.address.city.name){
+          return 1*switcher;
+        }
+        if (r1.location.address.city.name > r2.location.address.city.name){
+          return -1*switcher;
+        }
+        if (r1.location.address.city.name === r2.location.address.city.name){
+          if(r1.location.address.street < r2.location.address.street){
+            return 1*switcher;
+          }
+          if (r1.location.address.street > r2.location.address.street){
+            return -1*switcher;
+          }
+          if (r1.location.address.street === r2.location.address.street){
+            if(r1.location.address.number < r2.location.address.number){
+              return 1*switcher;
+            }
+            if (r1.location.address.number > r2.location.address.number){
+              return -1*switcher;
+            }
+          }
+        }
+        return 0;
       },
       // Compare function that compares restaurants by their rating
       compareByRatingRestaurants(r1, r2){
