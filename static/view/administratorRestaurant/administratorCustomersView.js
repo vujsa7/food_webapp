@@ -299,6 +299,9 @@ Vue.component("administrator-customers-view", {
     navigateToRestaurantView() {
       this.$router.push({ name: 'managerRestaurant' })
     },
+    navigateToEditProfileView(){
+      this.$router.push({name: 'editProfile'});
+    },
     logout() {
       window.localStorage.setItem('token', null);
       this.$router.push({ name: 'logout' });
@@ -443,7 +446,7 @@ Vue.component("administrator-customers-view", {
                     <img src="../assets/icons/arrow-dark.png" alt="arrow" class="arrow-pic mx-2">
                   </a>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
-                    <li><a class="dropdown-item">Edit profile</a></li>
+                    <li><a class="dropdown-item @click="navigateToEditProfileView()">Edit profile</a></li>
                     <li><a class="dropdown-item" @click="logout()">Logout</a></li>
                   </ul>
                 </div>

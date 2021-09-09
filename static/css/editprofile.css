@@ -1,0 +1,234 @@
+
+.edit-profile-view-body{
+    position: relative;
+    padding: 30px 7.292vw 0px 7.292vw;
+    margin-bottom: 30px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    font-weight: lighter;
+}
+
+.profile-picture-container{
+    width: 26vw;
+}
+
+.edit-profile-view-three-parts{
+    display: flex;
+    flex-direction: row;
+}
+
+.changing-info-container{
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}
+
+.personal-info-container{
+    margin-top: 105px;
+    width: 100%;
+    margin-left: 3.54vw;
+}
+
+.account-info-container{
+    margin-top: 105px;
+    width: 100%;
+    margin-left: 3.54vw;
+}
+
+.profile-img-display{
+    height: 500px;
+    background: black;
+    border-radius: 15px;
+    border: 0px;
+    object-fit: cover;
+    margin-bottom: 30px;
+    width: 26vw;
+}
+
+
+.edit-profile-view-body .regular-button{
+    width: 100%;
+}
+
+.edit-profile-title{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.form-select, .form-control{
+    border-width: 1px !important;
+}
+
+.edit-profile-field-container{
+    margin-bottom: 12px;
+}
+
+.edit-profile-view-body .date-of-birth-holder{
+    margin-bottom: 30px;
+}
+
+.border-button{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: Bold;
+    width: 100%;
+    height: 50px;
+    border-radius: 9px;
+    border: 1px solid #181E27 !important;
+    color: #181E27;
+    background-color: white;
+}
+
+.input-icons i {
+    position: absolute;
+    right: 20px;
+    top: 17px;
+}
+  
+.input-icons {
+    width: 100%;
+    position: relative;
+}
+
+.edit-profile-password-container{
+    margin-bottom: 17px;
+}
+
+.cool-name-and-surname{
+    z-index: 2;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 80px;
+    position: absolute;
+    left: 25.57vw;
+    color: black;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.250) ; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+@media screen and (max-width: 1200px) {
+    .profile-picture-container{
+        padding-top: 112px;
+    }
+
+    .profile-img-display{
+        width: 15.75vw;
+        height: 189px;
+        border-radius: 9px;
+    }
+    
+    .change-profile-pic-button{
+        display: none !important;
+    }
+
+    .cool-name-and-surname{
+        left: 7.292vw;
+    }
+
+    .profile-picture-container{
+        width: 15.75vw;
+    }
+
+    .changing-info-container{
+        width: 100%;
+    }
+}
+
+.round-button {
+    display:block;
+    height: 30px;
+    width: 30px;
+    background-color: #FE0435;
+    border-radius: 50%;
+    border: 0;
+}
+
+.relative-picture-container{
+    position: relative;
+}
+
+.edit-profile-view-body .round-button{
+    position: absolute;
+    right: -15px;
+    bottom: 15px;
+}
+
+@media screen and (max-width: 992px) {
+    .edit-profile-view-three-parts{
+        flex-direction: column !important;
+    }
+    
+    .personal-info-container{
+        margin-left: 0px;
+    }
+
+    .profile-img-display{
+        width: 191px;
+        height: 191px;
+    }
+
+    .profile-picture-container{
+        padding-top: 0px;
+        width: 191px;
+    }
+    
+    .cool-name-and-surname{
+        left: 22vw;
+        font-size: 10vw;
+    }
+    
+    .personal-info-container{
+        margin-top: 0;
+    }
+
+    .account-info-container{
+        margin-top: 0;
+    }
+
+}
+
+@media screen and (max-width: 576px) {
+    .changing-info-container{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .account-info-container{
+        margin-left: 0px;
+    }
+
+    .cool-name-and-surname{
+        display: none !important;
+    }
+
+    .personal-info-container{
+        margin-top: 18px;
+    }
+
+    .account-info-container{
+        margin-top: 18px;
+    }
+
+    .profile-picture-container{
+        width: 100%;
+    }
+
+    .relative-picture-container{
+        display: flex;
+        justify-content: center;
+    }
+    
+    .second-relative-picture-container{
+        width: fit-content;
+        position: relative;
+    }
+
+    .profile-img-display{
+        width: 250px;
+        height: 250px;
+    }
+    
+}
+

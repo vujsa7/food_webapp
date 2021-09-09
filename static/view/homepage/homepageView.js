@@ -175,6 +175,9 @@ methods: {
         this.$router.push({name: 'administratorCustomers'})
       }
     },
+    navigateToEditProfileView(){
+      this.$router.push({name: 'editProfile'});
+    },
     logout(){
       window.localStorage.setItem('token', null);
       this.$router.push({name: 'logout'});
@@ -327,7 +330,7 @@ template: `
                   <img src="../assets/icons/arrow.png" alt="arrow" class="arrow-pic mx-2">
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
-                  <li><a class="dropdown-item">Edit profile</a></li>
+                  <li><a class="dropdown-item" @click="navigateToEditProfileView()">Edit profile</a></li>
                   <li><a class="dropdown-item" @click="logout()">Logout</a></li>
                 </ul>
               </div>

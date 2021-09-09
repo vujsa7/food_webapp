@@ -6,25 +6,16 @@
     "discount": 0,
     "orders": [],
     "cart": {
-      "price": 14.78,
+      "price": 9.79,
       "articles": [
         {
           "restaurantId": 1,
-          "name": "Hamburger",
-          "price": 7.39,
+          "name": "Kebabs",
+          "price": 9.79,
           "articleType": "meal",
-          "quantity": 40,
-          "description": "Juicy, big, loaded with toppings of your choice.",
-          "image": "../assets/images/restaurant-images/foods/102.jpg"
-        },
-        {
-          "restaurantId": 1,
-          "name": "Hamburger",
-          "price": 7.39,
-          "articleType": "meal",
-          "quantity": 40,
-          "description": "Juicy, big, loaded with toppings of your choice.",
-          "image": "../assets/images/restaurant-images/foods/102.jpg"
+          "quantity": 64,
+          "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
+          "image": "../assets/images/restaurant-images/foods/103.jpg"
         }
       ],
       "buyerId": "aki"
@@ -38,7 +29,7 @@
     "name": "Aleksa",
     "surname": "Vujisić",
     "gender": "male",
-    "dateOfBirth": "Sep 16, 1999, 10:00:00 PM",
+    "dateOfBirth": "Sep 7, 1999, 10:00:00 PM",
     "accountType": "buyer",
     "isDeleted": false,
     "isBlocked": false

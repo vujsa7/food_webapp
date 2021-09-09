@@ -99,7 +99,7 @@
     "id": "IbuVkXhBOf",
     "dateOfOrder": "Sep 8, 2021, 12:27:46 AM",
     "price": 148.9,
-    "orderStatus": "processing",
+    "orderStatus": "delivered",
     "articles": [
       {
         "restaurantId": 3,

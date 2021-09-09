@@ -73,7 +73,7 @@ Vue.component( "cart-view",{
                 console.log(response.data);
               })
               .catch(error => {
-                console.log(error.data);
+                console.log(error.response.data);
               });
             }
         },
@@ -115,7 +115,10 @@ Vue.component( "cart-view",{
         },
         navigateToCheckout(){
           this.$router.push({name: 'checkout'})
-        }
+        },
+        navigateToEditProfileView(){
+          this.$router.push({name: 'editProfile'});
+        },
     },
     computed: {
         mutatedArticles: function() {
@@ -227,7 +230,7 @@ Vue.component( "cart-view",{
                             <img src="../assets/icons/arrow-dark.png" alt="arrow" class="arrow-pic mx-2">
                           </a>
                           <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
-                            <li><a class="dropdown-item">Edit profile</a></li>
+                            <li><a class="dropdown-item" @click="navigateToEditProfileView()">Edit profile</a></li>
                             <li><a class="dropdown-item" @click="logout()">Logout</a></li>
                           </ul>
                       </div>

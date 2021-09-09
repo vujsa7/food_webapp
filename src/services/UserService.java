@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 import beans.*;
@@ -116,5 +117,14 @@ public class UserService {
 				userDao.update(u);
 			}
 		}
+	}
+
+	public UpdatePersonalInfoDTO updatePersonalInfo(User loggedInUser, UpdatePersonalInfoDTO updatedPersonalInfo) throws JsonSyntaxException, IOException {
+		loggedInUser.setName(updatedPersonalInfo.getName());
+		loggedInUser.setSurname(updatedPersonalInfo.getSurname());
+		loggedInUser.setGender(updatedPersonalInfo.getGender());
+		loggedInUser.setDateOfBirth(updatedPersonalInfo.getDateOfBirth());
+		userDao.update(loggedInUser);
+		return updatedPersonalInfo;
 	}
 }

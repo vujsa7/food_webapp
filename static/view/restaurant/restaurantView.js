@@ -102,7 +102,7 @@ Vue.component("restaurant-view", {
             console.log(response.data);
           })
           .catch(error => {
-            console.log(error.data);
+            console.log(error.response.data);
           });
         }
       },
@@ -114,6 +114,9 @@ Vue.component("restaurant-view", {
       },
       navigateToOrdersView(){
         this.$router.push({name: 'orders'})
+      },
+      navigateToEditProfileView(){
+        this.$router.push({name: 'editProfile'});
       },
       isSelectedNavItem(index){
         if(index == this.selectedNavIndex)
@@ -256,7 +259,7 @@ Vue.component("restaurant-view", {
                   <img src="../assets/icons/arrow-dark.png" alt="arrow" class="arrow-pic mx-2">
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
-                  <li><a class="dropdown-item">Edit profile</a></li>
+                  <li><a class="dropdown-item" @click="navigateToEditProfileView()">Edit profile</a></li>
                   <li><a class="dropdown-item" @click="logout()">Logout</a></li>
                 </ul>
               </div>
