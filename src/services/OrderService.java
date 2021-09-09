@@ -98,6 +98,14 @@ public class OrderService {
 		return order;
 	}
 	
+	public Order setInPreparation(String orderId) throws JsonSyntaxException, IOException {
+		// TODO Auto-generated method stub
+		Order order = orderDao.getById(orderId);
+		order.setOrderStatus(OrderStatus.inPreparation);
+		orderDao.update(order);
+		return order;
+	}
+	
 	public Order cancelOrder(Order updatedOrder) throws JsonSyntaxException, IOException {
 		Order order = orderDao.getById(updatedOrder.getID());
 		order.setOrderStatus(OrderStatus.canceled);

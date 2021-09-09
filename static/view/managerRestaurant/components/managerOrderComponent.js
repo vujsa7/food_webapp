@@ -18,6 +18,16 @@ let managerOrderComponent = {
                 
             })
         },
+        setInPreparation(id){
+            axios
+            .put("http://localhost:8081/rest/setInPreparation/" + id)
+            .then(response => {
+                this.reloadOrders();
+            })
+            .catch(error => {
+                
+            })
+        },
         reloadOrders(){
             this.$parent.reloadOrders();
         }
@@ -39,6 +49,7 @@ let managerOrderComponent = {
                 <div class="d-flex flex-row">
                     <span class="me-2">{{order.id}}</span>
                     <a v-if="order.orderStatus == 'inPreparation'" class="blue-link" v-on:click="markForDelivery(order.id)">Mark for delivery</a>
+                    <a v-if="order.orderStatus == 'processing'" class="blue-link" v-on:click="setInPreparation(order.id)">In preparation</a>
                 </div>
             </div>
             <div class="d-flex order-three flex-row align-items-center">

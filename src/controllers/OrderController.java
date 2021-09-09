@@ -235,7 +235,6 @@ public class OrderController {
 				    	return "Forbidden content!";
 				    }*/
 				    res.status(200);
-				    System.out.println("OK");
 				    return gson.toJson(orderService.markForDelivery(req.params("id")));
 			/*	} catch(JsonSyntaxException | IOException e) {
 					res.status(500);
@@ -247,6 +246,12 @@ public class OrderController {
 			}
 			res.status(401);
 			return "Please log in to continue.";*/
+		});
+		
+		put("rest/setInPreparation/:id",(req,res)->{
+			res.type("application/json");
+			res.status(200);
+			return gson.toJson(orderService.setInPreparation(req.params("id")));
 		});
 	}
 }
