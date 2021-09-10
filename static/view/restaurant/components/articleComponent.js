@@ -68,6 +68,11 @@ var articleItemComponent = {
                     </button>
                 </div>
             </template>
+            <template v-else-if="user && (user.accountType == 'manager' || user.accountType == 'deliveryWorker')">
+                <div class="d-flex justify-content-between">
+                    <span class="manager-article-price">Price {{article.price}}$</span>
+                </div>
+            </template>
             <template v-else>
                 <div class="d-flex justify-content-between">
                     <div class="article-plus-minus-container d-flex me-2">

@@ -109,11 +109,22 @@ Vue.component("restaurant-view", {
       navigateToCartView(){
         this.$router.push({name: 'cart', params: { path: this.restaurant.id }})
       },
-      navigateHome(){
-        this.$router.push({name: 'homepage'})
-      },
       navigateToOrdersView(){
-        this.$router.push({name: 'orders'})
+        if(this.user.accountType == "buyer"){
+          this.$router.push({name: 'orders'})
+        }else if(this.user.accountType == "manager"){
+          this.$router.push({name: 'managerOrders'})
+        }
+      },
+      navigateToRestaurantView(){
+        this.$router.push({name: 'managerRestaurant'})
+      },
+      navigateToCustomersView(){
+        if(this.user.accountType == "manager"){
+          this.$router.push({name: 'managerCustomers'})
+        }else if(this.user.accountType == "administrator"){
+          this.$router.push({name: 'administratorCustomers'})
+        }
       },
       navigateToEditProfileView(){
         this.$router.push({name: 'editProfile'});
@@ -309,16 +320,28 @@ Vue.component("restaurant-view", {
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
-                <li v-if="user && user.accountType=='buyer'" class="nav-item">
+                <li v-if="user && user.accountType=='manager'" class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToRestaurantView();" aria-current="page">Restaurant</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && user.accountType!='administrator'" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2); navigateToOrdersView();" aria-current="page">Orders</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && (user.accountType=='administrator' || user.accountType=='manager')" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(3); navigateToCustomersView();" aria-current="page">Customers</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
-                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
                   </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
@@ -341,7 +364,7 @@ Vue.component("restaurant-view", {
             </div> 
           </div>
           <div v-if="user">
-            <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
+            <div class="d-none d-lg-block">
               <div class="user-info-container d-flex flex-row-reverse mt-2">
               <div class="dropdown arrow-container" style="z-index: 100">
                 <a id="imageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
