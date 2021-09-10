@@ -56,7 +56,7 @@ let administratorCustomerComponent = {
     <div class="order-cards-container" v-if="user">
         <div class="user-card box-shadow">
             <div class="d-flex flex-column justify-content-center">
-                <img class="customer-img" src="../assets/images/profile-picture.jpg"/>
+                <img class="customer-img" :src="user.image"/>
             </div>
             <div class="d-flex flex-column justify-content-center">
                 <span class="basic-title mb-1 ms-3 mt-3 nowrap">

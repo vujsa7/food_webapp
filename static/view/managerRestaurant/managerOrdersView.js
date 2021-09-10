@@ -450,7 +450,7 @@ Vue.component("manager-orders-view", {
                 {{user.name}} {{user.surname}}
               </span>
               <div class="image-cropper mx-2">
-                <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+                <img :src="user.image" alt="avatar" class="profile-pic">
               </div>
               <div v-if="user && !stickyDelivery" @click="openWaitingDeliveryOrders()" title="Delivery requests" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
                 <!--div v-if="awaitingDelivery && awaitingDelivery.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">

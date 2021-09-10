@@ -390,7 +390,7 @@ Vue.component("manager-customers-view", {
                   {{user.name}} {{user.surname}}
                 </span>
                 <div class="image-cropper mx-2">
-                  <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+                  <img :src="user.image" alt="avatar" class="profile-pic">
                 </div>
               </div> 
             </div>

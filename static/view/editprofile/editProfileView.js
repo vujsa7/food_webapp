@@ -15,9 +15,8 @@ Vue.component( "edit-profile-view",{
                 monthOfBirth: "",
                 dayOfBirth: "",
                 username: "",
-                newPassword: "",
-                image: "",
-                backendImage: ""
+                image: undefined,
+                backendImage: undefined
             },
             formCopy : undefined,
             socialMediaLogo: [
@@ -28,7 +27,16 @@ Vue.component( "edit-profile-view",{
               "../../assets/icons/facebook-logo.png",
               "../../assets/icons/instagram-logo.png"
             ],
+            messageDialogData: {
+              title: "",
+              message: "",
+              buttonText: ""
+            },
         }
+    },
+    components:{
+      changePasswordDialog: changePasswordDialogComponent,
+      messageDialog: messageDialogComponent,
     },
     validations:{
         form:{
@@ -72,6 +80,10 @@ Vue.component( "edit-profile-view",{
           this.$router.push({name: 'managerOrders'})
         }
       },
+      logout(){
+        window.localStorage.setItem('token', null);
+        this.$router.push({name: 'logout'});
+      },
       isSelectedNavItem(index){
         if(index == this.selectedNavIndex)
           return true;
@@ -80,6 +92,7 @@ Vue.component( "edit-profile-view",{
       changeSelectedNavItem(index){
         this.selectedNavIndex = index;
       },
+      
       changeToDarkLogo(index){
         if(index == 0 || index == 3)
         Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
@@ -95,6 +108,46 @@ Vue.component( "edit-profile-view",{
           Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo.png");
           else
           Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
+      },
+      openFile(){
+        document.getElementById('profileImageFile').click();
+      },
+      imageAdded(e){
+        const file = e.target.files[0];
+        if(file && (file.type == "image/jpeg" || file.type == "image/jpg")){
+         this.createBase64Image(file);
+        }
+      },
+      createBase64Image(file){
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.form.backendImage = e.target.result;
+            this.updateProfileImageOnBackend(file);
+        }
+        reader.readAsDataURL(file);
+      },
+      updateProfileImageOnBackend(file){
+        let token = window.localStorage.getItem('token');
+        let object = {
+          "image" : this.form.backendImage
+        }
+        axios
+        .put("http://localhost:8081/rest/uploadProfileImage/" + this.user.username, object, {
+            headers:{
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => {
+            if(response.status == 200){
+              this.form.image = URL.createObjectURL(file);
+              this.user.image = response.data.image + "?" + new Date().getTime();;
+            }
+        })
+        .catch(error => {
+            if(error.response){
+                console.log(error.response)
+            }
+        });
       },
       submitFormPersonal(){
         if(!this.$v.form.$invalid){
@@ -124,6 +177,44 @@ Vue.component( "edit-profile-view",{
           });
         }
       },
+      showChangePasswordDialog(){
+        this.$refs.changePasswordDialogChild.displayDialog();
+      },
+      showWrongPasswordErrorMessage(){
+        this.messageDialogData.title = "Wrong password";
+        this.messageDialogData.message = "Wrong password attempt, enter your valid current password!";
+        this.messageDialogData.buttonText = "Try again";
+        this.$refs.messageDialogChild.displayDialog();
+      },
+      navigateHome(){
+        this.$router.push({name: 'homepage'})
+      },
+      submitFormChangeUsername(){
+        let token = window.localStorage.getItem('token');
+        axios
+        .put("http://localhost:8081/rest/updateUsername/" + this.user.username, this.form.username, {
+            headers:{
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'text/plain',
+            }
+        })
+        .then(response => {
+            if(response.status == 200){
+              this.user.username = this.form.username;
+              this.formCopy = JSON.parse(JSON.stringify(this.form));
+              window.localStorage.setItem('token', response.data)
+            }
+        })
+        .catch(error => {
+            if(error.response){
+              this.messageDialogData.title = "Forbidden action";
+              this.messageDialogData.message = error.response.data;
+              this.messageDialogData.buttonText = "Try another username";
+              console.log(error.response);
+            }
+        });
+      },
+      
     },
     mounted(){
       let token = window.localStorage.getItem('token');
@@ -144,6 +235,7 @@ Vue.component( "edit-profile-view",{
           this.form.monthOfBirth = this.dateOfBirth.getMonth()+1;
           this.form.dayOfBirth = this.dateOfBirth.getDate();
           this.form.username = this.user.username;
+          this.form.image = this.user.image;
           this.formCopy = JSON.parse(JSON.stringify(this.form));
           if(this.user.accountType == "buyer"){
             axios
@@ -184,17 +276,24 @@ Vue.component( "edit-profile-view",{
           return true;
         }
         return false;
+      },
+      canChangeUsername(){
+        if(this.form.username != this.formCopy.username)
+          return false;
+        return true;
       }
     },
     template:
     `
     <div id="edit-profile-view">
+      <message-dialog ref="messageDialogChild" :message="messageDialogData"></message-dialog>
+      <change-password-dialog ref="changePasswordDialogChild"></change-password-dialog>
         <div class="container-fluid navigation-container pt-3 px-0">
             <div class="container-fluid d-none d-lg-block px-0">
-              <img src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" class="full-logo">
+              <img @click="navigateHome()" src="../assets/images/logos/foodly-logos/full-logo.png" alt="Brand logo" class="full-logo">
             </div>
             <div class="container d-lg-none px-0">
-              <img src="../assets/images/logos/foodly-logos/foodly-logo.png" alt="Brand logo" class="foodly-logo">
+              <img @click="navigateHome()" src="../assets/images/logos/foodly-logos/foodly-logo.png" alt="Brand logo" class="foodly-logo">
             </div>
             <nav class="navbar navbar-expand-lg navbar-light">
               <div class="container-fluid px-0">
@@ -260,7 +359,7 @@ Vue.component( "edit-profile-view",{
                         <img src="../assets/icons/arrow-dark.png" alt="arrow" class="arrow-pic mx-2">
                       </a>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
-                        <li><a class="dropdown-item" @click="navigateToEditProfileView()">Edit profile</a></li>
+                        <li><a class="dropdown-item">Edit profile</a></li>
                         <li><a class="dropdown-item" @click="logout()">Logout</a></li>
                       </ul>
                     </div>
@@ -268,7 +367,7 @@ Vue.component( "edit-profile-view",{
                       {{user.name}} {{user.surname}}
                     </span>
                     <div class="image-cropper mx-2">
-                      <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+                      <img :src="user.image" alt="avatar" class="profile-pic">
                     </div>
                     <div v-if="cart && !stickyCart" @click="navigateToCartView()" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
                       <div v-if="cart.articles.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
@@ -288,11 +387,12 @@ Vue.component( "edit-profile-view",{
                   <div class="d-flex flex-column">
                     <div class="relative-picture-container">
                       <div class="second-relative-picture-container">
-                        <img class="profile-img-display" src="../assets/images/Rectangle 253.png" alt="Profile image">
+                        <img v-if="this.form.image" :src="this.form.image" class="profile-img-display" alt="Profile image">
                         <button class="round-button d-xl-none">A</button>
                       </div>
                     </div>
-                    <button class="btn btn-danger regular-button change-profile-pic-button">Change profile picture</button>
+                    <button @click="openFile" class="btn btn-danger regular-button change-profile-pic-button">Change profile picture</button>
+                    <input type="file" @change="imageAdded" hidden id="profileImageFile"/>
                   </div>
                 </div>
                 <div class="changing-info-container">
@@ -361,11 +461,11 @@ Vue.component( "edit-profile-view",{
                       <button type="submit" :disabled="canUpdatePersonalInfo" class="btn btn-light border-button">Update personal info</button>
                     </form>
                   </div>
-                  <div class="account-info-container">
+                  <div v-if="user" class="account-info-container">
                     <span class="edit-profile-title">
                       Account info
                     </span>
-                    <form action="http://localhost:8081/rest/registerBuyer" method="post" @submit.prevent="submitForm()" autocomplete="off">
+                    <form action="http://localhost:8081/rest/changeUsername/:id" method="put" @submit.prevent="submitFormChangeUsername()" autocomplete="off">
                       <div class="edit-profile-field-container mt-2">
                         <label class="form-control-label">Username</label>
                         <input v-model="form.username" type="text" class="form-control">
@@ -380,9 +480,9 @@ Vue.component( "edit-profile-view",{
                           <i class="fa fa-lock icon"></i>
                           <input disabled placeholder="●●●●●●●●●●●●●●" type="password" class="form-control">
                         </div>
-                        <a class="align-self-end blue-link">Change password</a>
+                        <a @click="showChangePasswordDialog" class="align-self-end blue-link">Change password</a>
                       </div>
-                      <button class="btn btn-danger regular-button">Update account info</button>
+                      <button :disabled="canChangeUsername" class="btn btn-danger regular-button">Update account info</button>
                     </form>
                   </div>
                 </div>

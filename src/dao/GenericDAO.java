@@ -14,4 +14,5 @@ public interface GenericDAO<T, ID> {
 	boolean delete(T entity) throws JsonSyntaxException, IOException;
 	void save(T entity) throws JsonSyntaxException, IOException;
 	void saveAll(ArrayList<T> entities) throws JsonSyntaxException, IOException;
+	T updateUsername(T entity, ID newID) throws JsonSyntaxException, IOException;
 } 

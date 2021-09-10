@@ -1,5 +1,6 @@
 package services;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import dto.*;
 
 public class UserService {
 	private UserDAO userDao;
+	private Base64ToImage decoder = new Base64ToImage();
 	
 	public UserService() {
 		this.userDao = new UserDAO("./files/users.json");;
@@ -127,4 +129,38 @@ public class UserService {
 		userDao.update(loggedInUser);
 		return updatedPersonalInfo;
 	}
+
+	public LoggedInUserDTO updateProfileImage(User user, String imgString) throws FileNotFoundException, IOException {
+		if (imgString != null) { 
+			if (!imgString.isEmpty() && imgString.startsWith("data:image")) {
+				String path = "assets/images/user-images/" + user.getID() +".jpg";
+				decoder.Base64DecodeAndSave(imgString, path);
+				path = "../" + "assets/images/user-images/" + user.getID() +".jpg";
+				user.setImage(path);
+				userDao.update(user);
+			}
+		}
+		return new LoggedInUserDTO(user.getID(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth(), user.getAccountType(), user.getImage());
+	}
+
+	public Boolean updateUserPassword(User user, PasswordChangeDTO passwordChangeDTO) throws JsonSyntaxException, IOException {
+		if(user.getPassword().equals(passwordChangeDTO.getCurrentPassword())) {
+			user.setPassword(passwordChangeDTO.getNewPassword());
+			userDao.update(user);
+			return true;
+		}
+		return false;
+		
+	}
+
+	public Boolean updateUsername(String newUsername, User user) throws JsonSyntaxException, IOException {
+		for(User u : userDao.getAllNotDeleted()) {
+			if(u.getID().equals(newUsername)) {
+				return false;
+			}
+		}
+		userDao.updateUsername(user, newUsername);
+		return true;
+	}
+	
 }

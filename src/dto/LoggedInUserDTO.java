@@ -5,16 +5,17 @@ import java.util.Date;
 import beans.AccountType;
 import beans.Gender;
 
-public class LoggedInBuyerDTO {
+public class LoggedInUserDTO {
 	private String username;
    	private String name;
    	private String surname;
    	private Gender gender;
    	private Date dateOfBirth;
    	private AccountType accountType;
+   	private String image;
    	
-	public LoggedInBuyerDTO(String username, String name, String surname, Gender gender,
-			Date dateOfBirth, AccountType accountType) {
+	public LoggedInUserDTO(String username, String name, String surname, Gender gender,
+			Date dateOfBirth, AccountType accountType, String image) {
 		super();
 		this.username = username;
 		this.name = name;
@@ -22,6 +23,7 @@ public class LoggedInBuyerDTO {
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.accountType = accountType;
+		this.image = image;
 	}
 
 	public String getName() {
@@ -70,5 +72,13 @@ public class LoggedInBuyerDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

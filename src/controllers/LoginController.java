@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.User;
-import dto.LoggedInBuyerDTO;
+import dto.LoggedInUserDTO;
 import dto.LoginDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -57,8 +57,8 @@ public class LoginController {
 				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
 				    User user = userService.getById(claims.getBody().getSubject());
 				    res.status(200);
-				    LoggedInBuyerDTO loggedInBuyerDTO = new LoggedInBuyerDTO(user.getUsername(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth(), user.getAccountType());
-				    return gson.toJson(loggedInBuyerDTO);
+				    LoggedInUserDTO loggedInUserDTO = new LoggedInUserDTO(user.getUsername(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth(), user.getAccountType(), user.getImage());
+				    return gson.toJson(loggedInUserDTO);
 				}catch (Exception e) {
 					res.status(401);
 					return "Your session has expired.";

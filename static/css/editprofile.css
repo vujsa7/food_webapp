@@ -96,14 +96,14 @@
 }
 
 .cool-name-and-surname{
-    z-index: 2;
+    z-index: 1;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
     font-size: 80px;
     position: absolute;
     left: 25.57vw;
     color: black;
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.250) ; /* Will override color (regardless of order) */
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.250);
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
@@ -230,5 +230,18 @@
         height: 250px;
     }
     
+}
+
+  
+.change-profile-close:hover, .change-profile-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.change-profile-close{
+    color: #a2a2a2;
+    font-size: 28px;
+    font-weight: 300;
 }
 

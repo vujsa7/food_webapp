@@ -281,7 +281,7 @@ Vue.component("manager-restaurant-view", {
                   {{user.name}} {{user.surname}}
                 </span>
                 <div class="image-cropper mx-2">
-                  <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+                  <img :src="user.image" alt="avatar" class="profile-pic">
                 </div>
               </div> 
             </div>
@@ -384,7 +384,7 @@ Vue.component("manager-restaurant-view", {
                 <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
                 <div class="d-flex left align-items-center">
                   <div class="image-cropper mx-2">
-                    <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+                    <img :src="user.image" alt="avatar" class="profile-pic">
                   </div>
                   <h5 class="review-card-title m-0">{{comment.buyerId}}</h5>
                 </div>
@@ -413,7 +413,7 @@ Vue.component("manager-restaurant-view", {
                 <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
                 <div class="d-flex left align-items-center">
                   <div class="image-cropper mx-2">
-                    <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+                    <img :src="user.image" alt="avatar" class="profile-pic">
                   </div>
                   <h5 class="review-card-title m-0">{{comment.buyerId}}</h5>
                 </div>

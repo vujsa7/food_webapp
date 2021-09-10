@@ -93,6 +93,20 @@ public class GenericDAOImpl<T extends IIdentifiable<ID>, ID> implements GenericD
 		saveAll(entities);
 		return entity;
 	}
+	
+	@Override
+	public T updateUsername(T entity, ID newID) throws JsonSyntaxException, IOException {		
+		ArrayList<T> entities = (ArrayList<T>) getAll();
+		for(T el : entities) {
+			if(el.compareTo(entity.getID())) {
+				entity.setID(newID);
+				entities.set(entities.indexOf(el), entity);
+				break;
+			}
+		}
+		saveAll(entities);
+		return entity;
+	}
 
 	@Override
 	public boolean delete(T entity) throws JsonSyntaxException, IOException {

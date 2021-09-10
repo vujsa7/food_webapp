@@ -52,8 +52,8 @@ var loginDialogComponent = {
         },
         showServerResponse(error){
             if(error.response.status == "401"){
-                this.messageDialogData.title = "User blocked";
-                this.messageDialogData.message = "Your account is permanently blocked!";
+                this.messageDialogData.title = "Couldn't sign in";
+                this.messageDialogData.message = error.response.data;
                 this.messageDialogData.buttonText = "Close";
                 this.$refs.messageDialogChild.displayDialog();
             }
@@ -93,14 +93,14 @@ var loginDialogComponent = {
                     <label class="form-control-label">Username</label>
                     <input @blur="$v.form.username.$touch()" v-model="form.username" type="text" class="form-control" :class="{'field-invalid': $v.form.username.$dirty, 'field-valid': (!$v.form.username.$invalid && form.username != '')}">
                     <div v-if="$v.form.username.$dirty">
-                    <span class="error-message" v-if="!$v.form.username.required">Username is required.</span>
+                        <span class="error-message" v-if="!$v.form.username.required">Username is required.</span>
                     </div>
                 </div>
                 <div class="mb-4">
                     <label class="form-control-label">Password</label>
                     <input @blur="$v.form.password.$touch()" v-model="form.password" type="password" class="form-control" :class="{'field-invalid': $v.form.password.$dirty, 'field-valid': (!$v.form.password.$invalid && form.password != '')}">
                     <div v-if="$v.form.password.$dirty">
-                    <span class="error-message" v-if="!$v.form.password.required">Password must contain at least 3 characters.</span>
+                        <span class="error-message" v-if="!$v.form.password.required">Password must contain at least 3 characters.</span>
                     </div>
                 </div>
                 <button type="submit" :disabled="$v.form.$invalid" class="btn btn-danger regular-button">Login</button>

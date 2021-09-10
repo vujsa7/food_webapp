@@ -18,7 +18,7 @@ import beans.Manager;
 import beans.Restaurant;
 import beans.User;
 import dto.ArticleDTO;
-import dto.LoggedInBuyerDTO;
+import dto.LoggedInUserDTO;
 import dto.RegisterNewRestaurantDTO;
 import dto.RegisterNewUserDTO;
 import io.jsonwebtoken.Claims;

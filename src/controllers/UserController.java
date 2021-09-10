@@ -14,6 +14,8 @@ import io.jsonwebtoken.io.IOException;
 import static spark.Spark.get;
 import static spark.Spark.put;
 
+import java.util.Date;
+
 import services.UserService;
 
 public class UserController {
@@ -143,6 +145,91 @@ public class UserController {
 		get("/rest/availableManagers", (req,res) -> {
 			res.type("application/json");
 			return gson.toJson(userService.getAvailableManagers());
+		});
+		
+		put("rest/uploadProfileImage/:id", (req, res) -> {
+		    res.type("application/json");
+		    String auth = req.headers("Authorization");
+		    if ((auth != null) && (auth.contains("Bearer "))) {
+		        String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+		        try {
+		            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+		            User user = userService.getById(claims.getBody().getSubject());
+		            if(!user.getID().equals(req.params("id"))) {
+		                res.status(401);
+		                return "Forbidden action!";
+		            }
+		            UpdateImageDTO updateImageDTO = gson.fromJson(req.body(), UpdateImageDTO.class);
+		            res.status(200);
+		            return gson.toJson(userService.updateProfileImage(user, updateImageDTO.getImage()));
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            res.status(401);
+		            return "You must log in to continue.";
+		        }
+		    }
+		    res.status(401);
+		    return "Please log in to continue.";
+		});
+		
+		put("rest/changePassword/:id", (req, res) -> {
+		    res.type("application/json");
+		    String auth = req.headers("Authorization");
+		    if ((auth != null) && (auth.contains("Bearer "))) {
+		        String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+		        try {
+		            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+		            User user = userService.getById(claims.getBody().getSubject());
+		            if(!user.getID().equals(req.params("id"))) {
+		                res.status(401);
+		                return "Forbidden action!";
+		            }
+		            if(userService.updateUserPassword(user, gson.fromJson(req.body(), PasswordChangeDTO.class))) {
+		            	res.status(200);
+		            	return "Successfuly changed password!";
+		            };
+		            res.status(400);
+	            	return "Wrong password attempt, enter your valid current password!";
+		            
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            res.status(401);
+		            return "You must log in to continue.";
+		        }
+		    }
+		    res.status(401);
+		    return "Please log in to continue.";
+		});
+		
+		put("rest/updateUsername/:id", (req, res) -> {
+		    res.type("text/plain");
+		    String auth = req.headers("Authorization");
+		    if ((auth != null) && (auth.contains("Bearer "))) {
+		        String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+		        try {
+		            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+		            User user = userService.getById(claims.getBody().getSubject());
+		            if(!user.getID().equals(req.params("id"))) {
+		                res.status(401);
+		                return "Forbidden action!";
+		            }
+		            if(userService.updateUsername(req.body(), user)) {
+		            	res.status(200);
+		            	String newJWT = Jwts.builder().setSubject(req.body()).setExpiration(new Date(new Date().getTime() + 1000*86400L)).setIssuedAt(new Date()).signWith(LoginController.key).compact();
+						user.setJWTToken(jwt);
+						return newJWT;
+		            }
+		            res.status(405);
+	            	return "Someone with that username already exists!";
+	            	
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            res.status(401);
+		            return "You must log in to continue.";
+		        }
+		    }
+		    res.status(401);
+		    return "Please log in to continue.";
 		});
 	}
 }
