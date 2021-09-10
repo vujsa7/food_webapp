@@ -237,9 +237,7 @@ Vue.component( "cart-view",{
                         <span>
                             {{user.name}} {{user.surname}}
                         </span>
-                        <div class="image-cropper mx-2">
                             <img :src="user.image" alt="avatar" class="profile-pic">
-                        </div>
                     </div> 
                 </div>
               </div>

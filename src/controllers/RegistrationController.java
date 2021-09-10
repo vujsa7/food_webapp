@@ -28,6 +28,7 @@ public class RegistrationController {
 			res.type("application/json");			
 			try {
 				RegisterNewUserDTO registerNewUserDTO = newUserGson.fromJson(req.body(), RegisterNewUserDTO.class);
+				registerNewUserDTO.setImage("../assets/images/user-images/profile-picture.jpg");
 				User newBuyer = registrationService.registerNewBuyer(registerNewUserDTO);
 				if(newBuyer == null) {
 					res.status(409);

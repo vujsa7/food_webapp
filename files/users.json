@@ -58,7 +58,8 @@
     "dateOfBirth": "Mar 14, 1968, 11:00:00 PM",
     "accountType": "buyer",
     "isDeleted": false,
-    "isBlocked": false
+    "isBlocked": false,
+    "image": "../assets/images/user-images/gordon.jpg"
   },
   {
     "type": "Buyer",
@@ -83,7 +84,8 @@
     "dateOfBirth": "Mar 29, 2001, 10:00:00 PM",
     "accountType": "buyer",
     "isDeleted": false,
-    "isBlocked": false
+    "isBlocked": false,
+    "image": "../assets/images/user-images/miki.jpg"
   },
   {
     "type": "Manager",
@@ -96,7 +98,8 @@
     "dateOfBirth": "Jan 5, 1889, 12:00:00 AM",
     "accountType": "manager",
     "isDeleted": false,
-    "isBlocked": false
+    "isBlocked": false,
+    "image": "../assets/images/user-images/gazda.jpg"
   },
   {
     "type": "Administrator",
@@ -108,13 +111,14 @@
     "dateOfBirth": "Nov 5, 3886, 12:00:00 AM",
     "accountType": "administrator",
     "isDeleted": false,
-    "isBlocked": false
+    "isBlocked": false,
+    "image": "../assets/images/user-images/admin.jpg"
   },
   {
     "type": "DeliveryWorker",
     "orders": [],
-    "username": "mare98",
-    "password": "mare98",
+    "username": "mare",
+    "password": "123",
     "name": "Marko",
     "surname": "Marković",
     "gender": "male",
@@ -122,6 +126,6 @@
     "accountType": "deliveryWorker",
     "isDeleted": false,
     "isBlocked": false,
-    "image": "./assets/images/restaurant-images/foods/aMarko.jpg"
+    "image": "../assets/images/user-images/mare.jpg"
   }
 ]

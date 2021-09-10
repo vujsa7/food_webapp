@@ -810,11 +810,12 @@ footer .copyright{
 }
 
 .profile-pic {
-  display: inline;
-  margin: 0 auto;
-  height: 100%;
-  width: auto;
-  vertical-align: top !important;
+    object-fit: contain;
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    vertical-align: top !important;
 }
 
 .shopping-cart-pic {

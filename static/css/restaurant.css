@@ -47,14 +47,6 @@
     border-radius: 50%;
 }
 
-.profile-pic {
-  display: inline;
-  margin: 0 auto;
-  height: 100%;
-  width: auto;
-  vertical-align: top !important;
-}
-
 .shopping-cart-pic {
     width: 20px;
     height: 20px;
@@ -341,14 +333,6 @@
     height: 20px;
     overflow: hidden;
     border-radius: 50%;
-}
-
-.profile-pic {
-    display: inline;
-    margin: 0 auto;
-    height: 100%;
-    width: auto;
-    vertical-align: top !important;
 }
 
 #floating-cart-container{

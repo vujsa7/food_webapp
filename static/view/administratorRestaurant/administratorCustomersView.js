@@ -453,9 +453,7 @@ Vue.component("administrator-customers-view", {
                 <span>
                   {{user.name}} {{user.surname}}
                 </span>
-                <div class="image-cropper mx-2">
-                  <img :src="user.image" alt="avatar" class="profile-pic">
-                </div>
+                <img :src="user.image" alt="avatar" class="profile-pic">
                 <div v-if="user && !stickySuspiciousCustomers" @click="showSuspiciousUsers()" title="Show suspicious customers" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
                   <!--div v-if="cart.articles.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
                     {{cart.articles.length}}
