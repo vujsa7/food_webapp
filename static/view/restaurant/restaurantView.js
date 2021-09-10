@@ -182,6 +182,23 @@ Vue.component("restaurant-view", {
             console.log(error);
           }
         });    
+      },
+      deleteComment(id){
+        axios
+        .put("http://localhost:8081/rest/deleteComment/" + id)
+        .then(response => {
+          axios
+          .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
+          .then(response => {
+            this.comments = response.data;
+          })
+          .catch(error => {
+            this.comments = []
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        })
       }
     },
     created(){
@@ -227,21 +244,34 @@ Vue.component("restaurant-view", {
                 console.log(response.data);
               });
             }
+            if(this.user && this.user.accountType == "administrator"){
+              axios
+                  .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
+                  .then(response => {
+                      this.comments = response.data;
+                  })
+                  .catch(error => {
+                      // Failed to fetch comments
+                      this.comments = []
+                  })
+            }else{
+              axios
+              .get("http://localhost:8081/rest/commentsForPublic/" + this.$route.params.id)
+              .then(response => {
+                  this.comments = response.data;
+              })
+              .catch(error => {
+                  // Failed to fetch comments
+                  this.comments = []
+              })
+            }
         })
         .catch(error => {
             // TODO session probably expired, jwt invalid
         })
       }
 
-      axios
-      .get("http://localhost:8081/rest/commentsForPublic/" + this.$route.params.id)
-      .then(response => {
-          this.comments = response.data;
-      })
-      .catch(error => {
-          // Failed to fetch comments
-          this.comments = []
-      })
+      
     },
     template: 
     `
@@ -419,6 +449,19 @@ Vue.component("restaurant-view", {
                 
               </div>
               <p class="review-card-comment m-0">{{comment.details}}</p>
+              <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
+                <div class="d-flex left align-items-center">
+                  <span v-if="!comment.isApproved" class="review-card-comment m-0">Not approved</span>
+                  <span v-if="comment.isApproved" class="review-card-comment m-0">Approved</span>
+                </div>
+                
+                <div class="right d-flex align-items-center justify-content-end me-2">
+                  <button type="button" class="btn btn-danger justify-end" @click="deleteComment(comment.id)">
+                    <img src="../assets/icons/delete.png"/>
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </div>
             </div>
 
           </div>
