@@ -23,9 +23,9 @@ public class UserService {
 		for(User u : userDao.getAllNotDeleted()) {
 			if(u.getAccountType().equals(AccountType.buyer)) {
 				Buyer b = (Buyer)u;
-				allUsers.add(new AllUsersDTO(b.getID(), b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType()));
+				allUsers.add(new AllUsersDTO(b.getID(), b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType(),b.isBlocked()));
 			}else {
-				allUsers.add(new AllUsersDTO(u.getID(), u.getName(),u.getSurname(),u.getAccountType(),null));
+				allUsers.add(new AllUsersDTO(u.getID(), u.getName(),u.getSurname(),u.getAccountType(),null,u.isBlocked()));
 			}
 		}
 		return allUsers;
@@ -126,5 +126,13 @@ public class UserService {
 		loggedInUser.setDateOfBirth(updatedPersonalInfo.getDateOfBirth());
 		userDao.update(loggedInUser);
 		return updatedPersonalInfo;
+	}
+	
+	public void deleteUser(String username) throws JsonSyntaxException, IOException {
+		User user = userDao.getById(username);
+		if(user != null) {
+			user.setDeleted(true);
+			userDao.update(user);
+		}
 	}
 }

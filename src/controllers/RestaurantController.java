@@ -18,6 +18,7 @@ import beans.Manager;
 import beans.Restaurant;
 import beans.User;
 import dto.ArticleDTO;
+import dto.DeletedArticleDTO;
 import dto.LoggedInBuyerDTO;
 import dto.RegisterNewRestaurantDTO;
 import dto.RegisterNewUserDTO;
@@ -166,7 +167,60 @@ public class RestaurantController {
 				    }
 				    Manager manager = (Manager) loggedInUser;
 				    Article article = restaurantService.changeArticle(gson.fromJson(req.body(), ArticleDTO.class), manager);
-				    return gson.toJson(article);
+				    if(article == null) {
+						res.status(409);
+						return "Article with given name already exists!";
+					}else {
+						res.status(200);
+						return gson.toJson(article);
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			return "No user logged in.";
+		});
+		
+		put("/rest/deleteArticle", (req,res) -> {
+			res.type("application/json");
+			String auth = req.headers("Authorization");
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    // ako nije bacio izuzetak, onda je OK
+				    User loggedInUser = userService.getById(claims.getBody().getSubject());
+				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
+				    	res.status(403);
+				    	return "Forbidden access!";
+				    }
+				    restaurantService.deleteArticle(gson.fromJson(req.body(), DeletedArticleDTO.class));
+					res.status(200);
+					return gson.toJson("");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			return "No user logged in.";
+		});
+		
+		put("/rest/deleteRestaurant/:id", (req,res) -> {
+			res.type("application/json");
+			String auth = req.headers("Authorization");
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+					
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    // ako nije bacio izuzetak, onda je OK
+				    User loggedInUser = userService.getById(claims.getBody().getSubject());
+				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
+				    	res.status(403);
+				    	return "Forbidden access!";
+				    }
+				    restaurantService.deleteRestaurant(Integer.parseInt(req.params("id")));
+					res.status(200);
+					return gson.toJson("");
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}

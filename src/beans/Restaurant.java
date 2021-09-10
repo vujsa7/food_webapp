@@ -107,11 +107,20 @@ public class Restaurant implements IIdentifiable<Integer>{
 		this.articles.add(article);
 	}
 	
+	public void deleteArticle(String name) {
+		for(Article a : this.articles) {
+			if(a.getName().equals(name)) {
+				a.setDeleted(true);
+			}
+		}
+	}
+	
 	public void changeArticle(Article article,String oldName) {
 		for(Article a : this.articles) {
 			if(a.getName().equals(oldName)) {
 				articles.remove(a);
 				articles.add(article);
+				System.out.println(article.isDeleted());
 			}
 		}
 	}

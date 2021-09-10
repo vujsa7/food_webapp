@@ -363,7 +363,8 @@ Vue.component("manager-restaurant-view", {
             <div v-if="restaurant" class="d-flex left align-items-center">
               <span class="title fw-bold">Restaurant reviews</span>
               <img class="restaurant-view-star-icon ms-3 mb-1 me-2" src="../assets/icons/star.png" alt="Star icon">
-              <span class="fw-bold restaurant-view-rating-text" >{{parseFloat(restaurant.rating).toFixed(2)}}</span>
+              <span v-if="restaurant.rating != 0" class="fw-bold restaurant-view-rating-text" >{{parseFloat(restaurant.rating).toFixed(2)}}</span>
+              <span v-if="restaurant.rating == 0" class="fw-bold rating-text mx-2">Not rated</span>
             </div>
             <div v-if="restaurant" class="d-flex right justify-content-end">
               <button type="button" v-on:click="displayApproved = !displayApproved" style="background:white" class="btn btn-light shadow-none">

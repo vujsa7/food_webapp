@@ -53,7 +53,8 @@
               articleType: this.form.articleType,
               articleQuantity: this.form.articleQuantity,
               description: this.form.articleDescription,
-              image: this.form.backendImage  
+              image: this.form.backendImage,
+              isDeleted: false  
             } 
             let token = window.localStorage.getItem('token');
             axios

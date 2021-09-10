@@ -4,6 +4,7 @@ package services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -11,6 +12,7 @@ import beans.*;
 import dao.*;
 import dto.AllUsersDTO;
 import dto.ArticleDTO;
+import dto.DeletedArticleDTO;
 import dto.RegisterNewRestaurantDTO;
 
 public class RestaurantService {
@@ -30,10 +32,6 @@ public class RestaurantService {
 	public Collection<Restaurant> getAllRestaurants() throws JsonSyntaxException, IOException {
 		return restaurantDao.getAllNotDeleted();
 	}
-
-	public void addNewRestaurant(Restaurant restaurant) throws JsonSyntaxException, IOException {
-		restaurantDao.save(restaurant);
-	}
 	
 	public Restaurant getRestaurantByManager(String managerUsername) throws JsonSyntaxException, IOException{ 
 		Manager manager = (Manager) userDao.getById(managerUsername);
@@ -50,7 +48,7 @@ public class RestaurantService {
 		for(Order o : allOrders) {
 			if(o.getRestaurant() == restaurant.getID() && !isUserVisited(restaurantBuyers, o.getBuyer())) {
 				Buyer b = (Buyer)userDao.getById(o.getBuyer());
-				restaurantBuyers.add(new AllUsersDTO(b.getID(),b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType()));
+				restaurantBuyers.add(new AllUsersDTO(b.getID(),b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType(),b.isBlocked()));
 			}
 		}
 		return restaurantBuyers;
@@ -73,7 +71,7 @@ public class RestaurantService {
 	
 	public Restaurant registerNewRestaurant(RegisterNewRestaurantDTO newRestaurantDTO) throws JsonSyntaxException, IOException {
 		Address address = new Address(newRestaurantDTO.getStreet(), newRestaurantDTO.getStreetNumber(), new City(newRestaurantDTO.getCity(), newRestaurantDTO.getCityPostalCode())); 
-		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, new Location(0,0,address), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), newRestaurantDTO.getCoverImage(), 0.0, new ArrayList<Article>(), false);
+		Restaurant restaurant = new Restaurant(newRestaurantDTO.getName(), newRestaurantDTO.getRestaurantType(), true, new Location(newRestaurantDTO.getLongitude(),newRestaurantDTO.getLatitude(),address), newRestaurantDTO.getLogo(), newRestaurantDTO.getBannerImage(), newRestaurantDTO.getCoverImage(), 0.0, new ArrayList<Article>(), false);
 		restaurant.setID(restaurantDao.generateId());
 		Manager manager = (Manager) userDao.getById(newRestaurantDTO.getManager());
 		manager.setRestaurant(restaurant.getID());
@@ -107,27 +105,46 @@ public class RestaurantService {
 		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
 		Article editedArticle = null;
 		for(Article a : restaurant.getArticles()) {
-			if(a.getName().equals(changedArticle.getName()) && !(changedArticle.getOldName().equals(changedArticle.getName()))) {
+			if(a.getName().equals(changedArticle.getName()) && !changedArticle.getOldName().equals(changedArticle.getName())) {
+				System.out.println("OVDEEE");
 				return null;
 			}
 			if(a.getName().equals(changedArticle.getOldName())) {
 				a.setName(changedArticle.getName());
 				if (changedArticle.getImage() != null) { 
 					if (!changedArticle.getImage().isEmpty() && changedArticle.getImage().startsWith("data:image")) {
-						String path = "assets/images/restaurant-images/foods/a" + changedArticle.getName() + restaurant.getID() +".jpg";
+						Random ran = new Random();
+						int x = ran.nextInt(100);
+						String path = "assets/images/restaurant-images/foods/a" + changedArticle.getName() + restaurant.getID() + x +".jpg";
 						decoder.Base64DecodeAndSave(changedArticle.getImage(), path);
-						path = "./" + "assets/images/restaurant-images/foods/a" + changedArticle.getName() + restaurant.getID() +".jpg";
+						path = "./" + "assets/images/restaurant-images/foods/a" + changedArticle.getName() + restaurant.getID() + x +".jpg";
 						changedArticle.setImage(path);
 					} else {
 						changedArticle.setImage(changedArticle.getImage());
 					}
 				}
-				editedArticle = new Article(changedArticle.getRestaurantId(),changedArticle.getName(),changedArticle.getPrice(),changedArticle.getArticleType(),changedArticle.getQuantity(),changedArticle.getDescription(),changedArticle.getImage());
+				editedArticle = new Article(changedArticle.getRestaurantId(),changedArticle.getName(),changedArticle.getPrice(),changedArticle.getArticleType(),changedArticle.getQuantity(),changedArticle.getDescription(),changedArticle.getImage(),a.isDeleted());
 				restaurant.changeArticle(editedArticle, changedArticle.getOldName());
 				break;
 			}
 		}
+		System.out.println("AJDE");
 		restaurantDao.update(restaurant);
+		System.out.println(editedArticle.getImage() + "AAAAAAAAA");
 		return editedArticle;
+	}
+	
+	public void deleteArticle(DeletedArticleDTO deletedArticle) throws JsonSyntaxException, IOException {
+		Restaurant restaurant = restaurantDao.getById(deletedArticle.getRestaurantId());
+		restaurant.deleteArticle(deletedArticle.getName());
+		restaurantDao.update(restaurant);
+	}
+	
+	public void deleteRestaurant(int restaurantId) throws JsonSyntaxException, IOException {
+		Restaurant restaurant = restaurantDao.getById(restaurantId);
+		if(restaurant != null) {
+			restaurant.setDeleted(true);
+			restaurantDao.update(restaurant);
+		}
 	}
 }

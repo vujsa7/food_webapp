@@ -9,8 +9,9 @@ public class Article{
 	private int quantity;
 	private String description;
 	private String image;
+	private boolean isDeleted;
 	
-	public Article(int restaurantId, String name, double price, ArticleType articleType,int quantity, String description, String image) {
+	public Article(int restaurantId, String name, double price, ArticleType articleType,int quantity, String description, String image, boolean isDeleted) {
 		super();
 		this.restaurantId = restaurantId;
 		this.name = name;
@@ -19,6 +20,7 @@ public class Article{
 		this.description = description;
 		this.quantity = quantity;
 		this.image = image;
+		this.isDeleted = isDeleted;
 	}
 
 	public Article() {
@@ -80,4 +82,13 @@ public class Article{
 	public void setRestaurantId(int restaurantId) {
 		this.restaurantId = restaurantId;
 	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
 }

@@ -126,6 +126,63 @@ Vue.component("restaurant-view", {
       changeSelectedNavItem(index){
         this.selectedNavIndex = index;
       },
+      reloadRestaurant(){
+        axios
+        .get("http://localhost:8081/rest/restaurant/" + this.$route.params.id)
+        .then(response => {
+          this.restaurant = response.data;
+        })
+        .catch(error => {
+          console.log(response.data);
+        });
+  
+        let token = window.localStorage.getItem('token');
+        if(token){
+          axios
+          .get("http://localhost:8081/rest/accessUserWithJwt", {
+              headers:{
+              'Authorization': 'Bearer ' + token
+              }
+          })
+          .then(response => {
+              this.user = response.data;
+              if(this.user.accountType == "buyer"){
+                axios
+                .get("http://localhost:8081/rest/cart/" + this.user.username, {
+                  headers:{
+                  'Authorization': 'Bearer ' + token
+                  }
+                })
+                .then(response => {
+                  this.cart = response.data;
+                })
+                .catch(error => {
+                  console.log(response.data);
+                });
+              }
+          })
+          .catch(error => {
+              // TODO session probably expired, jwt invalid
+          })
+        }
+      },
+      deleteRestaurant(restaurantId){
+        let token = window.localStorage.getItem('token');
+        axios
+        .put("http://localhost:8081/rest/deleteRestaurant/" + restaurantId,restaurantId,{
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then(response => {
+          this.$router.go(-1);
+        })
+        .catch(error => {
+          if(error.response){
+            console.log(error);
+          }
+        });    
+      }
     },
     created(){
       window.addEventListener('scroll', this.handleScroll);
@@ -156,18 +213,20 @@ Vue.component("restaurant-view", {
         })
         .then(response => {
             this.user = response.data;
-            axios
-            .get("http://localhost:8081/rest/cart/" + this.user.username, {
-              headers:{
-              'Authorization': 'Bearer ' + token
-              }
-            })
-            .then(response => {
-              this.cart = response.data;
-            })
-            .catch(error => {
-              console.log(response.data);
-            });
+            if(this.user.accountType == "buyer"){
+              axios
+              .get("http://localhost:8081/rest/cart/" + this.user.username, {
+                headers:{
+                'Authorization': 'Bearer ' + token
+                }
+              })
+              .then(response => {
+                this.cart = response.data;
+              })
+              .catch(error => {
+                console.log(response.data);
+              });
+            }
         })
         .catch(error => {
             // TODO session probably expired, jwt invalid
@@ -292,6 +351,7 @@ Vue.component("restaurant-view", {
             <span class="ms-3 restaurant-view-restaurant-name display-6">
               {{restaurant.name}}
             </span>
+            <a v-if="user &&  user.accountType=='administrator'" class="red-link ms-3" v-on:click="deleteRestaurant(restaurant.id)">Delete restaurant</a>
           </div>
           <div v-if="restaurant" class="d-flex right align-items-center justify-content-end">
             <img id="fork-and-knife" class="me-2" src="../assets/icons/fork-and-knife.png" alt="Restaurant type">
@@ -301,16 +361,16 @@ Vue.component("restaurant-view", {
         <div v-if="restaurant" class="restaurant-view-foods mt-4 d-flex flex-column">
           <span class="title">Foods</span>
           <div class="article-container mt-2">
-            <div v-for="article in restaurant.articles" v-if="article.articleType=='meal'" class="article-card">
-              <articleItem :article="article"></articleItem>
+            <div v-for="article in restaurant.articles" v-if="article.articleType=='meal' && !article.isDeleted" class="article-card">
+              <articleItem :article="article" :user="user"></articleItem>
             </div>
           </div>
         </div>
         <div v-if="restaurant" class="restaurant-view-drinks mt-4 d-flex flex-column">
           <span class="title">Drinks</span>
           <div class="article-container mt-2">
-            <div v-if="article.articleType=='drink'" v-for="article in restaurant.articles" class="article-card">
-              <articleItem :article="article"></articleItem>
+            <div v-if="article.articleType=='drink'  && !article.isDeleted" v-for="article in restaurant.articles" class="article-card">
+              <articleItem :article="article" :user="user"></articleItem>
             </div>
           </div>
         </div>
@@ -338,7 +398,8 @@ Vue.component("restaurant-view", {
           <div v-if="restaurant" class="d-flex align-items-center">
             <span class="title fw-bold">Restaurant reviews</span>
             <img class="restaurant-view-star-icon ms-3 mb-1 me-2" src="../assets/icons/star.png" alt="Star icon">
-            <span class="fw-bold restaurant-view-rating-text">{{parseFloat(restaurant.rating).toFixed(2)}}</span>
+            <span v-if="restaurant.rating != 0" class="fw-bold restaurant-view-rating-text">{{parseFloat(restaurant.rating).toFixed(2)}}</span>
+            <span v-if="restaurant.rating == 0" class="fw-bold rating-text mx-2">Not rated</span>
           </div>
           <div class="restaurant-view-reviews">
 

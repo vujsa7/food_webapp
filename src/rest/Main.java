@@ -2,6 +2,8 @@ package rest;
 
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;
+import static spark.Spark.options;
+import static spark.Spark.before;
 
 import java.io.File;
 
@@ -20,9 +22,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		port(8081);
 		
-		staticFiles.externalLocation(new File("./static").getCanonicalPath());
-	/*	
-		
+		staticFiles.externalLocation(new File("./static").getCanonicalPath());			
 		options("/*", (request, response) -> {
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
 			if (accessControlRequestHeaders != null) {
@@ -38,7 +38,7 @@ public class Main {
 		before((request, response) -> {
 			response.header("Access-Control-Allow-Origin", "*");
 		});
-	*/
+
 		
 		UserService userService = new UserService();
 		RegistrationService registrationService = new RegistrationService();

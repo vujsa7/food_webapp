@@ -8,6 +8,8 @@ var addRestaurantDialogComponent = {
         restaurantStreetNumber: '',
         restaurantCity: '',
         cityPostalCode: undefined,
+        longitude: undefined,
+        latitude: undefined,
         restaurantManager: '',
         backendLogoImage: "",
         backendBannerImage: "",
@@ -49,6 +51,12 @@ var addRestaurantDialogComponent = {
       cityPostalCode: {
         required: validators.required
       },
+      longitude: {
+        required: validators.required
+      },
+      latitude: {
+        required: validators.required
+      },
       restaurantManager: {
         isSelected
       }
@@ -77,6 +85,8 @@ var addRestaurantDialogComponent = {
           streetNumber: this.form.restaurantStreetNumber,
           city: this.form.restaurantCity,
           cityPostalCode: this.form.cityPostalCode,
+          ongitude: this.form.longitude,
+          latitude: this.form.latitude,
           manager: this.form.restaurantManager
         }
         let token = window.localStorage.getItem('token');
@@ -188,19 +198,19 @@ var addRestaurantDialogComponent = {
                     <img v-if="this.form.logoImage" :src="this.form.logoImage" class= "add-article-image" alt = "Logo Image">
                     <img v-if="!this.form.logoImage" src="../assets/icons/add128px.png" alt = "Add Image">
                   </button>
-                  <input type="file" style="display:none;border:none;" @change="logoImageAdded" id="logoImage" name="logoImage"/>
+                  <input type="file" style="display:none;border:none;" accept="image/*" @change="logoImageAdded" id="logoImage" name="logoImage"/>
                   <label>Logo image</label>
                   <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('bannerImage').click();">
                     <img v-if="this.form.bannerImage" :src="this.form.bannerImage" class= "add-article-image" alt = "Banner Image">
                     <img v-if="!this.form.bannerImage" src="../assets/icons/add128px.png" alt = "Add Image">
                   </button>
-                  <input type="file" style="display:none;border:none;" @change="bannerImageAdded" id="bannerImage" name="bannerImage"/>
+                  <input type="file" style="display:none;border:none;" accept="image/*" @change="bannerImageAdded" id="bannerImage" name="bannerImage"/>
                   <label>Banner image</label>
                   <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('coverImage').click();">
                     <img v-if="this.form.coverImage" :src="this.form.coverImage" class= "add-article-image" alt = "Cover Image">
                     <img v-if="!this.form.coverImage" src="../assets/icons/add128px.png" alt = "Add Image">
                   </button>
-                  <input type="file" style="display:none;border:none;align:center" @change="coverImageAdded" id="coverImage" name="coverImage"/>
+                  <input type="file" style="display:none;border:none;align:center" accept="image/*" @change="coverImageAdded" id="coverImage" name="coverImage"/>
                   <label>Cover image</label>
                 </div>
               </div>
@@ -251,6 +261,20 @@ var addRestaurantDialogComponent = {
                   <input v-model="form.cityPostalCode" @blur="$v.form.cityPostalCode.$touch()" type="number" min="0" :class="{'field-invalid': $v.form.cityPostalCode.$dirty, 'field-valid': (!$v.form.cityPostalCode.$invalid && form.cityPostalCode != '')}" class="form-control" />
                   <div v-if="$v.form.cityPostalCode.$dirty">
                     <span class="error-message" v-if="$v.form.cityPostalCode.$invalid">City postal code is required.</span>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <label class="form-control-label ">Longitude</label>
+                  <input v-model="form.longitude" @blur="$v.form.longitude.$touch()" type="number" step=".0000000001" :class="{'field-invalid': $v.form.longitude.$dirty, 'field-valid': (!$v.form.longitude.$invalid && form.longitude != '')}" class="form-control" />
+                  <div v-if="$v.form.longitude.$dirty">
+                    <span class="error-message" v-if="$v.form.longitude.$invalid">Longitude is required.</span>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <label class="form-control-label ">Latitude</label>
+                  <input v-model="form.latitude" @blur="$v.form.latitude.$touch()" type="number" step=".0000000001" :class="{'field-invalid': $v.form.latitude.$dirty, 'field-valid': (!$v.form.latitude.$invalid && form.latitude != '')}" class="form-control" />
+                  <div v-if="$v.form.latitude.$dirty">
+                    <span class="error-message" v-if="$v.form.latitude.$invalid">Latitude is required.</span>
                   </div>
                 </div>
                 <div class="mb-3">

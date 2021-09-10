@@ -3,11 +3,11 @@
 }
 
 .red-link:hover{
-    color: #FE0435;
+    color: black;
 }
 
 .red-link:visited{
-    color: #FE0435;
+    color: black;
 }
 
 .user-card{
@@ -34,4 +34,8 @@
     border-bottom:solid !important;
     border-bottom-color: gainsboro !important;
     padding-bottom: 1rem;
+}
+
+.admin-customers-margin{
+    margin-top: 5rem!important;
 }

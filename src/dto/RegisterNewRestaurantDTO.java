@@ -12,10 +12,12 @@ public class RegisterNewRestaurantDTO {
    	private String streetNumber;
    	private String city;
    	private String cityPostalCode;
+   	private double longitude;
+   	private double latitude;
    	private String manager;
 
 	public RegisterNewRestaurantDTO(String name, RestaurantType restaurantType, String logo, String bannerImage,
-			String coverImage, String street, String streetNumber, String city,String cityPostalCode, String manager) {
+			String coverImage, String street, String streetNumber, String city,String cityPostalCode, double longitude, double latitude, String manager) {
 		super();
 		this.name = name;
 		this.restaurantType = restaurantType;
@@ -26,6 +28,8 @@ public class RegisterNewRestaurantDTO {
 		this.streetNumber = streetNumber;
 		this.city = city;
 		this.cityPostalCode = cityPostalCode;
+		this.longitude = longitude;
+		this.latitude = latitude;
 		this.manager = manager;
 	}
 
@@ -108,5 +112,20 @@ public class RegisterNewRestaurantDTO {
 	public void setCityPostalCode(String cityPostalCode) {
 		this.cityPostalCode = cityPostalCode;
 	}
-	
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
 }

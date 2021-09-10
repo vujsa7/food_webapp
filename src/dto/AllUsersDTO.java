@@ -9,14 +9,16 @@ public class AllUsersDTO {
 	private String surname;
 	private AccountType accountType;
 	private BuyerType buyerType;
+	private boolean isBlocked;
 	
-	public AllUsersDTO(String username, String name, String surname, AccountType accountType, BuyerType buyerType) {
+	public AllUsersDTO(String username, String name, String surname, AccountType accountType, BuyerType buyerType, boolean isBlocked) {
 		super();
 		this.username = username;
 		this.name = name;
 		this.surname = surname;
 		this.accountType = accountType;
 		this.buyerType = buyerType;
+		this.isBlocked = isBlocked;
 	}
 	public String getUsername() {
 		return username;
@@ -48,4 +50,11 @@ public class AllUsersDTO {
 	public void setBuyerType(BuyerType buyerType) {
 		this.buyerType = buyerType;
 	}
+	public boolean isBlocked() {
+		return isBlocked;
+	}
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
+	
 }
