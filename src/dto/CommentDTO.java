@@ -6,13 +6,15 @@ public class CommentDTO {
 	private int review;
 	private String buyerNameAndSurname;
 	private String image;
+	private boolean isApproved;
 	
-	public CommentDTO(String details, int review, String buyerNameAndSurname, String image) {
+	public CommentDTO(String details, int review, String buyerNameAndSurname, String image, boolean isApproved) {
 		super();
 		this.details = details;
 		this.review = review;
 		this.buyerNameAndSurname = buyerNameAndSurname;
 		this.image = image;
+		this.isApproved = isApproved;
 	}
 	
 	public String getDetails() {
@@ -45,6 +47,14 @@ public class CommentDTO {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
 	}
 	
 }
