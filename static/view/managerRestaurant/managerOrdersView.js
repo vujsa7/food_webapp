@@ -29,8 +29,7 @@ Vue.component("manager-orders-view", {
       limitDate: undefined,
       datepicker1: undefined,
       datepicker2: undefined,
-      totalRevenue: 0,
-      totalOrders: 0,
+      restaurantStats: undefined,
       awaitingDelivery: undefined
     }
   },
@@ -87,7 +86,18 @@ Vue.component("manager-orders-view", {
             .then(response => {
               this.orders = response.data;
               this.displayOrders = this.orders;
-              this.calculateRevenueAndOrders();
+              axios
+                .get("http://localhost:8081/rest/restaurantStats", {
+                  headers: {
+                    'Authorization': 'Bearer ' + token
+                  }
+                })
+                .then(response => {
+                  this.restaurantStats = response.data;
+                })
+                .catch(error => {
+                  
+                });
             })
             .catch(error => {
               console.log(response.data);
@@ -324,7 +334,18 @@ Vue.component("manager-orders-view", {
         .then(response => {
           this.orders = response.data;
           this.displayOrders = this.orders;
-          this.calculateRevenueAndOrders();
+            axios
+          .get("http://localhost:8081/rest/restaurantStats", {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          })
+          .then(response => {
+            this.restaurantStats = response.data;
+          })
+          .catch(error => {
+            
+          });
         })
         .catch(error => {
           
@@ -477,7 +498,8 @@ Vue.component("manager-orders-view", {
                     </div>
                     <div class="d-flex flex-column ms-4 me-2 justify-content-center">
                         <span class="mb-1">Revenue this week</span>
-                        <span class="fw-bold">$4537</span>
+                        <span v-if="restaurantStats" class="fw-bold">$ {{restaurantStats.thisWeekMoney}}</span>
+                        <span v-if="!restaurantStats" class="fw-bold">NaN</span>
                     </div>
                 </div>
                 <div class="card2 box-shadow d-flex flex-row align-items-center">
@@ -486,7 +508,8 @@ Vue.component("manager-orders-view", {
                     </div>
                     <div class="d-flex flex-column ms-4 me-2 justify-content-center">
                         <span class="mb-1">Orders this week</span>
-                        <span class="fw-bold">445</span>
+                        <span v-if="restaurantStats" class="fw-bold">{{restaurantStats.thisWeekOrders}}</span>
+                        <span v-if="!restaurantStats" class="fw-bold">NaN</span>
                     </div>
                 </div>
             </div>
@@ -497,7 +520,8 @@ Vue.component("manager-orders-view", {
                     </div>
                     <div class="d-flex flex-column ms-4 me-2 justify-content-center">
                         <span class="mb-1">Total revenue</span>
-                        <span class="fw-bold">$ {{this.totalRevenue}}</span>
+                        <span v-if="restaurantStats" class="fw-bold">$ {{restaurantStats.totalMoney}}</span>
+                        <span v-if="!restaurantStats" class="fw-bold">NaN</span>
                     </div>
                 </div>
                 <div class="card2 box-shadow d-flex flex-row align-items-center">
@@ -506,7 +530,8 @@ Vue.component("manager-orders-view", {
                     </div>
                     <div class="d-flex flex-column ms-4 me-2 justify-content-center">
                         <span class="mb-1">Total orders</span>
-                        <span class="fw-bold">{{this.totalOrders}}</span>
+                        <span v-if="restaurantStats" class="fw-bold">{{restaurantStats.totalOrders}}</span>
+                        <span v-if="!restaurantStats" class="fw-bold">NaN</span>
                     </div>
                 </div>
             </div>

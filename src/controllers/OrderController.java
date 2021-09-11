@@ -224,6 +224,34 @@ public class OrderController {
 			return "Please log in to continue.";
 		});
 		
+		get("rest/restaurantStats", (req, res)->{
+			res.type("application/json");
+			String auth = req.headers("Authorization");
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    User user = userService.getById(claims.getBody().getSubject());
+				    if(!user.getAccountType().equals(AccountType.manager)) {
+				    	res.status(401);
+				    	return "Forbidden action!";
+				    }
+				    Manager manager = (Manager)user;
+					res.status(200);
+					return gson.toJson(orderService.getRestaurantStats(manager));
+				} catch(JsonSyntaxException | IOException e) {
+					res.status(500);
+					return "Server error occured.";
+				} catch (Exception e) {
+					e.printStackTrace();
+					res.status(401);
+					return "You must log in to continue.";
+				}
+			}
+			res.status(401);
+			return "Please log in to continue.";
+		});
+		
 		put("rest/markForDelivery/:id",(req,res)->{
 			res.type("application/json");
 			/*String auth = req.headers("Authorization");
@@ -369,7 +397,7 @@ public class OrderController {
 		            }
 		            res.status(200);
 		            orderService.declineRequest(gson.fromJson(req.body(), DeliveryRequest.class));
-		            return "Request approved";
+		            return "Request declined";
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		            return "Session invalid.";

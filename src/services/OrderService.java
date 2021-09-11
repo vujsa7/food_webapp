@@ -20,6 +20,7 @@ import dao.UserDAO;
 import dto.CreateNewOrderDTO;
 import dto.OrderDisplayDTO;
 import dto.OrderStatsDTO;
+import dto.RestaurantStatsDTO;
 
 public class OrderService {
 	private UserDAO userDao;
@@ -145,6 +146,28 @@ public class OrderService {
 			}
 		}
 		return new OrderStatsDTO(((Buyer)user).getBuyerType(), ((Buyer)user).getPoints(), thisWeekCounter, userOrders.size());
+	}
+	
+	public RestaurantStatsDTO getRestaurantStats(Manager manager) throws JsonSyntaxException, IOException {
+		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
+		int thisWeekCounter = 0;
+		double thisWeekMoney = 0;
+		double totalMoney = 0;
+		int totalOrders = 0;
+		for(Order o : orderDao.getAllNotDeleted()) {
+			if(o.getRestaurant() == restaurant.getID() && o.getOrderStatus().equals(OrderStatus.delivered)) {
+				Calendar c = Calendar.getInstance();
+				c.setTime(o.getDateOfOrder());
+				c.add(Calendar.DATE, 7);
+				if(c.getTime().compareTo(new Date()) >= 0){
+					thisWeekCounter += 1;
+					thisWeekMoney += o.getPrice();
+				}
+				totalOrders += 1;
+				totalMoney += o.getPrice();
+			}
+		}
+		return new RestaurantStatsDTO(thisWeekCounter,totalOrders,thisWeekMoney,totalMoney);
 	}
 
 	public void markOrderAsRated(String id) throws JsonSyntaxException, IOException {
