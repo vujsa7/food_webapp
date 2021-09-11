@@ -16,7 +16,7 @@ var editArticleDialogComponent = {
             message: "",
             buttonText: ""
         },
-        isEditArticleModalDisplayed: false,
+        isEditArticleModalDisplayed: false
       }
     },
     props: [
@@ -51,11 +51,14 @@ var editArticleDialogComponent = {
         this.form.articlePrice = this.article.price;
         this.form.articleType =  this.article.articleType;
         this.form.articleQuantity = this.article.quantity;
-        //this.form.articleImage = this.article.image;
+        this.form.articleImage = this.article.image;
     },
     methods: {
       submitForm(){
         if(!this.$v.form.$invalid){
+            if(this.form.backendImage == ""){
+              this.form.backendImage = this.form.articleImage;
+            }
           var editedArticle = {
             restaurantId: this.article.restaurantId,
             oldName: this.form.oldName,
@@ -99,14 +102,11 @@ var editArticleDialogComponent = {
         this.form.articlePrice = this.article.price;
         this.form.articleType =  this.article.articleType;
         this.form.articleQuantity = this.article.quantity;
-        //this.form.articleImage = this.article.image;
+        this.form.articleImage = this.article.image;
       },
       closeDialog(){
         this.isEditArticleModalDisplayed = false;
         this.$parent.reloadRestaurant();
-      },
-      openFile(){
-        document.getElementById('editArticleImage').click();
       },
       imageAdded(e){
         const file = e.target.files[0];
@@ -118,7 +118,7 @@ var editArticleDialogComponent = {
       createBase64Image(file){
           const reader= new FileReader();
           reader.onload = (e) =>{
-              this.form.backendImage = e.target.result;
+            this.form.backendImage = e.target.result;   
           }
           reader.readAsDataURL(file);
       }
@@ -136,7 +136,7 @@ var editArticleDialogComponent = {
           <form action="http://localhost:8081/rest/editArticle" method="put" @submit.prevent="submitForm()" autocomplete="off">
             <div class="d-flex row">
               <div class="d-flex left justify-end custom-file">
-                <button type="button" class="btn btn-light shadow-none add-article-button" @click="openFile">
+                <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('editArticleImage').click();">
                   <img v-if="this.form.articleImage" :src="this.form.articleImage" class= "add-article-image" alt = "Profile Image">
                   <img v-if="!this.form.articleImage" src="../assets/icons/add128px.png" alt = "Add Image">
                 </button>
@@ -185,8 +185,8 @@ var editArticleDialogComponent = {
                       </div>
                     </div>
                   </div>
+                  <button  type="submit" class="btn btn-danger regular-button edit-article-button">Edit article</button>
             </div>
-            <button  type="submit" class="btn btn-danger regular-button">Edit article</button>
           </form>
         </div>
       </div>

@@ -171,6 +171,7 @@ public class RestaurantController {
 					}
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
+					System.out.println("ALOALOALAOAAO");
 				}
 			}
 			return "No user logged in.";

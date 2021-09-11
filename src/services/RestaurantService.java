@@ -101,16 +101,14 @@ public class RestaurantService {
 		return newArticle;
 	}
 	
-	public Article changeArticle(ArticleDTO changedArticle, Manager manager) throws JsonSyntaxException, IOException {
+	public Article changeArticle(ArticleDTO changedArticle,Manager manager) throws JsonSyntaxException, IOException {
 		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
 		Article editedArticle = null;
 		for(Article a : restaurant.getArticles()) {
 			if(a.getName().equals(changedArticle.getName()) && !changedArticle.getOldName().equals(changedArticle.getName())) {
-				System.out.println("OVDEEE");
 				return null;
 			}
 			if(a.getName().equals(changedArticle.getOldName())) {
-				a.setName(changedArticle.getName());
 				if (changedArticle.getImage() != null) { 
 					if (!changedArticle.getImage().isEmpty() && changedArticle.getImage().startsWith("data:image")) {
 						Random ran = new Random();
@@ -119,8 +117,6 @@ public class RestaurantService {
 						decoder.Base64DecodeAndSave(changedArticle.getImage(), path);
 						path = "./" + "assets/images/restaurant-images/foods/a" + changedArticle.getName() + restaurant.getID() + x +".jpg";
 						changedArticle.setImage(path);
-					} else {
-						changedArticle.setImage(changedArticle.getImage());
 					}
 				}
 				editedArticle = new Article(changedArticle.getRestaurantId(),changedArticle.getName(),changedArticle.getPrice(),changedArticle.getArticleType(),changedArticle.getQuantity(),changedArticle.getDescription(),changedArticle.getImage(),a.isDeleted());
@@ -128,9 +124,7 @@ public class RestaurantService {
 				break;
 			}
 		}
-		System.out.println("AJDE");
 		restaurantDao.update(restaurant);
-		System.out.println(editedArticle.getImage() + "AAAAAAAAA");
 		return editedArticle;
 	}
 	

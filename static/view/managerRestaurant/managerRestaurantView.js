@@ -382,8 +382,8 @@ Vue.component("manager-restaurant-view", {
             <div v-for="comment in comments" :key="comment.id" v-if="!comment.isApproved" class="review-card d-flex flex-column">
                 <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
                 <div class="d-flex left align-items-center">
-                  <img :src="user.image" alt="avatar" class="profile-pic">
-                  <h5 class="review-card-title m-0">{{comment.buyerId}}</h5>
+                  <img :src="comment.image" alt="avatar" class="profile-pic">
+                  <h5 class="review-card-title m-0">{{comment.buyerNameAndSurname}}</h5>
                 </div>
                 
                 <div class="right d-flex align-items-center justify-content-end me-2">
@@ -410,7 +410,7 @@ Vue.component("manager-restaurant-view", {
                 <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
                 <div class="d-flex left align-items-center">
                   <img :src="comment.image" alt="avatar" class="profile-pic">
-                  <h5 class="review-card-title m-0">{{comment.buyerId}}</h5>
+                  <h5 class="review-card-title m-0">{{comment.buyerNameAndSurname}}</h5>
                 </div>
                 
                 <div class="right d-flex align-items-center justify-content-end me-2">

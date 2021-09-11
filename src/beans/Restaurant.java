@@ -116,13 +116,12 @@ public class Restaurant implements IIdentifiable<Integer>{
 	}
 	
 	public void changeArticle(Article article,String oldName) {
-		for(Article a : this.articles) {
-			if(a.getName().equals(oldName)) {
-				articles.remove(a);
-				articles.add(article);
-				System.out.println(article.isDeleted());
+		for(int i=0;i<this.articles.size();i++) {
+			if(this.articles.get(i).getName().equals(oldName)) {
+				articles.remove(this.articles.get(i));
 			}
 		}
+		articles.add(article);
 	}
 
 	@Override

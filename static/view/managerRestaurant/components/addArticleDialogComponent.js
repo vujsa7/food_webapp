@@ -51,7 +51,7 @@
               name: this.form.articleName,
               price: this.form.articlePrice,
               articleType: this.form.articleType,
-              articleQuantity: this.form.articleQuantity,
+              quantity: this.form.articleQuantity,
               description: this.form.articleDescription,
               image: this.form.backendImage,
               isDeleted: false  
