@@ -8,8 +8,8 @@ var editArticleDialogComponent = {
             articlePrice: undefined,
             articleType: '',
             articleQuantity: undefined,
-            articleImage: '',
-            backendImage: ""
+            articleImage: undefined,
+            backendImage: undefined
         },
         messageDialogData:{
             title: "",
@@ -56,9 +56,9 @@ var editArticleDialogComponent = {
     methods: {
       submitForm(){
         if(!this.$v.form.$invalid){
-            if(this.form.backendImage == ""){
-              this.form.backendImage = this.form.articleImage;
-            }
+            // if(this.form.backendImage == ""){
+            //   this.form.backendImage = this.form.articleImage;
+            // }
           var editedArticle = {
             restaurantId: this.article.restaurantId,
             oldName: this.form.oldName,
@@ -121,6 +121,9 @@ var editArticleDialogComponent = {
             this.form.backendImage = e.target.result;   
           }
           reader.readAsDataURL(file);
+      },
+      buttonClicked(){
+        document.getElementById(this.article.name).click();
       }
     },
     template: `
@@ -136,11 +139,11 @@ var editArticleDialogComponent = {
           <form action="http://localhost:8081/rest/editArticle" method="put" @submit.prevent="submitForm()" autocomplete="off">
             <div class="d-flex row">
               <div class="d-flex left justify-end custom-file">
-                <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('editArticleImage').click();">
+                <button type="button" class="btn btn-light shadow-none add-article-button" @click="buttonClicked()">
                   <img v-if="this.form.articleImage" :src="this.form.articleImage" class= "add-article-image" alt = "Profile Image">
-                  <img v-if="!this.form.articleImage" src="../assets/icons/add128px.png" alt = "Add Image">
+                  <img v-if="!this.form.articleImage && this.article.image" :src="article.image" alt = "Add Image">
                 </button>
-                <input type="file" hidden @change="imageAdded" id="editArticleImage"/>
+                <input type="file" hidden @change="imageAdded" v-bind:id="article.name"/>
               </div>          
               <div class="d-flex right justify-end">
                 <div class="mb-1">

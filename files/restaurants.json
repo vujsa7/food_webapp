@@ -43,26 +43,6 @@
       },
       {
         "restaurantId": 1,
-        "name": "Kebabs",
-        "price": 9.79,
-        "articleType": "meal",
-        "quantity": 64,
-        "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
-        "image": "../assets/images/restaurant-images/foods/103.jpg",
-        "isDeleted": false
-      },
-      {
-        "restaurantId": 1,
-        "name": "Capricciosa",
-        "price": 6.99,
-        "articleType": "meal",
-        "quantity": 120,
-        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
-        "image": "../assets/images/restaurant-images/foods/104.jpg",
-        "isDeleted": false
-      },
-      {
-        "restaurantId": 1,
         "name": "Beef ",
         "price": 11.39,
         "articleType": "meal",
@@ -119,6 +99,26 @@
         "quantity": 93,
         "description": "100% pure-squeezed, pasteurized orange juice.",
         "image": "../assets/images/restaurant-images/foods/114.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 1,
+        "name": "Kebabs",
+        "price": 9.79,
+        "articleType": "meal",
+        "quantity": 64,
+        "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
+        "image": "./assets/images/restaurant-images/foods/aKebabs10.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 1,
+        "name": "Capricciosa",
+        "price": 6.99,
+        "articleType": "meal",
+        "quantity": 120,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "./assets/images/restaurant-images/foods/aCapricciosa198.jpg",
         "isDeleted": false
       }
     ],

@@ -509,6 +509,7 @@
 }
 
 .add-article-image{
+    object-fit: contain;
     width: 128px;
     height: 128px;
 }
