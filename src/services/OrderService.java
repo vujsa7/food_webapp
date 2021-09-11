@@ -13,6 +13,7 @@ import beans.Manager;
 import beans.Order;
 import beans.OrderStatus;
 import beans.Restaurant;
+import beans.SuspiciousCheck;
 import beans.User;
 import dao.OrderDAO;
 import dao.RestaurantDAO;
@@ -114,7 +115,38 @@ public class OrderService {
 		order.setOrderStatus(OrderStatus.canceled);
 		orderDao.update(order);
 		reducePointsFromBuyer(order.getBuyer(), order.getPrice());
+		updateSuspiciousCheck(order.getBuyer());
 		return updatedOrder;
+	}
+
+	private void updateSuspiciousCheck(String buyerId) throws JsonSyntaxException, IOException {
+		Buyer buyer = (Buyer) userDao.getById(buyerId);
+		Date timeRangeStart = buyer.getSuspiciousCheck().getTimeRangeStart();
+		int cancelledOrders = buyer.getSuspiciousCheck().getCancelledOrders();
+		boolean isCustomerSuspicious = buyer.getSuspiciousCheck().isCustomerSuspicious();
+		if(timeRangeStart == null) {
+			buyer.setSuspiciousCheck(new SuspiciousCheck(new Date(), cancelledOrders + 1, isCustomerSuspicious));
+		} else {
+			buyer.setSuspiciousCheck(new SuspiciousCheck(timeRangeStart, cancelledOrders + 1, isCustomerSuspicious));
+		}
+		markBuyerIfSuspicious(buyer);
+		
+	}
+
+	private void markBuyerIfSuspicious(Buyer buyer) throws JsonSyntaxException, IOException {
+		if(buyer.getSuspiciousCheck().getCancelledOrders() == 5) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -1);
+			Date oneMonthEarlier = cal.getTime();
+			if(oneMonthEarlier.before(buyer.getSuspiciousCheck().getTimeRangeStart())) {
+				buyer.getSuspiciousCheck().setCustomerSuspicious(true);
+			} else {
+				buyer.getSuspiciousCheck().setCancelledOrders(1);
+				buyer.getSuspiciousCheck().setTimeRangeStart(new Date());
+				buyer.getSuspiciousCheck().setCustomerSuspicious(false);
+			}
+		}
+		userDao.update(buyer);
 	}
 
 	private void reducePointsFromBuyer(String buyerId, double orderPrice) throws JsonSyntaxException, IOException {
@@ -175,18 +207,35 @@ public class OrderService {
 		order.setReviewed(true);
 		orderDao.update(order);
 	}
-
+	
 	public ArrayList<OrderDisplayDTO> getOrdersForDeliveryWorker(User user) throws JsonSyntaxException, IOException {
 		ArrayList<Order> allOrders = orderDao.getAllNotDeleted();
 		ArrayList<OrderDisplayDTO> deliveryWorkerOrders = new ArrayList<OrderDisplayDTO>();
 		for(Order o : allOrders) {
-			if(o.getOrderStatus() == OrderStatus.awaitingDelivery) {
-				Restaurant res = restaurantDao.getById(o.getRestaurant());
-				OrderDisplayDTO odt = new OrderDisplayDTO(o.getID(), o.getDateOfOrder(), o.getPrice(), o.getOrderStatus(), o.getRestaurant(),
-						res.getName(), res.getRestaurantType(), o.getBuyer(), o.isReviewed());
-				odt.setDeliveryRequests(o.getDeliveryRequests());
-				deliveryWorkerOrders.add(odt);
+			DeliveryRequest alreadyDelivering = null;
+			ArrayList<DeliveryRequest> deliveryRequests = o.getDeliveryRequests();
+			if(deliveryRequests.size() != 0) {
+				alreadyDelivering = deliveryRequests.get(0);
 			}
+			
+			if(alreadyDelivering != null) {
+				if(o.getOrderStatus() == OrderStatus.awaitingDelivery || (o.getOrderStatus() == OrderStatus.shipping && alreadyDelivering.getDeliveryWorkerId().equals(user.getID())) || (o.getOrderStatus() == OrderStatus.delivered && alreadyDelivering.getDeliveryWorkerId().equals(user.getID()))) {
+					Restaurant res = restaurantDao.getById(o.getRestaurant());
+					OrderDisplayDTO odt = new OrderDisplayDTO(o.getID(), o.getDateOfOrder(), o.getPrice(), o.getOrderStatus(), o.getRestaurant(),
+							res.getName(), res.getRestaurantType(), o.getBuyer(), o.isReviewed());
+					odt.setDeliveryRequests(o.getDeliveryRequests());
+					deliveryWorkerOrders.add(odt);
+				}
+			} else {
+				if(o.getOrderStatus() == OrderStatus.awaitingDelivery) {
+					Restaurant res = restaurantDao.getById(o.getRestaurant());
+					OrderDisplayDTO odt = new OrderDisplayDTO(o.getID(), o.getDateOfOrder(), o.getPrice(), o.getOrderStatus(), o.getRestaurant(),
+							res.getName(), res.getRestaurantType(), o.getBuyer(), o.isReviewed());
+					odt.setDeliveryRequests(o.getDeliveryRequests());
+					deliveryWorkerOrders.add(odt);
+				}
+			}
+			
 		}
 		return deliveryWorkerOrders;
 	}
@@ -238,5 +287,13 @@ public class OrderService {
 			}
 		}
 		orderDao.update(order);
+	}
+
+	public void markOrderAsDelivered(String deliveryWorkerId, String orderId) throws JsonSyntaxException, IOException {
+		Order order = orderDao.getById(orderId);
+		if(((DeliveryRequest)order.getDeliveryRequests().get(0)).getDeliveryWorkerId().equals(deliveryWorkerId)) {
+			order.setOrderStatus(OrderStatus.delivered);
+			orderDao.update(order);
+		}		
 	}
 }

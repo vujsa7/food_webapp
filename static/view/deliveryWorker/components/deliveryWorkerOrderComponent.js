@@ -4,16 +4,17 @@ let deliveryWorkerOrderComponent = {
     ],
     methods:{
         pickupDelivery(){
-            this.$parent.pickupDelivery(this.order.id);
-            this.order.deliveryRequests.push({
-                "deliveryWorkerId" : this.$parent.user.username,
-                "orderId" : this.order.id
-            });
+            if(this.$parent.pickupDelivery(this.order.id)){
+                this.order.deliveryRequests.push({
+                    "deliveryWorkerId" : this.$parent.user.username,
+                    "orderId" : this.order.id
+                });
+            }
         },
         markAsDelivered(){
-            this.$parent.markAsDelivered(this.order.id);
+            this.$parent.markAsDelivered(this.order.id)
+               
         },
-        
     },
     computed:{
         shouldDisplayPickup(){

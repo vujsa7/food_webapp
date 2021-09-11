@@ -383,9 +383,11 @@ Vue.component("deliver-orders-view", {
         })
         .then(response => {
             console.log(response.data);
+            return true;
         })
         .catch(error => {
-            console.log(error.response.data)
+            console.log(error.response)
+            return false;
         });
       },
       markAsDelivered(id){
@@ -399,9 +401,11 @@ Vue.component("deliver-orders-view", {
         })
         .then(response => {
             console.log(response.data);
+            this.orders.find(element => element.id == id).orderStatus = "delivered";
+            this.displayOrders = this.orders
         })
         .catch(error => {
-            console.log(error.response.data)
+            console.log(error.response)
         });
       },
     },

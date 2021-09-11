@@ -334,6 +334,34 @@ public class OrderController {
 		    return "Please log in to continue.";
 		});
 		
+		post("rest/markAsDelivered/:id", (req, res) -> {
+		    res.type("application/json");
+		    String auth = req.headers("Authorization");
+		    if ((auth != null) && (auth.contains("Bearer "))) {
+		        String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+		        try {
+		            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+		            User user = userService.getById(claims.getBody().getSubject());
+		            if(!user.getID().equals(req.body())) {
+		                res.status(401);
+		                return "Forbidden action!";
+		            }
+		            res.status(200);
+		            orderService.markOrderAsDelivered(user.getID(), req.params("id"));
+		            return "Order marked as delivered";
+		        }catch(JsonSyntaxException | IOException e) {
+					res.status(500);
+					return "Server error occured.";
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            res.status(401);
+		            return "You must log in to continue.";
+		        }
+		    }
+		    res.status(401);
+		    return "Please log in to continue.";
+		});
+		
 		get("rest/deliveryRequests", (req, res) -> {
 		    res.type("application/json");
 		    String auth = req.headers("Authorization");

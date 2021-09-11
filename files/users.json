@@ -38,7 +38,7 @@
   },
   {
     "type": "Buyer",
-    "points": 0,
+    "points": -102,
     "buyerType": "Bronze buyer",
     "discount": 0,
     "orders": [],
@@ -48,8 +48,9 @@
       "buyerId": "gordon"
     },
     "suspiciousCheck": {
-      "cancelledOrders": 0,
-      "isCustomerSuspicious": false
+      "timeRangeStart": "Sep 11, 2021, 12:20:40 PM",
+      "cancelledOrders": 5,
+      "isCustomerSuspicious": true
     },
     "username": "gordon",
     "password": "ramsey",

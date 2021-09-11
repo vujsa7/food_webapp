@@ -24,6 +24,7 @@ public class Buyer extends User {
 		this.discount = discount;
 		this.orders = new ArrayList<Order>();
 		this.cart = new Cart(0, new ArrayList<Article>(), username);
+		this.suspiciousCheck = new SuspiciousCheck(null, 0, false);
 	}
    	
 	public int getPoints() {
