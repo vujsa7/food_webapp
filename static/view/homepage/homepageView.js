@@ -102,6 +102,10 @@ methods: {
         this.checkedCuisines = ["showAll"];
         this.adjustFilterAndSortValues();
         this.displayMode = "normal";
+        this.searchParameters[0] = "";
+        this.searchParameters[1] = "";
+        this.searchParameters[2] = "";
+        this.searchParameters[3] = "";
     },
     changeToDarkLogo(index){
         if(index == 0 || index == 3)

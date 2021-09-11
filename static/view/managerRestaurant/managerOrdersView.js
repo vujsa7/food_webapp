@@ -170,6 +170,10 @@ Vue.component("manager-orders-view", {
       e.preventDefault();
       this.displayMode = "normal";
       this.adjustFilterAndSortValues();
+      this.startingPrice = "";
+      this.limitPrice = "";
+      this.startingDate = undefined;
+      this.limitDate =  undefined;
     },
     filterOrderStatuses(val) {
       if (val == "showAll") {
