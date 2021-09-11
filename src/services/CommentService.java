@@ -30,7 +30,7 @@ public class CommentService {
 		for(Comment c : allComments) {
 			if(c.getRestaurantId() == restaurantId && c.getIsApproved()) {
 				User user = userService.getById(c.getBuyerId());
-				restaurantCommentsDTO.add(new CommentDTO(c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage(),c.getIsApproved()));
+				restaurantCommentsDTO.add(new CommentDTO(c.getID(),c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage(),c.getIsApproved()));
 			}
 		}
 		return restaurantCommentsDTO;
@@ -43,7 +43,7 @@ public class CommentService {
 		for(Comment c : allComments) {
 			if(c.getRestaurantId() == restaurantId) {
 				User user = userService.getById(c.getBuyerId());
-				restaurantCommentsDTO.add(new CommentDTO(c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage(),c.getIsApproved()));
+				restaurantCommentsDTO.add(new CommentDTO(c.getID(),c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage(),c.getIsApproved()));
 			}
 		}
 		return restaurantCommentsDTO;

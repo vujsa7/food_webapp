@@ -2,14 +2,16 @@ package dto;
 
 public class CommentDTO {
 	
+	private int id;
 	private String details;
 	private int review;
 	private String buyerNameAndSurname;
 	private String image;
 	private boolean isApproved;
 	
-	public CommentDTO(String details, int review, String buyerNameAndSurname, String image, boolean isApproved) {
+	public CommentDTO(int id, String details, int review, String buyerNameAndSurname, String image, boolean isApproved) {
 		super();
+		this.id = id;
 		this.details = details;
 		this.review = review;
 		this.buyerNameAndSurname = buyerNameAndSurname;
@@ -17,6 +19,14 @@ public class CommentDTO {
 		this.isApproved = isApproved;
 	}
 	
+	public int getCommentId() {
+		return id;
+	}
+
+	public void setCommentId(int id) {
+		this.id = id;
+	}
+
 	public String getDetails() {
 		return details;
 	}

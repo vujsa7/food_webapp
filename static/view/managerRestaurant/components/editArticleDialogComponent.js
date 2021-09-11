@@ -105,18 +105,20 @@ var editArticleDialogComponent = {
         this.isEditArticleModalDisplayed = false;
         this.$parent.reloadRestaurant();
       },
+      openFile(){
+        document.getElementById('editArticleImage').click();
+      },
       imageAdded(e){
-          const file = e.target.files[0];
-          this.createBase64Image(file);
-          //this.form.articleImage=URL.createObjectURL(file);
+        const file = e.target.files[0];
+        if(file && (file.type == "image/jpeg" || file.type == "image/jpg")){
+         this.createBase64Image(file);
+         this.form.articleImage=URL.createObjectURL(file);
+        }  
       },
       createBase64Image(file){
           const reader= new FileReader();
           reader.onload = (e) =>{
-              let img = e.target.result;
-              //img.replace("data:image\/(png|jpg|jpeg);base64", "");
-              console.log(img);
-              this.form.backendImage = img;
+              this.form.backendImage = e.target.result;
           }
           reader.readAsDataURL(file);
       }
@@ -134,11 +136,11 @@ var editArticleDialogComponent = {
           <form action="http://localhost:8081/rest/editArticle" method="put" @submit.prevent="submitForm()" autocomplete="off">
             <div class="d-flex row">
               <div class="d-flex left justify-end custom-file">
-                <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('editFile').click();">
+                <button type="button" class="btn btn-light shadow-none add-article-button" @click="openFile">
                   <img v-if="this.form.articleImage" :src="this.form.articleImage" class= "add-article-image" alt = "Profile Image">
                   <img v-if="!this.form.articleImage" src="../assets/icons/add128px.png" alt = "Add Image">
                 </button>
-                <input type="file" style="display:none;border:none;" @change="imageAdded" id="editFile" name="editFile"/>
+                <input type="file" hidden @change="imageAdded" id="editArticleImage"/>
               </div>          
               <div class="d-flex right justify-end">
                 <div class="mb-1">

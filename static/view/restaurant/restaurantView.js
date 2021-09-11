@@ -1,101 +1,101 @@
 Vue.component("restaurant-view", {
-    data(){
-      return{
-          restaurant: undefined,
-          user: undefined,
-          comments: [],
-          scrolled: 0,
-          selectedNavIndex: 0,
-          numberOfItems : 1,
-          socialMediaLogo: [
-            "../../assets/icons/linkedin-logo.png",
-            "../../assets/icons/facebook-logo.png",
-            "../../assets/icons/instagram-logo.png",
-            "../../assets/icons/linkedin-logo.png",
-            "../../assets/icons/facebook-logo.png",
-            "../../assets/icons/instagram-logo.png"
-          ],
-          cart: undefined,
-          messageDialogData:{
-            title: "",
-            message: "",
-            buttonText: ""
-          },
+  data() {
+    return {
+      restaurant: undefined,
+      user: undefined,
+      comments: [],
+      scrolled: 0,
+      selectedNavIndex: 0,
+      numberOfItems: 1,
+      socialMediaLogo: [
+        "../../assets/icons/linkedin-logo.png",
+        "../../assets/icons/facebook-logo.png",
+        "../../assets/icons/instagram-logo.png",
+        "../../assets/icons/linkedin-logo.png",
+        "../../assets/icons/facebook-logo.png",
+        "../../assets/icons/instagram-logo.png"
+      ],
+      cart: undefined,
+      messageDialogData: {
+        title: "",
+        message: "",
+        buttonText: ""
+      },
+    }
+  },
+  components: {
+    articleItem: articleItemComponent,
+    registerDialog: registerDialogComponent,
+    loginDialog: loginDialogComponent,
+    messageDialog: messageDialogComponent,
+    mapViewComponent: mapViewComponent
+  },
+  methods: {
+    logout() {
+      window.localStorage.setItem('token', null);
+      this.$router.push({ name: 'logout' });
+    },
+    changeToDarkLogo(index) {
+      if (index == 0 || index == 3)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
+      else if (index == 1 || index == 4)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo-dark.png");
+      else
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo-dark.png");
+    },
+    changeToLightLogo(index) {
+      if (index == 0 || index == 3)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo.png");
+      else if (index == 1 || index == 4)
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo.png");
+      else
+        Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
+    },
+    handleScroll() {
+      this.scrolled = window.scrollY;
+    },
+    displaySignInModal() {
+      this.$refs.loginChild.displaySignInModal();
+    },
+    displaySignUpModal() {
+      this.$refs.registerChild.displaySignUpModal();
+    },
+    addArticleToCart(article, numberOfItems) {
+      if (this.user) {
+        if (!this.cart) {
+          let articles = [];
+          for (x = 0; x < numberOfItems; x += 1) {
+            articles.push(article);
+          }
+          this.cart = { articles: articles, price: (article.price * numberOfItems), buyerId: this.user.username }
+        } else {
+          if (this.cart.articles.length != 0) {
+            if (this.cart.articles[0].restaurantId != this.restaurant.id) {
+              this.messageDialogData.title = "Can't add item to cart";
+              this.messageDialogData.message = "You already have items from different restaurant in cart. Empty it before ordering from a new restaurant.";
+              this.messageDialogData.buttonText = "Ok";
+              this.$refs.messageDialogChild.displayDialog();
+              return;
+            }
+          }
+          let articles = [];
+          for (x = 0; x < numberOfItems; x += 1) {
+            this.cart.articles.push(article);
+          }
+          this.cart.price += (article.price * numberOfItems);
+        }
+        this.saveCartOnServer();
+      } else {
+        this.displaySignInModal();
       }
     },
-    components:{
-      articleItem: articleItemComponent,
-      registerDialog: registerDialogComponent,
-      loginDialog: loginDialogComponent,
-      messageDialog: messageDialogComponent,
-      mapViewComponent: mapViewComponent
-    },
-    methods:{
-      logout(){
-        window.localStorage.setItem('token', null);
-        this.$router.push({name: 'logout'});
-      },
-      changeToDarkLogo(index){
-        if(index == 0 || index == 3)
-        Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo-dark.png");
-        else if(index == 1 || index == 4)
-        Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo-dark.png");
-        else
-        Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo-dark.png");
-      },
-      changeToLightLogo(index){
-          if(index == 0 || index == 3)
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/linkedin-logo.png");
-          else if(index == 1 || index == 4)
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/facebook-logo.png");
-          else
-          Vue.set(this.socialMediaLogo, index, "../../assets/icons/instagram-logo.png");
-      },
-      handleScroll() {
-        this.scrolled = window.scrollY;
-      },
-      displaySignInModal(){
-        this.$refs.loginChild.displaySignInModal();
-      },
-      displaySignUpModal(){
-        this.$refs.registerChild.displaySignUpModal();
-      },
-      addArticleToCart(article, numberOfItems){
-        if(this.user){
-          if(!this.cart){
-            let articles = [];
-            for(x = 0; x < numberOfItems; x+=1){
-              articles.push(article);
-            }
-            this.cart = {articles: articles, price: (article.price*numberOfItems), buyerId: this.user.username}
-          } else {
-            if(this.cart.articles.length != 0){
-              if(this.cart.articles[0].restaurantId != this.restaurant.id){
-                this.messageDialogData.title = "Can't add item to cart";
-                this.messageDialogData.message = "You already have items from different restaurant in cart. Empty it before ordering from a new restaurant.";
-                this.messageDialogData.buttonText = "Ok";
-                this.$refs.messageDialogChild.displayDialog();
-                return;
-              }
-            }
-            let articles = [];
-            for(x = 0; x < numberOfItems; x+=1){
-              this.cart.articles.push(article);
-            }
-            this.cart.price += (article.price*numberOfItems);
-          }
-          this.saveCartOnServer();
-        } else {
-          this.displaySignInModal();
-        }
-      },
-      saveCartOnServer(){
-        let token = window.localStorage.getItem('token');
-        if(token){
-          axios
+    saveCartOnServer() {
+      let token = window.localStorage.getItem('token');
+      if (token) {
+        axios
           .put("http://localhost:8081/rest/updateCart/" + this.user.username, this.cart, {
-            headers:{
-              'Authorization': 'Bearer ' + token 
+            headers: {
+              'Authorization': 'Bearer ' + token
             }
           })
           .then(response => {
@@ -104,41 +104,41 @@ Vue.component("restaurant-view", {
           .catch(error => {
             console.log(error.response.data);
           });
-        }
-      },
-      navigateToCartView(){
-        this.$router.push({name: 'cart', params: { path: this.restaurant.id }})
-      },
-      navigateToOrdersView(){
-        if(this.user.accountType == "buyer"){
-          this.$router.push({name: 'orders'})
-        }else if(this.user.accountType == "manager"){
-          this.$router.push({name: 'managerOrders'})
-        }
-      },
-      navigateToRestaurantView(){
-        this.$router.push({name: 'managerRestaurant'})
-      },
-      navigateToCustomersView(){
-        if(this.user.accountType == "manager"){
-          this.$router.push({name: 'managerCustomers'})
-        }else if(this.user.accountType == "administrator"){
-          this.$router.push({name: 'administratorCustomers'})
-        }
-      },
-      navigateToEditProfileView(){
-        this.$router.push({name: 'editProfile'});
-      },
-      isSelectedNavItem(index){
-        if(index == this.selectedNavIndex)
-          return true;
-        return false;
-      },
-      changeSelectedNavItem(index){
-        this.selectedNavIndex = index;
-      },
-      reloadRestaurant(){
-        axios
+      }
+    },
+    navigateToCartView() {
+      this.$router.push({ name: 'cart', params: { path: this.restaurant.id } })
+    },
+    navigateToOrdersView() {
+      if (this.user.accountType == "buyer") {
+        this.$router.push({ name: 'orders' })
+      } else if (this.user.accountType == "manager") {
+        this.$router.push({ name: 'managerOrders' })
+      }
+    },
+    navigateToRestaurantView() {
+      this.$router.push({ name: 'managerRestaurant' })
+    },
+    navigateToCustomersView() {
+      if (this.user.accountType == "manager") {
+        this.$router.push({ name: 'managerCustomers' })
+      } else if (this.user.accountType == "administrator") {
+        this.$router.push({ name: 'administratorCustomers' })
+      }
+    },
+    navigateToEditProfileView() {
+      this.$router.push({ name: 'editProfile' });
+    },
+    isSelectedNavItem(index) {
+      if (index == this.selectedNavIndex)
+        return true;
+      return false;
+    },
+    changeSelectedNavItem(index) {
+      this.selectedNavIndex = index;
+    },
+    reloadRestaurant() {
+      axios
         .get("http://localhost:8081/rest/restaurant/" + this.$route.params.id)
         .then(response => {
           this.restaurant = response.data;
@@ -146,22 +146,22 @@ Vue.component("restaurant-view", {
         .catch(error => {
           console.log(response.data);
         });
-  
-        let token = window.localStorage.getItem('token');
-        if(token){
-          axios
+
+      let token = window.localStorage.getItem('token');
+      if (token) {
+        axios
           .get("http://localhost:8081/rest/accessUserWithJwt", {
-              headers:{
+            headers: {
               'Authorization': 'Bearer ' + token
-              }
+            }
           })
           .then(response => {
-              this.user = response.data;
-              if(this.user.accountType == "buyer"){
-                axios
+            this.user = response.data;
+            if (this.user.accountType == "buyer") {
+              axios
                 .get("http://localhost:8081/rest/cart/" + this.user.username, {
-                  headers:{
-                  'Authorization': 'Bearer ' + token
+                  headers: {
+                    'Authorization': 'Bearer ' + token
                   }
                 })
                 .then(response => {
@@ -170,17 +170,17 @@ Vue.component("restaurant-view", {
                 .catch(error => {
                   console.log(response.data);
                 });
-              }
+            }
           })
           .catch(error => {
-              // TODO session probably expired, jwt invalid
+            // TODO session probably expired, jwt invalid
           })
-        }
-      },
-      deleteRestaurant(restaurantId){
-        let token = window.localStorage.getItem('token');
-        axios
-        .put("http://localhost:8081/rest/deleteRestaurant/" + restaurantId,restaurantId,{
+      }
+    },
+    deleteRestaurant(restaurantId) {
+      let token = window.localStorage.getItem('token');
+      axios
+        .put("http://localhost:8081/rest/deleteRestaurant/" + restaurantId, restaurantId, {
           headers: {
             'Authorization': 'Bearer ' + token
           }
@@ -189,40 +189,40 @@ Vue.component("restaurant-view", {
           this.$router.go(-1);
         })
         .catch(error => {
-          if(error.response){
+          if (error.response) {
             console.log(error);
           }
-        });    
-      },
-      deleteComment(id){
-        axios
+        });
+    },
+    deleteComment(id) {
+      axios
         .put("http://localhost:8081/rest/deleteComment/" + id)
         .then(response => {
           axios
-          .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
-          .then(response => {
-            this.comments = response.data;
-          })
-          .catch(error => {
-            this.comments = []
-          })
+            .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
+            .then(response => {
+              this.comments = response.data;
+            })
+            .catch(error => {
+              this.comments = []
+            })
         })
         .catch(error => {
           console.log(error);
         })
-      }
-    },
-    created(){
-      window.addEventListener('scroll', this.handleScroll);
-    },
-    computed:{
-      stickyCart() {
-        return this.scrolled > 60;
-      }
-    },
-    mounted(){
+    }
+  },
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  computed: {
+    stickyCart() {
+      return this.scrolled > 60;
+    }
+  },
+  mounted() {
 
-      axios
+    axios
       .get("http://localhost:8081/rest/restaurant/" + this.$route.params.id)
       .then(response => {
         this.restaurant = response.data;
@@ -231,21 +231,21 @@ Vue.component("restaurant-view", {
         console.log(response.data);
       });
 
-      let token = window.localStorage.getItem('token');
-      if(token){
-        axios
+    let token = window.localStorage.getItem('token');
+    if (token) {
+      axios
         .get("http://localhost:8081/rest/accessUserWithJwt", {
-            headers:{
+          headers: {
             'Authorization': 'Bearer ' + token
-            }
+          }
         })
         .then(response => {
-            this.user = response.data;
-            if(this.user.accountType == "buyer"){
-              axios
+          this.user = response.data;
+          if (this.user.accountType == "buyer") {
+            axios
               .get("http://localhost:8081/rest/cart/" + this.user.username, {
-                headers:{
-                'Authorization': 'Bearer ' + token
+                headers: {
+                  'Authorization': 'Bearer ' + token
                 }
               })
               .then(response => {
@@ -254,37 +254,36 @@ Vue.component("restaurant-view", {
               .catch(error => {
                 console.log(response.data);
               });
-            }
-            if(this.user && this.user.accountType == "administrator"){
-              axios
-                  .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
-                  .then(response => {
-                      this.comments = response.data;
-                  })
-                  .catch(error => {
-                      // Failed to fetch comments
-                      this.comments = []
-                  })
-            }else{
-              axios
-              .get("http://localhost:8081/rest/commentsForPublic/" + this.$route.params.id)
-              .then(response => {
-                  this.comments = response.data;
-              })
-              .catch(error => {
-                  // Failed to fetch comments
-                  this.comments = []
-              })
-            }
+          }
         })
         .catch(error => {
-            // TODO session probably expired, jwt invalid
+          // TODO session probably expired, jwt invalid
         })
-      }
+    }
 
-      
-    },
-    template: 
+    if (this.user && this.user.accountType == 'administrator') {
+      axios
+        .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
+        .then(response => {
+          this.comments = response.data;
+        })
+        .catch(error => {
+          // Failed to fetch comments
+          this.comments = []
+        })
+    } else {
+      axios
+        .get("http://localhost:8081/rest/commentsForPublic/" + this.$route.params.id)
+        .then(response => {
+          this.comments = response.data;
+        })
+        .catch(error => {
+          // Failed to fetch comments
+          this.comments = []
+        })
+    }
+  },
+  template:
     `
     <div id="restaurantView">
       <register-dialog ref="registerChild"></register-dialog>
@@ -468,7 +467,7 @@ Vue.component("restaurant-view", {
                 
               </div>
               <p class="review-card-comment m-0">{{comment.details}}</p>
-              <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
+              <div v-if="user && user.accountType=='administrator'" class="review-card-basic-info d-flex flex-row align-items-center mb-2">
                 <div class="d-flex left align-items-center">
                   <span v-if="!comment.isApproved" class="review-card-comment m-0">Not approved</span>
                   <span v-if="comment.isApproved" class="review-card-comment m-0">Approved</span>
