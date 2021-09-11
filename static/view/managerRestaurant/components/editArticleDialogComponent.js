@@ -51,8 +51,7 @@ var editArticleDialogComponent = {
         this.form.articlePrice = this.article.price;
         this.form.articleType =  this.article.articleType;
         this.form.articleQuantity = this.article.quantity;
-        this.form.articleImage = this.article.image;
-        this.form.backendImage = this.article.image;
+        //this.form.articleImage = this.article.image;
     },
     methods: {
       submitForm(){
@@ -94,6 +93,13 @@ var editArticleDialogComponent = {
       },
       displayEditArticleModal(){
         this.isEditArticleModalDisplayed = true;
+        this.form.articleName = this.article.name;
+        this.form.oldName = this.article.name;
+        this.form.articleDescription = this.article.description;
+        this.form.articlePrice = this.article.price;
+        this.form.articleType =  this.article.articleType;
+        this.form.articleQuantity = this.article.quantity;
+        //this.form.articleImage = this.article.image;
       },
       closeDialog(){
         this.isEditArticleModalDisplayed = false;
@@ -102,7 +108,7 @@ var editArticleDialogComponent = {
       imageAdded(e){
           const file = e.target.files[0];
           this.createBase64Image(file);
-          this.form.articleImage=URL.createObjectURL(file);
+          //this.form.articleImage=URL.createObjectURL(file);
       },
       createBase64Image(file){
           const reader= new FileReader();
@@ -120,26 +126,26 @@ var editArticleDialogComponent = {
       <div class="modal-content">
         <div class="modal-header d-flex flex-column">
           <div class="d-flex flex-row align-items-center">
-            <span class="align-self-center">Add new article</span>
+            <span class="align-self-center">Edit article</span>
             <span class="close" @click="closeDialog">&times;</span>
           </div>
         </div>
         <div class="modal-body">
-          <form action="http://localhost:8081/rest/addArticle" method="post" @submit.prevent="submitForm()" autocomplete="off">
+          <form action="http://localhost:8081/rest/editArticle" method="put" @submit.prevent="submitForm()" autocomplete="off">
             <div class="d-flex row">
               <div class="d-flex left justify-end custom-file">
-                <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('file').click();">
+                <button type="button" class="btn btn-light shadow-none add-article-button" onclick="document.getElementById('editFile').click();">
                   <img v-if="this.form.articleImage" :src="this.form.articleImage" class= "add-article-image" alt = "Profile Image">
                   <img v-if="!this.form.articleImage" src="../assets/icons/add128px.png" alt = "Add Image">
                 </button>
-                <input type="file" style="display:none;border:none;" @change="imageAdded" id="file" name="file"/>
+                <input type="file" style="display:none;border:none;" @change="imageAdded" id="editFile" name="editFile"/>
               </div>          
               <div class="d-flex right justify-end">
                 <div class="mb-1">
                   <label class="form-control-label">Article Name</label>
                   <input v-model="form.articleName" @blur="$v.form.articleName.$touch()" type="text" :class="{'field-invalid': $v.form.articleName.$dirty, 'field-valid': (!$v.form.articleName.$invalid && form.name != '')}" class="form-control"/>
                   <div v-if="$v.form.articleName.$dirty">
-                      <span class="error-message" v-if="$v.form.articleName.$invalid">Article with that name already exists!</span>
+                      <span class="error-message" v-if="$v.form.articleName.$invalid">Article name is required!</span>
                   </div>
                 </div>
               </div>

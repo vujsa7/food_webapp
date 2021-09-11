@@ -109,11 +109,22 @@ Vue.component("restaurant-view", {
       navigateToCartView(){
         this.$router.push({name: 'cart', params: { path: this.restaurant.id }})
       },
-      navigateHome(){
-        this.$router.push({name: 'homepage'})
-      },
       navigateToOrdersView(){
-        this.$router.push({name: 'orders'})
+        if(this.user.accountType == "buyer"){
+          this.$router.push({name: 'orders'})
+        }else if(this.user.accountType == "manager"){
+          this.$router.push({name: 'managerOrders'})
+        }
+      },
+      navigateToRestaurantView(){
+        this.$router.push({name: 'managerRestaurant'})
+      },
+      navigateToCustomersView(){
+        if(this.user.accountType == "manager"){
+          this.$router.push({name: 'managerCustomers'})
+        }else if(this.user.accountType == "administrator"){
+          this.$router.push({name: 'administratorCustomers'})
+        }
       },
       navigateToEditProfileView(){
         this.$router.push({name: 'editProfile'});
@@ -126,6 +137,80 @@ Vue.component("restaurant-view", {
       changeSelectedNavItem(index){
         this.selectedNavIndex = index;
       },
+      reloadRestaurant(){
+        axios
+        .get("http://localhost:8081/rest/restaurant/" + this.$route.params.id)
+        .then(response => {
+          this.restaurant = response.data;
+        })
+        .catch(error => {
+          console.log(response.data);
+        });
+  
+        let token = window.localStorage.getItem('token');
+        if(token){
+          axios
+          .get("http://localhost:8081/rest/accessUserWithJwt", {
+              headers:{
+              'Authorization': 'Bearer ' + token
+              }
+          })
+          .then(response => {
+              this.user = response.data;
+              if(this.user.accountType == "buyer"){
+                axios
+                .get("http://localhost:8081/rest/cart/" + this.user.username, {
+                  headers:{
+                  'Authorization': 'Bearer ' + token
+                  }
+                })
+                .then(response => {
+                  this.cart = response.data;
+                })
+                .catch(error => {
+                  console.log(response.data);
+                });
+              }
+          })
+          .catch(error => {
+              // TODO session probably expired, jwt invalid
+          })
+        }
+      },
+      deleteRestaurant(restaurantId){
+        let token = window.localStorage.getItem('token');
+        axios
+        .put("http://localhost:8081/rest/deleteRestaurant/" + restaurantId,restaurantId,{
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then(response => {
+          this.$router.go(-1);
+        })
+        .catch(error => {
+          if(error.response){
+            console.log(error);
+          }
+        });    
+      },
+      deleteComment(id){
+        axios
+        .put("http://localhost:8081/rest/deleteComment/" + id)
+        .then(response => {
+          axios
+          .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
+          .then(response => {
+            this.comments = response.data;
+          })
+          .catch(error => {
+            this.comments = []
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      }
     },
     created(){
       window.addEventListener('scroll', this.handleScroll);
@@ -156,33 +241,48 @@ Vue.component("restaurant-view", {
         })
         .then(response => {
             this.user = response.data;
-            axios
-            .get("http://localhost:8081/rest/cart/" + this.user.username, {
-              headers:{
-              'Authorization': 'Bearer ' + token
-              }
-            })
-            .then(response => {
-              this.cart = response.data;
-            })
-            .catch(error => {
-              console.log(response.data);
-            });
+            if(this.user.accountType == "buyer"){
+              axios
+              .get("http://localhost:8081/rest/cart/" + this.user.username, {
+                headers:{
+                'Authorization': 'Bearer ' + token
+                }
+              })
+              .then(response => {
+                this.cart = response.data;
+              })
+              .catch(error => {
+                console.log(response.data);
+              });
+            }
+            if(this.user && this.user.accountType == "administrator"){
+              axios
+                  .get("http://localhost:8081/rest/commentsForManager/" + this.$route.params.id)
+                  .then(response => {
+                      this.comments = response.data;
+                  })
+                  .catch(error => {
+                      // Failed to fetch comments
+                      this.comments = []
+                  })
+            }else{
+              axios
+              .get("http://localhost:8081/rest/commentsForPublic/" + this.$route.params.id)
+              .then(response => {
+                  this.comments = response.data;
+              })
+              .catch(error => {
+                  // Failed to fetch comments
+                  this.comments = []
+              })
+            }
         })
         .catch(error => {
             // TODO session probably expired, jwt invalid
         })
       }
 
-      axios
-      .get("http://localhost:8081/rest/commentsForPublic/" + this.$route.params.id)
-      .then(response => {
-          this.comments = response.data;
-      })
-      .catch(error => {
-          // Failed to fetch comments
-          this.comments = []
-      })
+      
     },
     template: 
     `
@@ -220,16 +320,28 @@ Vue.component("restaurant-view", {
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                   </div>
                 </li>
-                <li v-if="user && user.accountType=='buyer'" class="nav-item">
+                <li v-if="user && user.accountType=='manager'" class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToRestaurantView();" aria-current="page">Restaurant</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && user.accountType!='administrator'" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2); navigateToOrdersView();" aria-current="page">Orders</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                  </div>
+                </li>
+                <li v-if="user && (user.accountType=='administrator' || user.accountType=='manager')" class="nav-item">
+                  <div class="nav-link-container">
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(3); navigateToCustomersView();" aria-current="page">Customers</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(3)}"></div>
                   </div>
                 </li>
                 <li class="nav-item">
                   <div class="nav-link-container">
-                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)">About us</a>
-                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
+                    <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(4)">About us</a>
+                    <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(4)}"></div>
                   </div>
                 </li>
                 <li v-if="!user" class="nav-item d-lg-none">
@@ -252,7 +364,7 @@ Vue.component("restaurant-view", {
             </div> 
           </div>
           <div v-if="user">
-            <div v-if="user.accountType == 'buyer'" class="d-none d-lg-block">
+            <div class="d-none d-lg-block">
               <div class="user-info-container d-flex flex-row-reverse mt-2">
               <div class="dropdown arrow-container" style="z-index: 100">
                 <a id="imageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -290,6 +402,7 @@ Vue.component("restaurant-view", {
             <span class="ms-3 restaurant-view-restaurant-name display-6">
               {{restaurant.name}}
             </span>
+            <a v-if="user &&  user.accountType=='administrator'" class="red-link ms-3" v-on:click="deleteRestaurant(restaurant.id)">Delete restaurant</a>
           </div>
           <div v-if="restaurant" class="d-flex right align-items-center justify-content-end">
             <img id="fork-and-knife" class="me-2" src="../assets/icons/fork-and-knife.png" alt="Restaurant type">
@@ -299,16 +412,16 @@ Vue.component("restaurant-view", {
         <div v-if="restaurant" class="restaurant-view-foods mt-4 d-flex flex-column">
           <span class="title">Foods</span>
           <div class="article-container mt-2">
-            <div v-for="article in restaurant.articles" v-if="article.articleType=='meal'" class="article-card">
-              <articleItem :article="article"></articleItem>
+            <div v-for="article in restaurant.articles" v-if="article.articleType=='meal' && !article.isDeleted" class="article-card">
+              <articleItem :article="article" :user="user"></articleItem>
             </div>
           </div>
         </div>
         <div v-if="restaurant" class="restaurant-view-drinks mt-4 d-flex flex-column">
           <span class="title">Drinks</span>
           <div class="article-container mt-2">
-            <div v-if="article.articleType=='drink'" v-for="article in restaurant.articles" class="article-card">
-              <articleItem :article="article"></articleItem>
+            <div v-if="article.articleType=='drink'  && !article.isDeleted" v-for="article in restaurant.articles" class="article-card">
+              <articleItem :article="article" :user="user"></articleItem>
             </div>
           </div>
         </div>
@@ -336,7 +449,8 @@ Vue.component("restaurant-view", {
           <div v-if="restaurant" class="d-flex align-items-center">
             <span class="title fw-bold">Restaurant reviews</span>
             <img class="restaurant-view-star-icon ms-3 mb-1 me-2" src="../assets/icons/star.png" alt="Star icon">
-            <span class="fw-bold restaurant-view-rating-text">{{parseFloat(restaurant.rating).toFixed(2)}}</span>
+            <span v-if="restaurant.rating != 0" class="fw-bold restaurant-view-rating-text">{{parseFloat(restaurant.rating).toFixed(2)}}</span>
+            <span v-if="restaurant.rating == 0" class="fw-bold rating-text mx-2">Not rated</span>
           </div>
           <div class="restaurant-view-reviews">
 
@@ -354,6 +468,19 @@ Vue.component("restaurant-view", {
                 
               </div>
               <p class="review-card-comment m-0">{{comment.details}}</p>
+              <div class="review-card-basic-info d-flex flex-row align-items-center mb-2">
+                <div class="d-flex left align-items-center">
+                  <span v-if="!comment.isApproved" class="review-card-comment m-0">Not approved</span>
+                  <span v-if="comment.isApproved" class="review-card-comment m-0">Approved</span>
+                </div>
+                
+                <div class="right d-flex align-items-center justify-content-end me-2">
+                  <button type="button" class="btn btn-danger justify-end" @click="deleteComment(comment.id)">
+                    <img src="../assets/icons/delete.png"/>
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </div>
             </div>
 
           </div>

@@ -231,5 +231,30 @@ public class UserController {
 		    res.status(401);
 		    return "Please log in to continue.";
 		});
+
+		put("/rest/deleteUser/:id", (req,res) -> {
+			res.type("application/json");
+			String auth = req.headers("Authorization");
+			if ((auth != null) && (auth.contains("Bearer "))) {
+				String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+				try {
+					
+				    Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+				    // ako nije bacio izuzetak, onda je OK
+				    User loggedInUser = userService.getById(claims.getBody().getSubject());
+				    if(!loggedInUser.getAccountType().equals(AccountType.administrator)) {
+				    	res.status(403);
+				    	return "Forbidden access!";
+				    }
+				    userService.deleteUser(req.params("id"));
+					res.status(200);
+					return gson.toJson("");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			return "No user logged in.";
+		});
 	}
+	
 }

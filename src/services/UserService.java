@@ -25,9 +25,9 @@ public class UserService {
 		for(User u : userDao.getAllNotDeleted()) {
 			if(u.getAccountType().equals(AccountType.buyer)) {
 				Buyer b = (Buyer)u;
-				allUsers.add(new AllUsersDTO(b.getID(), b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType()));
+				allUsers.add(new AllUsersDTO(b.getID(), b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType(),b.isBlocked()));
 			}else {
-				allUsers.add(new AllUsersDTO(u.getID(), u.getName(),u.getSurname(),u.getAccountType(),null));
+				allUsers.add(new AllUsersDTO(u.getID(), u.getName(),u.getSurname(),u.getAccountType(),null,u.isBlocked()));
 			}
 		}
 		return allUsers;
@@ -130,6 +130,7 @@ public class UserService {
 		return updatedPersonalInfo;
 	}
 
+
 	public LoggedInUserDTO updateProfileImage(User user, String imgString) throws FileNotFoundException, IOException {
 		if (imgString != null) { 
 			if (!imgString.isEmpty() && imgString.startsWith("data:image")) {
@@ -142,7 +143,7 @@ public class UserService {
 		}
 		return new LoggedInUserDTO(user.getID(), user.getName(), user.getSurname(), user.getGender(), user.getDateOfBirth(), user.getAccountType(), user.getImage());
 	}
-
+	
 	public Boolean updateUserPassword(User user, PasswordChangeDTO passwordChangeDTO) throws JsonSyntaxException, IOException {
 		if(user.getPassword().equals(passwordChangeDTO.getCurrentPassword())) {
 			user.setPassword(passwordChangeDTO.getNewPassword());
@@ -152,7 +153,7 @@ public class UserService {
 		return false;
 		
 	}
-
+	
 	public Boolean updateUsername(String newUsername, User user) throws JsonSyntaxException, IOException {
 		for(User u : userDao.getAllNotDeleted()) {
 			if(u.getID().equals(newUsername)) {
@@ -163,4 +164,11 @@ public class UserService {
 		return true;
 	}
 	
+	public void deleteUser(String username) throws JsonSyntaxException, IOException {
+		User user = userDao.getById(username);
+		if(user != null) {
+			user.setDeleted(true);
+			userDao.update(user);
+		}
+	}
 }

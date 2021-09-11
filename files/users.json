@@ -15,7 +15,8 @@
           "articleType": "meal",
           "quantity": 64,
           "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
-          "image": "../assets/images/restaurant-images/foods/103.jpg"
+          "image": "../assets/images/restaurant-images/foods/103.jpg",
+          "isDeleted": false
         }
       ],
       "buyerId": "aki"
