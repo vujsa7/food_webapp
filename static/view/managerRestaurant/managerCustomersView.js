@@ -135,6 +135,9 @@ Vue.component("manager-customers-view", {
         e.preventDefault();
         this.displayMode = "normal";
         this.adjustFilterAndSortValues();
+        this.searchCustomerName = "";
+        this.searchCustomerSurname = "";
+        this.searchCustomerUsername = "";
       },
       filterCustomersTypes(val) {
         if (val == "showAll") {
