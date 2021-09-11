@@ -12,7 +12,7 @@ let managerCustomerComponent = {
     <div class="order-cards-container" v-if="customer">
         <div class="customer-card box-shadow">
             <div class="d-flex flex-column justify-content-center">
-                <img class="customer-img" :src="user.image"/>
+                <img class="customer-img" :src="customer.image"/>
             </div>
             <div class="d-flex flex-column justify-content-center">
                 <span class="basic-title mb-1 nowrap">

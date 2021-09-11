@@ -32,7 +32,7 @@ public class CommentService {
 			if(c.getRestaurantId() == restaurantId && c.getIsApproved()) {
 				restaurantComments.add(c);
 				User user = userService.getById(c.getBuyerId());
-				restaurantCommentsDTO.add(new CommentDTO(c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname()));
+				restaurantCommentsDTO.add(new CommentDTO(c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage()));
 			}
 		}
 		return restaurantCommentsDTO;

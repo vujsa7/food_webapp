@@ -592,7 +592,7 @@ Vue.component("orders-view",{
               <span>
                 {{user.name}} {{user.surname}}
               </span>
-              <img src="../assets/images/profile-picture.jpg" alt="avatar" class="profile-pic">
+              <img :src="user.image" alt="avatar" class="profile-pic">
               <div v-if="cart && !stickyCart" @click="navigateToCartView()" class="cart-container mb-1 me-2 d-flex align-items-center justify-content-center">
                 <div v-if="cart.articles.length > 0" class="dot cart-article-number d-flex justify-content-center align-items-center">
                   {{cart.articles.length}}

@@ -163,6 +163,8 @@ methods: {
         this.$router.push({name: 'orders'})
       }else if(this.user.accountType == "manager"){
         this.$router.push({name: 'managerOrders'})
+      } else if(this.user.accountType == "deliveryWorker"){
+        this.$router.push({name: 'deliverOrders'});
       }
     },
     navigateToRestaurantView(){
@@ -285,7 +287,7 @@ template: `
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
                   </div>
                 </li>
-                <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager')" class="nav-item">
+                <li v-if="user && (user.accountType=='buyer' || user.accountType=='manager' || user.accountType=='deliveryWorker')" class="nav-item">
                   <div class="nav-link-container">
                     <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2); navigateToOrdersView();" aria-current="page">Orders</a>
                     <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>

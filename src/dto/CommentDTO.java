@@ -5,12 +5,14 @@ public class CommentDTO {
 	private String details;
 	private int review;
 	private String buyerNameAndSurname;
+	private String image;
 	
-	public CommentDTO(String details, int review, String buyerNameAndSurname) {
+	public CommentDTO(String details, int review, String buyerNameAndSurname, String image) {
 		super();
 		this.details = details;
 		this.review = review;
 		this.buyerNameAndSurname = buyerNameAndSurname;
+		this.image = image;
 	}
 	
 	public String getDetails() {
@@ -35,6 +37,14 @@ public class CommentDTO {
 
 	public void setBuyerNameAndSurname(String buyerNameAndSurname) {
 		this.buyerNameAndSurname = buyerNameAndSurname;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 }
