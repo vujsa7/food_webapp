@@ -9,6 +9,7 @@ import com.google.gson.JsonSyntaxException;
 import beans.Buyer;
 import beans.BuyerType;
 import beans.DeliveryRequest;
+import beans.Manager;
 import beans.Order;
 import beans.OrderStatus;
 import beans.Restaurant;
@@ -177,6 +178,42 @@ public class OrderService {
 				return;
 		}
 		order.getDeliveryRequests().add(new DeliveryRequest(deliveryWorkerId, orderId));
+		orderDao.update(order);
+	}
+	
+	public ArrayList<OrderDisplayDTO> getDeliveryRequests(Manager manager) throws JsonSyntaxException, IOException{
+		Restaurant restaurant = restaurantDao.getById(manager.getRestaurant());
+		ArrayList<Order> allOrders = orderDao.getAllNotDeleted();
+		ArrayList<OrderDisplayDTO> deliveryRequests = new ArrayList<OrderDisplayDTO>();
+		for(Order o : allOrders) {
+			if(o.getOrderStatus().equals(OrderStatus.awaitingDelivery) && o.getRestaurant() == restaurant.getID()) {
+				OrderDisplayDTO odt = new OrderDisplayDTO(o.getID(), o.getDateOfOrder(), o.getPrice(), o.getOrderStatus(), o.getRestaurant(),
+						restaurant.getName(), restaurant.getRestaurantType(), o.getBuyer(), o.isReviewed());
+				odt.setDeliveryRequests(o.getDeliveryRequests());
+				deliveryRequests.add(odt);
+			}
+		}
+		return deliveryRequests;
+	}
+	
+	public void approveRequest(DeliveryRequest request) throws JsonSyntaxException, IOException {
+		Order order = orderDao.getById(request.getOrderId());
+		for(DeliveryRequest d : order.getDeliveryRequests()) {
+			if(!d.getDeliveryWorkerId().equals(request.getDeliveryWorkerId())) {
+				order.getDeliveryRequests().remove(d);
+			}
+		}
+		order.setOrderStatus(OrderStatus.shipping);
+		orderDao.update(order);
+	}
+	
+	public void declineRequest(DeliveryRequest request) throws JsonSyntaxException, IOException {
+		Order order = orderDao.getById(request.getOrderId());
+		for(DeliveryRequest d : order.getDeliveryRequests()) {
+			if(d.getDeliveryWorkerId().equals(request.getDeliveryWorkerId())) {
+				order.deleteDeliveryRequest(d.getDeliveryWorkerId());
+			}
+		}
 		orderDao.update(order);
 	}
 }

@@ -4,7 +4,7 @@ public class DeliveryRequest {
 	
 	private String deliveryWorkerId;
 	private String orderId;
-	
+
 	public DeliveryRequest(String deliveryWorkerId, String orderId) {
 		super();
 		this.deliveryWorkerId = deliveryWorkerId;
@@ -22,7 +22,4 @@ public class DeliveryRequest {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-
-	
-
 }

@@ -138,6 +138,12 @@ public class Order implements IIdentifiable<String> {
 		this.deliveryRequests = deliveryRequests;
 	}
    
-   
+   public void deleteDeliveryRequest(String deliveryWorker) {
+	   for(int i=0;i<this.deliveryRequests.size();i++) {
+		   if(this.deliveryRequests.get(i).equals(deliveryWorker)) {
+			   deliveryRequests.remove(i);
+		   }
+	   }
+   }
    
 }
