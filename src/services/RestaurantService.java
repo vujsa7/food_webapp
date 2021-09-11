@@ -48,7 +48,7 @@ public class RestaurantService {
 		for(Order o : allOrders) {
 			if(o.getRestaurant() == restaurant.getID() && !isUserVisited(restaurantBuyers, o.getBuyer())) {
 				Buyer b = (Buyer)userDao.getById(o.getBuyer());
-				restaurantBuyers.add(new AllUsersDTO(b.getID(),b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType(),b.isBlocked()));
+				restaurantBuyers.add(new AllUsersDTO(b.getID(),b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType(), b.getImage(),b.isBlocked()));
 			}
 		}
 		return restaurantBuyers;

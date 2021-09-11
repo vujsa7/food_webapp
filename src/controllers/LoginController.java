@@ -33,7 +33,7 @@ public class LoginController {
 			try {
 				User loginUser = loginService.login(gson.fromJson(req.body(), LoginDTO.class));
 				if(loginUser != null) {
-					if (loginUser.isBlocked()) {
+					if (loginUser.isBlocked() || loginUser.isDeleted()) {
 						res.status(401);
 						return "Your account has been permanently disabled for violating our terms.";
 					}

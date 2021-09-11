@@ -25,28 +25,28 @@ public class CommentService {
 	
 	public Collection<CommentDTO> getNotDeletedApprovedCommentsByRestaurant(int restaurantId) throws JsonSyntaxException, IOException{
 		ArrayList<Comment> allComments = commentDao.getAllNotDeleted();
-		ArrayList<Comment> restaurantComments = new ArrayList<Comment>();
 		ArrayList<CommentDTO> restaurantCommentsDTO = new ArrayList<CommentDTO>();
 		UserService userService = new UserService();
 		for(Comment c : allComments) {
 			if(c.getRestaurantId() == restaurantId && c.getIsApproved()) {
-				restaurantComments.add(c);
 				User user = userService.getById(c.getBuyerId());
-				restaurantCommentsDTO.add(new CommentDTO(c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage()));
+				restaurantCommentsDTO.add(new CommentDTO(c.getID(),c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage(),c.getIsApproved()));
 			}
 		}
 		return restaurantCommentsDTO;
 	}
 	
-	public Collection<Comment> getNotDeletedCommentsByRestaurant(int restaurantId) throws JsonSyntaxException, IOException{
+	public Collection<CommentDTO> getNotDeletedCommentsByRestaurant(int restaurantId) throws JsonSyntaxException, IOException{
 		ArrayList<Comment> allComments = commentDao.getAllNotDeleted();
-		ArrayList<Comment> restaurantComments = new ArrayList<Comment>();
+		ArrayList<CommentDTO> restaurantCommentsDTO = new ArrayList<CommentDTO>();
+		UserService userService = new UserService();
 		for(Comment c : allComments) {
 			if(c.getRestaurantId() == restaurantId) {
-				restaurantComments.add(c);
+				User user = userService.getById(c.getBuyerId());
+				restaurantCommentsDTO.add(new CommentDTO(c.getID(),c.getDetails(), c.getReview(), user.getName() + " " + user.getSurname(), user.getImage(),c.getIsApproved()));
 			}
 		}
-		return restaurantComments;
+		return restaurantCommentsDTO;
 	}
 
 	public void approveComment(int id) throws JsonSyntaxException, IOException {

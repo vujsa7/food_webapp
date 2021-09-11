@@ -83,6 +83,16 @@ Vue.component( "edit-profile-view",{
           this.$router.push({name: 'managerOrders'})
         }
       },
+      navigateToRestaurantView(){
+        this.$router.push({name: 'managerRestaurant'})
+      },
+      navigateToCustomersView(){
+        if(this.user.accountType == "manager"){
+          this.$router.push({name: 'managerCustomers'})
+        }else if(this.user.accountType == "administrator"){
+          this.$router.push({name: 'administratorCustomers'})
+        }
+      },
       logout(){
         window.localStorage.setItem('token', null);
         this.$router.push({name: 'logout'});

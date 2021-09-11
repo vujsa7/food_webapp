@@ -25,9 +25,9 @@ public class UserService {
 		for(User u : userDao.getAllNotDeleted()) {
 			if(u.getAccountType().equals(AccountType.buyer)) {
 				Buyer b = (Buyer)u;
-				allUsers.add(new AllUsersDTO(b.getID(), b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType(),b.isBlocked()));
+				allUsers.add(new AllUsersDTO(b.getID(), b.getName(),b.getSurname(),b.getAccountType(),b.getBuyerType(), b.getImage(),b.isBlocked()));
 			}else {
-				allUsers.add(new AllUsersDTO(u.getID(), u.getName(),u.getSurname(),u.getAccountType(),null,u.isBlocked()));
+				allUsers.add(new AllUsersDTO(u.getID(), u.getName(),u.getSurname(),u.getAccountType(),null, u.getImage(),u.isBlocked()));
 			}
 		}
 		return allUsers;
