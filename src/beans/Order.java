@@ -17,6 +17,8 @@ public class Order implements IIdentifiable<String> {
 	private boolean isReviewed;
 	private boolean isDeleted;
 	
+	private ArrayList<DeliveryRequest> deliveryRequests;
+	
 	
 	public Order() {
 		
@@ -34,8 +36,8 @@ public class Order implements IIdentifiable<String> {
 		this.buyerId = buyerId;
 		this.isReviewed = isReviewed;
 		this.isDeleted = isDeleted;
+		this.deliveryRequests = new ArrayList<DeliveryRequest>();
 	}
-
 
 
 	public Date getDateOfOrder() {
@@ -126,6 +128,14 @@ public class Order implements IIdentifiable<String> {
 
 	public void setReviewed(boolean isReviewed) {
 		this.isReviewed = isReviewed;
+	}
+
+	public ArrayList<DeliveryRequest> getDeliveryRequests() {
+		return deliveryRequests;
+	}
+
+	public void setDeliveryRequests(ArrayList<DeliveryRequest> deliveryRequests) {
+		this.deliveryRequests = deliveryRequests;
 	}
    
    

@@ -12,7 +12,8 @@
         "articleType": "meal",
         "quantity": 210,
         "description": "4 flavours of cheese in this delicious pasta will make you go wild.",
-        "image": "../assets/images/restaurant-images/foods/304.jpg"
+        "image": "../assets/images/restaurant-images/foods/304.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -21,7 +22,8 @@
         "articleType": "meal",
         "quantity": 210,
         "description": "4 flavours of cheese in this delicious pasta will make you go wild.",
-        "image": "../assets/images/restaurant-images/foods/304.jpg"
+        "image": "../assets/images/restaurant-images/foods/304.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -30,7 +32,8 @@
         "articleType": "meal",
         "quantity": 210,
         "description": "4 flavours of cheese in this delicious pasta will make you go wild.",
-        "image": "../assets/images/restaurant-images/foods/304.jpg"
+        "image": "../assets/images/restaurant-images/foods/304.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -39,7 +42,8 @@
         "articleType": "meal",
         "quantity": 210,
         "description": "4 flavours of cheese in this delicious pasta will make you go wild.",
-        "image": "../assets/images/restaurant-images/foods/304.jpg"
+        "image": "../assets/images/restaurant-images/foods/304.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -48,13 +52,15 @@
         "articleType": "meal",
         "quantity": 210,
         "description": "4 flavours of cheese in this delicious pasta will make you go wild.",
-        "image": "../assets/images/restaurant-images/foods/304.jpg"
+        "image": "../assets/images/restaurant-images/foods/304.jpg",
+        "isDeleted": false
       }
     ],
     "restaurantId": 3,
     "buyerId": "aki",
     "isReviewed": true,
-    "isDeleted": false
+    "isDeleted": false,
+    "deliveryRequests": []
   },
   {
     "id": "bGNHKG6xHH",
@@ -69,7 +75,8 @@
         "articleType": "meal",
         "quantity": 133,
         "description": "Tasty, delicious, and will have you craving more on the first bite.",
-        "image": "../assets/images/restaurant-images/foods/106.jpg"
+        "image": "../assets/images/restaurant-images/foods/106.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 1,
@@ -78,7 +85,8 @@
         "articleType": "meal",
         "quantity": 133,
         "description": "Tasty, delicious, and will have you craving more on the first bite.",
-        "image": "../assets/images/restaurant-images/foods/106.jpg"
+        "image": "../assets/images/restaurant-images/foods/106.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 1,
@@ -87,13 +95,15 @@
         "articleType": "meal",
         "quantity": 133,
         "description": "Tasty, delicious, and will have you craving more on the first bite.",
-        "image": "../assets/images/restaurant-images/foods/106.jpg"
+        "image": "../assets/images/restaurant-images/foods/106.jpg",
+        "isDeleted": false
       }
     ],
     "restaurantId": 1,
     "buyerId": "aki",
     "isReviewed": false,
-    "isDeleted": false
+    "isDeleted": false,
+    "deliveryRequests": []
   },
   {
     "id": "IbuVkXhBOf",
@@ -108,7 +118,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -117,7 +128,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -126,7 +138,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -135,7 +148,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -144,7 +158,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -153,7 +168,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -162,7 +178,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -171,7 +188,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -180,7 +198,8 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 3,
@@ -189,13 +208,15 @@
         "articleType": "meal",
         "quantity": 240,
         "description": "Juicy and delicious pasta from streets of Milan.",
-        "image": "../assets/images/restaurant-images/foods/301.jpg"
+        "image": "../assets/images/restaurant-images/foods/301.jpg",
+        "isDeleted": false
       }
     ],
     "restaurantId": 3,
     "buyerId": "aki",
     "isReviewed": false,
-    "isDeleted": false
+    "isDeleted": false,
+    "deliveryRequests": []
   },
   {
     "id": "FCztEV3y5K",
@@ -210,19 +231,21 @@
         "articleType": "drink",
         "quantity": 100,
         "description": "A beverage of sweetened lemon juice mixed with water.",
-        "image": "../assets/images/restaurant-images/foods/111.jpg"
+        "image": "../assets/images/restaurant-images/foods/111.jpg",
+        "isDeleted": false
       }
     ],
     "restaurantId": 1,
     "buyerId": "aki",
     "isReviewed": false,
-    "isDeleted": false
+    "isDeleted": false,
+    "deliveryRequests": []
   },
   {
     "id": "eY69lO0yb4",
     "dateOfOrder": "Sep 8, 2021, 12:52:21 AM",
     "price": 232.90000000000003,
-    "orderStatus": "processing",
+    "orderStatus": "awaitingDelivery",
     "articles": [
       {
         "restaurantId": 2,
@@ -231,7 +254,8 @@
         "articleType": "meal",
         "quantity": 200,
         "description": "Juicy, tender, loaded with flavor, and has a minimum amount of fat.",
-        "image": "../assets/images/restaurant-images/foods/201.jpg"
+        "image": "../assets/images/restaurant-images/foods/201.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -240,7 +264,8 @@
         "articleType": "meal",
         "quantity": 200,
         "description": "Juicy, tender, loaded with flavor, and has a minimum amount of fat.",
-        "image": "../assets/images/restaurant-images/foods/201.jpg"
+        "image": "../assets/images/restaurant-images/foods/201.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -249,7 +274,8 @@
         "articleType": "meal",
         "quantity": 200,
         "description": "Juicy, tender, loaded with flavor, and has a minimum amount of fat.",
-        "image": "../assets/images/restaurant-images/foods/201.jpg"
+        "image": "../assets/images/restaurant-images/foods/201.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -258,7 +284,8 @@
         "articleType": "meal",
         "quantity": 200,
         "description": "Juicy, tender, loaded with flavor, and has a minimum amount of fat.",
-        "image": "../assets/images/restaurant-images/foods/201.jpg"
+        "image": "../assets/images/restaurant-images/foods/201.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -267,7 +294,8 @@
         "articleType": "meal",
         "quantity": 250,
         "description": "Big, soft and filled with toppings of your choice.",
-        "image": "../assets/images/restaurant-images/foods/202.jpg"
+        "image": "../assets/images/restaurant-images/foods/202.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -276,7 +304,8 @@
         "articleType": "meal",
         "quantity": 250,
         "description": "Big, soft and filled with toppings of your choice.",
-        "image": "../assets/images/restaurant-images/foods/202.jpg"
+        "image": "../assets/images/restaurant-images/foods/202.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -285,7 +314,8 @@
         "articleType": "meal",
         "quantity": 250,
         "description": "Big, soft and filled with toppings of your choice.",
-        "image": "../assets/images/restaurant-images/foods/202.jpg"
+        "image": "../assets/images/restaurant-images/foods/202.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -294,7 +324,8 @@
         "articleType": "meal",
         "quantity": 250,
         "description": "Big, soft and filled with toppings of your choice.",
-        "image": "../assets/images/restaurant-images/foods/202.jpg"
+        "image": "../assets/images/restaurant-images/foods/202.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -303,7 +334,8 @@
         "articleType": "meal",
         "quantity": 250,
         "description": "Big, soft and filled with toppings of your choice.",
-        "image": "../assets/images/restaurant-images/foods/202.jpg"
+        "image": "../assets/images/restaurant-images/foods/202.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -312,7 +344,8 @@
         "articleType": "meal",
         "quantity": 150,
         "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
-        "image": "../assets/images/restaurant-images/foods/203.jpg"
+        "image": "../assets/images/restaurant-images/foods/203.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -321,7 +354,8 @@
         "articleType": "meal",
         "quantity": 150,
         "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
-        "image": "../assets/images/restaurant-images/foods/203.jpg"
+        "image": "../assets/images/restaurant-images/foods/203.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -330,7 +364,8 @@
         "articleType": "meal",
         "quantity": 150,
         "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
-        "image": "../assets/images/restaurant-images/foods/203.jpg"
+        "image": "../assets/images/restaurant-images/foods/203.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -339,7 +374,8 @@
         "articleType": "meal",
         "quantity": 150,
         "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
-        "image": "../assets/images/restaurant-images/foods/203.jpg"
+        "image": "../assets/images/restaurant-images/foods/203.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -348,7 +384,8 @@
         "articleType": "meal",
         "quantity": 150,
         "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
-        "image": "../assets/images/restaurant-images/foods/203.jpg"
+        "image": "../assets/images/restaurant-images/foods/203.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -357,7 +394,8 @@
         "articleType": "meal",
         "quantity": 180,
         "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
-        "image": "../assets/images/restaurant-images/foods/205.jpg"
+        "image": "../assets/images/restaurant-images/foods/205.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -366,7 +404,8 @@
         "articleType": "meal",
         "quantity": 180,
         "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
-        "image": "../assets/images/restaurant-images/foods/205.jpg"
+        "image": "../assets/images/restaurant-images/foods/205.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -375,7 +414,8 @@
         "articleType": "meal",
         "quantity": 180,
         "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
-        "image": "../assets/images/restaurant-images/foods/205.jpg"
+        "image": "../assets/images/restaurant-images/foods/205.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -384,7 +424,8 @@
         "articleType": "meal",
         "quantity": 180,
         "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
-        "image": "../assets/images/restaurant-images/foods/205.jpg"
+        "image": "../assets/images/restaurant-images/foods/205.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -393,7 +434,8 @@
         "articleType": "drink",
         "quantity": 80,
         "description": "A beverage of sweetened lemon juice mixed with water.",
-        "image": "../assets/images/restaurant-images/foods/212.jpg"
+        "image": "../assets/images/restaurant-images/foods/212.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -402,7 +444,8 @@
         "articleType": "drink",
         "quantity": 80,
         "description": "A beverage of sweetened lemon juice mixed with water.",
-        "image": "../assets/images/restaurant-images/foods/212.jpg"
+        "image": "../assets/images/restaurant-images/foods/212.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -411,7 +454,8 @@
         "articleType": "drink",
         "quantity": 70,
         "description": "Fermented, lightly effervescent, sweetened black or green tea drink.",
-        "image": "../assets/images/restaurant-images/foods/213.jpg"
+        "image": "../assets/images/restaurant-images/foods/213.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -420,7 +464,8 @@
         "articleType": "drink",
         "quantity": 70,
         "description": "Fermented, lightly effervescent, sweetened black or green tea drink.",
-        "image": "../assets/images/restaurant-images/foods/213.jpg"
+        "image": "../assets/images/restaurant-images/foods/213.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -429,7 +474,8 @@
         "articleType": "drink",
         "quantity": 90,
         "description": "The most popular sparkling mineral water from Mexico.",
-        "image": "../assets/images/restaurant-images/foods/214.jpg"
+        "image": "../assets/images/restaurant-images/foods/214.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -438,7 +484,8 @@
         "articleType": "drink",
         "quantity": 90,
         "description": "The most popular sparkling mineral water from Mexico.",
-        "image": "../assets/images/restaurant-images/foods/214.jpg"
+        "image": "../assets/images/restaurant-images/foods/214.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -447,7 +494,8 @@
         "articleType": "drink",
         "quantity": 70,
         "description": "Fermented, lightly effervescent, sweetened black or green tea drink.",
-        "image": "../assets/images/restaurant-images/foods/213.jpg"
+        "image": "../assets/images/restaurant-images/foods/213.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -456,7 +504,8 @@
         "articleType": "drink",
         "quantity": 70,
         "description": "Fermented, lightly effervescent, sweetened black or green tea drink.",
-        "image": "../assets/images/restaurant-images/foods/213.jpg"
+        "image": "../assets/images/restaurant-images/foods/213.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -465,7 +514,8 @@
         "articleType": "drink",
         "quantity": 80,
         "description": "A beverage of sweetened lemon juice mixed with water.",
-        "image": "../assets/images/restaurant-images/foods/212.jpg"
+        "image": "../assets/images/restaurant-images/foods/212.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -474,7 +524,8 @@
         "articleType": "drink",
         "quantity": 80,
         "description": "A beverage of sweetened lemon juice mixed with water.",
-        "image": "../assets/images/restaurant-images/foods/212.jpg"
+        "image": "../assets/images/restaurant-images/foods/212.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -483,7 +534,8 @@
         "articleType": "drink",
         "quantity": 90,
         "description": "The most popular sparkling mineral water from Mexico.",
-        "image": "../assets/images/restaurant-images/foods/214.jpg"
+        "image": "../assets/images/restaurant-images/foods/214.jpg",
+        "isDeleted": false
       },
       {
         "restaurantId": 2,
@@ -492,12 +544,178 @@
         "articleType": "drink",
         "quantity": 90,
         "description": "The most popular sparkling mineral water from Mexico.",
-        "image": "../assets/images/restaurant-images/foods/214.jpg"
+        "image": "../assets/images/restaurant-images/foods/214.jpg",
+        "isDeleted": false
       }
     ],
     "restaurantId": 2,
     "buyerId": "aki",
     "isReviewed": false,
-    "isDeleted": false
+    "isDeleted": false,
+    "deliveryRequests": [
+      {
+        "deliveryWorkerId": "mare",
+        "orderId": "eY69lO0yb4"
+      }
+    ]
+  },
+  {
+    "id": "2UnqoZecTB",
+    "dateOfOrder": "Sep 11, 2021, 3:41:30 AM",
+    "price": 35.76,
+    "orderStatus": "awaitingDelivery",
+    "articles": [
+      {
+        "restaurantId": 1,
+        "name": "Capricciosa",
+        "price": 6.99,
+        "articleType": "meal",
+        "quantity": 120,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/104.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 1,
+        "name": "Capricciosa",
+        "price": 6.99,
+        "articleType": "meal",
+        "quantity": 120,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/104.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 1,
+        "name": "Capricciosa",
+        "price": 6.99,
+        "articleType": "meal",
+        "quantity": 120,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/104.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 1,
+        "name": "Kebabs",
+        "price": 9.79,
+        "articleType": "meal",
+        "quantity": 64,
+        "description": "Fresh kekabs with onion and delicious graviola! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/103.jpg",
+        "isDeleted": false
+      }
+    ],
+    "restaurantId": 1,
+    "buyerId": "miki",
+    "isReviewed": false,
+    "isDeleted": false,
+    "deliveryRequests": []
+  },
+  {
+    "id": "9HM5uLntY1",
+    "dateOfOrder": "Sep 11, 2021, 3:41:51 AM",
+    "price": 26.97,
+    "orderStatus": "processing",
+    "articles": [
+      {
+        "restaurantId": 3,
+        "name": "Capricciosa",
+        "price": 7.59,
+        "articleType": "meal",
+        "quantity": 220,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/302.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 3,
+        "name": "Capricciosa",
+        "price": 7.59,
+        "articleType": "meal",
+        "quantity": 220,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/302.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 3,
+        "name": "Dine Fine pizza",
+        "price": 6.79,
+        "articleType": "meal",
+        "quantity": 260,
+        "description": "Home made pizza with onions, cheese and bacon.",
+        "image": "../assets/images/restaurant-images/foods/303.jpg",
+        "isDeleted": false
+      }
+    ],
+    "restaurantId": 3,
+    "buyerId": "miki",
+    "isReviewed": false,
+    "isDeleted": false,
+    "deliveryRequests": []
+  },
+  {
+    "id": "54fTfHIAzx",
+    "dateOfOrder": "Sep 11, 2021, 3:42:18 AM",
+    "price": 58.95,
+    "orderStatus": "awaitingDelivery",
+    "articles": [
+      {
+        "restaurantId": 2,
+        "name": "Los Pollos Burger",
+        "price": 10.39,
+        "articleType": "meal",
+        "quantity": 250,
+        "description": "Big, soft and filled with toppings of your choice.",
+        "image": "../assets/images/restaurant-images/foods/202.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 2,
+        "name": "Los Pollos Burger",
+        "price": 10.39,
+        "articleType": "meal",
+        "quantity": 250,
+        "description": "Big, soft and filled with toppings of your choice.",
+        "image": "../assets/images/restaurant-images/foods/202.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 2,
+        "name": "Chicken",
+        "price": 5.79,
+        "articleType": "meal",
+        "quantity": 150,
+        "description": "Fresh chicken slices with lemon and delicious carrots! Try it with spicy sauce for better taste.",
+        "image": "../assets/images/restaurant-images/foods/203.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 2,
+        "name": "Margarita",
+        "price": 11.99,
+        "articleType": "meal",
+        "quantity": 300,
+        "description": "Dish of Italian origin, topped with some combination of olive oil, oregano and tomato.",
+        "image": "../assets/images/restaurant-images/foods/204.jpg",
+        "isDeleted": false
+      },
+      {
+        "restaurantId": 2,
+        "name": "Salmon",
+        "price": 15.39,
+        "articleType": "meal",
+        "quantity": 180,
+        "description": "Asian-inspired flavors with a French technique give this dish its own unique spin.",
+        "image": "../assets/images/restaurant-images/foods/205.jpg",
+        "isDeleted": false
+      }
+    ],
+    "restaurantId": 2,
+    "buyerId": "miki",
+    "isReviewed": false,
+    "isDeleted": false,
+    "deliveryRequests": []
   }
 ]

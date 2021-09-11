@@ -214,6 +214,10 @@ Vue.component("orders-view",{
             e.preventDefault();
             this.displayMode = "normal";
             this.adjustFilterAndSortValues();
+            this.startingPrice = "";
+            this.limitPrice = "";
+            this.startingDate = undefined;
+            this.limitDate =  undefined;
         },
         filterCuisines(val){
           if(val == "showAll"){
@@ -781,7 +785,7 @@ Vue.component("orders-view",{
                         <div class="row filter-sort-container">
                           <span class="basic-title p-0">Sort by</span>
                             <div class="d-flex flex-row ps-0 pe-5">
-                            <div class="col-9 p-0 ">
+                              <div class="col-9 p-0 ">
                                 <div class="form-check">
                                     <input class="form-check-input m-0" type="radio" name="flexRadioDefault" value="usual" v-model="sortBy" id="flexRadioUsual">
                                     <label class="form-check-label" for="flexRadioUsual">
@@ -806,20 +810,20 @@ Vue.component("orders-view",{
                                         Date
                                     </label>
                                 </div>
-                            </div>
-                            <div class="col-3 p-0 sort-orders">
-                              <div v-for="(sortOrder, index) in sortOrders">
-                                <div class="row sort-order-container">
-                                  <div class="col px-0" style="text-align:end;">
-                                    <img @click="sortOrderChanged($event, index)" :src="sortOrder == 'Asc' ? '../assets/icons/ascending.png' : (sortOrder =='Desc' ? '../assets/icons/descending.png' : (sortOrder =='Z-A' ? '../assets/icons/ascending.png' : '../assets/icons/descending.png'))" class="img-fluid sort-icon">
-                                  </div>
-                                  <div class="col p-0">
-                                    <a class="nav-link" href="#" @click="sortOrderChanged($event, index)">{{sortOrder}}</a>
+                              </div>
+                              <div class="col-3 p-0 sort-orders">
+                                <div v-for="(sortOrder, index) in sortOrders">
+                                  <div class="row sort-order-container">
+                                    <div class="col px-0" style="text-align:end;">
+                                      <img @click="sortOrderChanged($event, index)" :src="sortOrder == 'Asc' ? '../assets/icons/ascending.png' : (sortOrder =='Desc' ? '../assets/icons/descending.png' : (sortOrder =='Z-A' ? '../assets/icons/ascending.png' : '../assets/icons/descending.png'))" class="img-fluid sort-icon">
+                                    </div>
+                                    <div class="col p-0">
+                                      <a class="nav-link" href="#" @click="sortOrderChanged($event, index)">{{sortOrder}}</a>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
                         </div>
                       </div>
                     </div>

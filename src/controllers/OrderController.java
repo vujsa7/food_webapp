@@ -253,5 +253,58 @@ public class OrderController {
 			res.status(200);
 			return gson.toJson(orderService.setInPreparation(req.params("id")));
 		});
+		
+		get("rest/deliveryOrders/:id", (req, res) -> {
+		    res.type("application/json");
+		    String auth = req.headers("Authorization");
+		    if ((auth != null) && (auth.contains("Bearer "))) {
+		        String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+		        try {
+		            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+		            // ako nije bacio izuzetak, onda je OK
+		            User user = userService.getById(claims.getBody().getSubject());
+		            if(!user.getID().equals(req.params("id"))) {
+		                res.status(401);
+		                return "Forbidden action";
+		            }
+		            return gson.toJson(orderService.getOrdersForDeliveryWorker(user));
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            return "Session invalid.";
+		        }
+		    }
+		    return "You must login to continue.";
+		});
+		
+		post("rest/pickupDelivery/:id", (req, res) -> {
+		    res.type("application/json");
+		    String auth = req.headers("Authorization");
+		    if ((auth != null) && (auth.contains("Bearer "))) {
+		        String jwt = auth.substring(auth.indexOf("Bearer ") + 7);
+		        try {
+		            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(LoginController.key).build().parseClaimsJws(jwt);
+		            User user = userService.getById(claims.getBody().getSubject());
+		            if(!user.getID().equals(req.body())) {
+		                res.status(401);
+		                return "Forbidden action!";
+		            }
+		            res.status(200);
+		            orderService.pickupDelivery(user.getID(), req.params("id"));
+		            return "Order marked for pickup";
+		        }catch(JsonSyntaxException | IOException e) {
+					res.status(500);
+					return "Server error occured.";
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            res.status(401);
+		            return "You must log in to continue.";
+		        }
+		    }
+		    res.status(401);
+		    return "Please log in to continue.";
+		});
+
+
+		
 	}
 }

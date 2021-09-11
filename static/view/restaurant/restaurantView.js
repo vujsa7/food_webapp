@@ -194,6 +194,9 @@ Vue.component("restaurant-view", {
           }
         });    
       },
+      navigateHome(){
+        this.$router.push({name: 'homepage'})
+      },
       deleteComment(id){
         axios
         .put("http://localhost:8081/rest/deleteComment/" + id)

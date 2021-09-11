@@ -1,7 +1,9 @@
 package dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import beans.DeliveryRequest;
 import beans.OrderStatus;
 import beans.RestaurantType;
 
@@ -17,6 +19,7 @@ public class OrderDisplayDTO {
 	private RestaurantType restaurantType;
 	private String buyerId;
 	private boolean isReviewed;
+	private ArrayList<DeliveryRequest> deliveryRequests;
 	
 	
 	
@@ -32,6 +35,7 @@ public class OrderDisplayDTO {
 		this.restaurantType = restaurantType;
 		this.buyerId = buyerId;
 		this.isReviewed = isReviewed;
+		this.deliveryRequests = new ArrayList<DeliveryRequest>();
 	}
 
 	public String getId() {
@@ -104,6 +108,14 @@ public class OrderDisplayDTO {
 
 	public void setReviewed(boolean isReviewed) {
 		this.isReviewed = isReviewed;
+	}
+
+	public ArrayList<DeliveryRequest> getDeliveryRequests() {
+		return deliveryRequests;
+	}
+
+	public void setDeliveryRequests(ArrayList<DeliveryRequest> deliveryRequests) {
+		this.deliveryRequests = deliveryRequests;
 	}
 	
 	

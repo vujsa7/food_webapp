@@ -449,7 +449,7 @@ Vue.component("administrator-customers-view", {
                     <img src="../assets/icons/arrow-dark.png" alt="arrow" class="arrow-pic mx-2">
                   </a>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
-                    <li><a class="dropdown-item @click="navigateToEditProfileView()">Edit profile</a></li>
+                    <li><a class="dropdown-item" @click="navigateToEditProfileView()">Edit profile</a></li>
                     <li><a class="dropdown-item" @click="logout()">Logout</a></li>
                   </ul>
                 </div>

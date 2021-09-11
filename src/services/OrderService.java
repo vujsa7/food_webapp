@@ -8,6 +8,7 @@ import com.google.gson.JsonSyntaxException;
 
 import beans.Buyer;
 import beans.BuyerType;
+import beans.DeliveryRequest;
 import beans.Order;
 import beans.OrderStatus;
 import beans.Restaurant;
@@ -148,6 +149,34 @@ public class OrderService {
 	public void markOrderAsRated(String id) throws JsonSyntaxException, IOException {
 		Order order = orderDao.getById(id);
 		order.setReviewed(true);
+		orderDao.update(order);
+	}
+
+	public ArrayList<OrderDisplayDTO> getOrdersForDeliveryWorker(User user) throws JsonSyntaxException, IOException {
+		ArrayList<Order> allOrders = orderDao.getAllNotDeleted();
+		ArrayList<OrderDisplayDTO> deliveryWorkerOrders = new ArrayList<OrderDisplayDTO>();
+		for(Order o : allOrders) {
+			if(o.getOrderStatus() == OrderStatus.awaitingDelivery) {
+				Restaurant res = restaurantDao.getById(o.getRestaurant());
+				OrderDisplayDTO odt = new OrderDisplayDTO(o.getID(), o.getDateOfOrder(), o.getPrice(), o.getOrderStatus(), o.getRestaurant(),
+						res.getName(), res.getRestaurantType(), o.getBuyer(), o.isReviewed());
+				odt.setDeliveryRequests(o.getDeliveryRequests());
+				deliveryWorkerOrders.add(odt);
+			}
+		}
+		return deliveryWorkerOrders;
+	}
+
+	public void pickupDelivery(String deliveryWorkerId, String orderId) throws JsonSyntaxException, IOException {
+		Order order = orderDao.getById(orderId);
+		if(order.getDeliveryRequests() == null) {
+			order.setDeliveryRequests(new ArrayList<DeliveryRequest>());
+		}
+		for(DeliveryRequest dr : order.getDeliveryRequests()) {
+			if(dr.getDeliveryWorkerId().equals(deliveryWorkerId) && dr.getOrderId().equals(orderId))
+				return;
+		}
+		order.getDeliveryRequests().add(new DeliveryRequest(deliveryWorkerId, orderId));
 		orderDao.update(order);
 	}
 }

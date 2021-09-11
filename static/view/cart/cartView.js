@@ -7,7 +7,7 @@ Vue.component( "cart-view",{
             discount: 0,
             cartSubtotal:  this.cart ? parseFloat(this.cart.price).toFixed(2) : undefined,
             cartTotal: this.cart ? parseFloat(this.cart.price + 5 - this.cart.price / 100 * this.discount).toFixed(2) : undefined,
-            selectedNavIndex: 0,
+            selectedNavIndex: -1,
             socialMediaLogo: [
               "../../assets/icons/linkedin-logo.png",
               "../../assets/icons/facebook-logo.png",
@@ -203,19 +203,19 @@ Vue.component( "cart-view",{
                   <ul class="navbar-nav">
                     <li class="nav-item">
                       <div class="nav-link-container">
-                        <a class="nav-link fw-bold active mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
+                        <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(0);navigateHome()" aria-current="page">Home</a>
                         <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                       </div>
                     </li>
                     <li v-if="user && user.accountType=='buyer'" class="nav-item">
                       <div class="nav-link-container">
-                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
+                        <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(1); navigateToOrdersView();" aria-current="page">Orders</a>
                         <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(1)}"></div>
                       </div>
                     </li>
                     <li class="nav-item">
                       <div class="nav-link-container">
-                        <a class="nav-link active mt-1 py-0" @click="changeSelectedNavItem(2)" aria-current="page">About</a>
+                        <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(2)" aria-current="page">About</a>
                         <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(2)}"></div>
                       </div>
                     </li>

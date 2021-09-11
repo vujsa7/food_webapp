@@ -67,6 +67,9 @@ Vue.component( "edit-profile-view",{
         }
       },
     methods:{
+      navigateHome(){
+        this.$router.push({name: 'homepage'})
+      },
       navigateToCartView(){
         this.$router.push({name: 'cart'});
       },
@@ -304,7 +307,7 @@ Vue.component( "edit-profile-view",{
                     <ul class="navbar-nav">
                       <li class="nav-item">
                         <div class="nav-link-container">
-                          <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(0)" aria-current="page">Home</a>
+                          <a class="nav-link mt-1 py-0" @click="changeSelectedNavItem(0); navigateHome();" aria-current="page">Home</a>
                           <div class="d-none d-lg-block" :class="{'selected-box' : isSelectedNavItem(0)}"></div>
                         </div>
                       </li>

@@ -11,6 +11,7 @@ const ManagerOrders = {template: '<manager-orders-view></manager-orders-view>'}
 const ManagerCustomers = {template: '<manager-customers-view></manager-customers-view>'}
 const AdministratorCustomers = {template: '<administrator-customers-view></administrator-customers-view>'}
 const EditProfile = {template: '<edit-profile-view></edit-profile-view>'}
+const DeliverOrders = {template: '<deliver-orders-view></deliver-orders-view>'}
 
 const routes = [
     {path: '/', name: 'loading', component: Loading},
@@ -25,7 +26,8 @@ const routes = [
     {path: '/manager-orders', name: 'managerOrders', component: ManagerOrders},
     {path: '/manager-customers', name: 'managerCustomers', component: ManagerCustomers},
     {path: '/administrator-customers', name: 'administratorCustomers', component: AdministratorCustomers},
-    {path: '/edit-profile', name: 'editProfile', component: EditProfile}
+    {path: '/edit-profile', name: 'editProfile', component: EditProfile},
+    {path: '/deliver-orders', name: 'deliverOrders', component: DeliverOrders},
 ]
 
 const router = new VueRouter({
